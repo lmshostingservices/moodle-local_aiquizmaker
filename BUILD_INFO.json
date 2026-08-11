@@ -1,9 +1,9 @@
 {
   "component": "local_aiquizmaker",
-  "version": "3.16.87",
-  "numeric_version": "2026042200087",
-  "build_id": "1528d7f056e71c24",
-  "build_timestamp": "2026-04-22T07:07:50.163Z",
+  "version": "3.16.93",
+  "numeric_version": "2026072300",
+  "build_id": "d0c859369a9b6d6b",
+  "build_timestamp": "2026-08-11T00:00:00.000Z",
   "folder": "aiquizmaker",
-  "verification": "amd_encoding_fix_non_ascii_clean"
+  "verification": "10digit-migration-3.16.93"
 }
