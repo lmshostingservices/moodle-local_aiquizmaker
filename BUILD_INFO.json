@@ -1,0 +1,9 @@
+{
+  "component": "local_aiquizmaker",
+  "version": "3.16.87",
+  "numeric_version": "2026042200087",
+  "build_id": "1528d7f056e71c24",
+  "build_timestamp": "2026-04-22T07:07:50.163Z",
+  "folder": "aiquizmaker",
+  "verification": "amd_encoding_fix_non_ascii_clean"
+}

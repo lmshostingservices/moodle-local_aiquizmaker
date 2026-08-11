@@ -1,0 +1,2601 @@
+/* AI Essay Maker - World-Class CSS Design System */
+/* All selectors MUST be scoped under .aiquizmaker-container to avoid affecting Moodle UI */
+/* Design System: EssayGrader AI Premium SaaS Theme v1.0 */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+/* ============================================================
+   DESIGN TOKENS - EssayGrader AI Premium SaaS Theme
+   Matches homepage styling (Stripe/Linear/Notion inspired)
+   Primary: Blue (217° hue) - Trust, Professional
+   ============================================================ */
+.aiquizmaker-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Primary Colors - Blue theme (matches homepage) */
+    --em-primary: hsl(217, 91%, 60%);
+    --em-primary-hover: hsl(217, 91%, 50%);
+    --em-primary-active: hsl(217, 91%, 45%);
+    --em-primary-light: hsl(217, 91%, 95%);
+    --em-primary-foreground: hsl(0, 0%, 100%);
+    
+    /* Semantic Colors */
+    --em-success: hsl(142, 76%, 36%);
+    --em-success-hover: hsl(142, 76%, 30%);
+    --em-success-light: hsl(142, 76%, 95%);
+    --em-warning: hsl(27, 87%, 50%);
+    --em-warning-hover: hsl(27, 87%, 45%);
+    --em-warning-light: hsl(27, 87%, 95%);
+    --em-danger: hsl(0, 84%, 60%);
+    --em-danger-hover: hsl(0, 84%, 50%);
+    --em-danger-light: hsl(0, 84%, 95%);
+    --em-info: hsl(199, 89%, 48%);
+    --em-info-light: hsl(199, 89%, 95%);
+    
+    /* Neutral Colors */
+    --em-text: hsl(0, 0%, 9%);
+    --em-text-secondary: hsl(217, 8%, 35%);
+    --em-text-tertiary: hsl(217, 8%, 55%);
+    --em-text-inverse: hsl(0, 0%, 100%);
+    
+    --em-bg: hsl(0, 0%, 100%);
+    --em-bg-subtle: hsl(0, 0%, 98%);
+    --em-bg-muted: hsl(217, 8%, 96%);
+    --em-bg-hover: hsl(217, 8%, 94%);
+    --em-bg-elevated: hsl(0, 0%, 100%);
+    
+    --em-border: hsl(0, 0%, 89%);
+    --em-border-light: hsl(0, 0%, 93%);
+    --em-border-focus: hsl(217, 91%, 60%);
+    
+    /* Spacing Scale */
+    --em-space-xs: 4px;
+    --em-space-sm: 8px;
+    --em-space-md: 12px;
+    --em-space-lg: 16px;
+    --em-space-xl: 24px;
+    --em-space-2xl: 32px;
+    
+    /* Border Radius */
+    --em-radius-sm: 4px;
+    --em-radius-md: 6px;
+    --em-radius-lg: 8px;
+    --em-radius-xl: 12px;
+    --em-radius-full: 9999px;
+    
+    /* Shadows - Premium subtle shadows */
+    --em-shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --em-shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --em-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.04);
+    --em-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    --em-ring: 0 0 0 3px hsla(217, 91%, 60%, 0.25);
+    
+    /* Transitions */
+    --em-transition-fast: 100ms ease;
+    --em-transition-normal: 150ms ease;
+    --em-transition-slow: 200ms ease;
+    
+    /* Container Styles */
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--em-space-2xl) var(--em-space-xl);
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--em-text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================================
+   DARK MODE - Moodle Compatible
+   ============================================================= */
+body.dark .aiquizmaker-container,
+body[data-bs-theme="dark"] .aiquizmaker-container,
+.dark .aiquizmaker-container {
+    --em-bg: hsl(222, 47%, 7%);
+    --em-bg-subtle: hsl(222, 47%, 9%);
+    --em-bg-muted: hsl(222, 30%, 12%);
+    --em-bg-hover: hsl(222, 30%, 15%);
+    --em-bg-elevated: hsl(222, 47%, 11%);
+    --em-text: hsl(0, 0%, 98%);
+    --em-text-secondary: hsl(217, 8%, 70%);
+    --em-text-tertiary: hsl(217, 8%, 55%);
+    --em-border: hsl(222, 30%, 18%);
+    --em-border-light: hsl(222, 30%, 14%);
+    --em-primary-light: hsl(217, 91%, 15%);
+    --em-success-light: hsl(142, 76%, 12%);
+    --em-warning-light: hsl(27, 87%, 12%);
+    --em-danger-light: hsl(0, 84%, 12%);
+    --em-info-light: hsl(199, 89%, 12%);
+    --em-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --em-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --em-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --em-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   UTILITY CLASSES - Composable Design System
+   ============================================================ */
+
+/* Flex Utilities */
+.aiquizmaker-container .em-flex {
+    display: flex !important;
+}
+.aiquizmaker-container .em-flex-center {
+    display: flex !important;
+    align-items: center !important;
+}
+.aiquizmaker-container .em-flex-between {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.aiquizmaker-container .em-flex-col {
+    display: flex !important;
+    flex-direction: column !important;
+}
+.aiquizmaker-container .em-flex-wrap {
+    flex-wrap: wrap !important;
+}
+.aiquizmaker-container .em-items-start {
+    align-items: flex-start !important;
+}
+.aiquizmaker-container .em-items-center {
+    align-items: center !important;
+}
+
+/* Gap Utilities */
+.aiquizmaker-container .em-gap-xs { gap: var(--em-space-xs) !important; }
+.aiquizmaker-container .em-gap-sm { gap: var(--em-space-sm) !important; }
+.aiquizmaker-container .em-gap-md { gap: var(--em-space-md) !important; }
+.aiquizmaker-container .em-gap-lg { gap: var(--em-space-lg) !important; }
+.aiquizmaker-container .em-gap-xl { gap: var(--em-space-xl) !important; }
+
+/* Text Utilities */
+.aiquizmaker-container .em-text-sm { font-size: 13px !important; }
+.aiquizmaker-container .em-text-base { font-size: 14px !important; }
+.aiquizmaker-container .em-text-lg { font-size: 16px !important; }
+.aiquizmaker-container .em-text-xl { font-size: 18px !important; }
+.aiquizmaker-container .em-text-2xl { font-size: 24px !important; }
+.aiquizmaker-container .em-text-secondary { color: var(--em-text-secondary) !important; }
+.aiquizmaker-container .em-text-tertiary { color: var(--em-text-tertiary) !important; }
+.aiquizmaker-container .em-font-medium { font-weight: 500 !important; }
+.aiquizmaker-container .em-font-semibold { font-weight: 600 !important; }
+.aiquizmaker-container .em-font-bold { font-weight: 700 !important; }
+
+/* Icon Utilities */
+.aiquizmaker-container .em-icon-sm { width: 16px !important; height: 16px !important; }
+.aiquizmaker-container .em-icon-md { width: 20px !important; height: 20px !important; }
+.aiquizmaker-container .em-icon-lg { width: 24px !important; height: 24px !important; }
+.aiquizmaker-container .em-icon-xl { width: 28px !important; height: 28px !important; }
+
+/* Card Utility */
+.aiquizmaker-container .em-card {
+    background: var(--em-bg) !important;
+    border: 1px solid var(--em-border) !important;
+    border-radius: var(--em-radius-lg) !important;
+    padding: var(--em-space-xl) !important;
+}
+
+/* Badge Utilities */
+.aiquizmaker-container .em-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: var(--em-radius-full) !important;
+    white-space: nowrap !important;
+}
+.aiquizmaker-container .em-badge-success {
+    background: var(--em-success-light) !important;
+    color: var(--em-success-dark) !important;
+}
+.aiquizmaker-container .em-badge-warning {
+    background: var(--em-warning-light) !important;
+    color: var(--em-warning-dark) !important;
+}
+.aiquizmaker-container .em-badge-danger {
+    background: var(--em-danger-light) !important;
+    color: var(--em-danger-dark) !important;
+}
+.aiquizmaker-container .em-badge-info {
+    background: var(--em-info-light) !important;
+    color: #0891b2 !important;
+}
+.aiquizmaker-container .em-badge-primary {
+    background: var(--em-primary) !important;
+    color: var(--em-text-inverse) !important;
+}
+
+/* ============================================================
+   HEADER SECTION
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--em-space-2xl);
+    padding-bottom: var(--em-space-xl);
+    border-bottom: 1px solid var(--em-border);
+}
+
+.aiquizmaker-container .aiquizmaker-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-logo {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #4f46e5 100%);
+    border-radius: var(--em-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--em-shadow-md);
+}
+
+.aiquizmaker-container .aiquizmaker-logo svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+}
+
+.aiquizmaker-container .aiquizmaker-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--em-text);
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+}
+
+.aiquizmaker-container .aiquizmaker-subtitle {
+    font-size: 14px;
+    color: var(--em-text-secondary);
+    margin: 0;
+}
+
+/* ============================================================
+   CREDITS BADGE
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-credits-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.aiquizmaker-container .aiquizmaker-credits {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-md);
+    padding: 14px 18px;
+    background: linear-gradient(135deg, var(--em-bg-muted) 0%, var(--em-bg-subtle) 100%);
+    border-radius: var(--em-radius-lg);
+    border: 1px solid var(--em-border);
+    box-shadow: var(--em-shadow-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-icon svg {
+    width: 26px;
+    height: 26px;
+    color: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-label {
+    font-size: 11px;
+    color: var(--em-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.aiquizmaker-container .aiquizmaker-credits-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--em-text);
+    letter-spacing: -0.02em;
+}
+
+.aiquizmaker-container .aiquizmaker-credits-low {
+    background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+    border-color: var(--em-warning);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-low .aiquizmaker-credits-value {
+    color: var(--em-warning-dark);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-empty {
+    background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+    border-color: var(--em-danger);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-empty .aiquizmaker-credits-value {
+    color: var(--em-danger-dark);
+}
+
+/* ============================================================
+   SECTION STYLES
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-section {
+    margin-bottom: var(--em-space-2xl);
+}
+
+.aiquizmaker-container .aiquizmaker-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--em-text);
+    margin: 0 0 var(--em-space-lg) 0;
+    letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   WORKPLACE CONTEXT TOGGLE
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-context-section {
+    margin-bottom: var(--em-space-2xl);
+}
+
+.aiquizmaker-container .aiquizmaker-context-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--em-space-md);
+    cursor: pointer;
+    user-select: none;
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: #d1d5db;
+    border-radius: var(--em-radius-full);
+    transition: background var(--em-transition-normal);
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform var(--em-transition-normal);
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-checkbox:checked + .aiquizmaker-toggle-switch {
+    background: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-checkbox:checked + .aiquizmaker-toggle-switch::after {
+    transform: translateX(22px);
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-checkbox:focus + .aiquizmaker-toggle-switch {
+    box-shadow: var(--em-shadow-focus);
+}
+
+.aiquizmaker-container .aiquizmaker-toggle-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--em-text);
+}
+
+.aiquizmaker-container .aiquizmaker-context-header .aiquizmaker-sublabel {
+    margin: 0 0 0 60px;
+    font-size: 13px;
+    color: var(--em-text-secondary);
+}
+
+.aiquizmaker-container .aiquizmaker-context-fields {
+    margin-top: var(--em-space-lg);
+    padding: var(--em-space-lg);
+    background: var(--em-bg-subtle);
+    border-radius: var(--em-radius-lg);
+    border: 1px solid var(--em-border);
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   FORM CONTROLS - Inputs, Selects, Textareas
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-field-full {
+    grid-column: span 2;
+}
+
+.aiquizmaker-container .aiquizmaker-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Input & Select Base Styles */
+.aiquizmaker-container .aiquizmaker-input,
+.aiquizmaker-container .aiquizmaker-select {
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--em-radius-md);
+    font-size: 14px;
+    color: var(--em-text);
+    background: white;
+    transition: all var(--em-transition-fast);
+    box-sizing: border-box;
+}
+
+.aiquizmaker-container .aiquizmaker-input:focus,
+.aiquizmaker-container .aiquizmaker-select:focus {
+    outline: none;
+    border-color: var(--em-border-focus);
+    box-shadow: var(--em-shadow-focus);
+}
+
+.aiquizmaker-container .aiquizmaker-input::placeholder {
+    color: var(--em-text-tertiary);
+}
+
+.aiquizmaker-container .aiquizmaker-input:hover,
+.aiquizmaker-container .aiquizmaker-select:hover {
+    border-color: #9ca3af;
+}
+
+/* SELECT DROPDOWN - World-Class Styling with Better Arrow Padding */
+.aiquizmaker-container .aiquizmaker-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 44px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.aiquizmaker-container .aiquizmaker-select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* Select option styling */
+.aiquizmaker-container .aiquizmaker-select option {
+    padding: 12px 14px;
+    background: white;
+    color: var(--em-text);
+}
+
+.aiquizmaker-container .aiquizmaker-select option:checked {
+    background: var(--em-primary-light);
+    color: var(--em-primary-dark);
+}
+
+/* Textarea Styles */
+.aiquizmaker-container .aiquizmaker-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--em-radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--em-text);
+    background: white;
+    resize: vertical;
+    min-height: 88px;
+    transition: all var(--em-transition-fast);
+    box-sizing: border-box;
+}
+
+.aiquizmaker-container .aiquizmaker-textarea:focus {
+    outline: none;
+    border-color: var(--em-border-focus);
+    box-shadow: var(--em-shadow-focus);
+}
+
+.aiquizmaker-container .aiquizmaker-textarea:hover {
+    border-color: #9ca3af;
+}
+
+.aiquizmaker-container .aiquizmaker-textarea::placeholder {
+    color: var(--em-text-tertiary);
+}
+
+/* ============================================================
+   CRITERIA SECTION
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-criteria-row {
+    display: flex;
+    gap: var(--em-space-md);
+    align-items: center;
+    margin-bottom: var(--em-space-md);
+    animation: em-fadeIn 0.2s ease;
+}
+
+@keyframes em-fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.aiquizmaker-container .aiquizmaker-criteria-inputs {
+    display: flex;
+    gap: var(--em-space-md);
+    flex: 1;
+}
+
+.aiquizmaker-container .aiquizmaker-criteria-inputs input {
+    flex: 1;
+}
+
+.aiquizmaker-container .aiquizmaker-criteria-inputs select {
+    width: 150px;
+    flex-shrink: 0;
+}
+
+/* Bulk Add Criteria */
+/* Paste Content Section */
+.aiquizmaker-container .aiquizmaker-content-section {
+    background: linear-gradient(135deg, var(--em-bg-subtle) 0%, var(--em-bg-muted) 100%);
+    border: 1px dashed var(--em-border);
+    border-radius: var(--em-radius-md);
+    padding: var(--em-space-lg);
+    margin-bottom: var(--em-space-xl);
+}
+
+.aiquizmaker-container .aiquizmaker-content-textarea {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions {
+    margin-top: var(--em-space-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions .aiquizmaker-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions .aiquizmaker-btn-primary svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions .aiquizmaker-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    font-size: 0.85rem;
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions .aiquizmaker-btn-ghost svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-content-actions .aiquizmaker-btn-ghost:hover {
+    opacity: 1;
+}
+
+.aiquizmaker-container .aiquizmaker-bulk-add {
+    margin-bottom: var(--em-space-xl);
+    padding: var(--em-space-lg);
+    background: linear-gradient(135deg, var(--em-bg-subtle) 0%, var(--em-bg-muted) 100%);
+    border: 1px dashed var(--em-border);
+    border-radius: var(--em-radius-md);
+}
+
+.aiquizmaker-container .aiquizmaker-bulk-add .aiquizmaker-label {
+    margin-bottom: var(--em-space-sm);
+    display: block;
+}
+
+.aiquizmaker-container .aiquizmaker-bulk-add-actions {
+    margin-top: var(--em-space-md);
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Apply to All Row */
+.aiquizmaker-container .aiquizmaker-apply-all {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-md);
+    margin-bottom: var(--em-space-lg);
+    padding: var(--em-space-md) var(--em-space-lg);
+    background: var(--em-primary-light);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: var(--em-radius-md);
+}
+
+.aiquizmaker-container .aiquizmaker-apply-all .aiquizmaker-label {
+    margin: 0;
+    font-weight: 500;
+    color: var(--em-primary-dark);
+    white-space: nowrap;
+}
+
+.aiquizmaker-container .aiquizmaker-apply-all .aiquizmaker-select {
+    width: auto;
+    min-width: 140px;
+}
+
+.aiquizmaker-container .aiquizmaker-apply-all .aiquizmaker-btn {
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--em-space-sm);
+    height: 44px;
+    padding: 0 20px;
+    border-radius: var(--em-radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--em-transition-fast);
+    border: none;
+    white-space: nowrap;
+}
+
+.aiquizmaker-container .aiquizmaker-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* Primary Button - Gradient with glow */
+.aiquizmaker-container .aiquizmaker-btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    box-shadow: var(--em-shadow-md), 0 4px 12px -2px rgba(99, 102, 241, 0.25);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--em-shadow-lg), 0 6px 16px -2px rgba(99, 102, 241, 0.35);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--em-shadow-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Secondary Button */
+.aiquizmaker-container .aiquizmaker-btn-secondary {
+    background: white;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    box-shadow: var(--em-shadow-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-secondary:hover {
+    background: var(--em-bg-subtle);
+    border-color: #9ca3af;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-secondary:active {
+    background: var(--em-bg-muted);
+}
+
+/* Icon Button */
+.aiquizmaker-container .aiquizmaker-btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: var(--em-radius-md);
+    cursor: pointer;
+    color: var(--em-text-secondary);
+    transition: all var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon:hover {
+    background: var(--em-danger-light);
+    border-color: var(--em-danger);
+    color: var(--em-danger-dark);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Actions Container */
+.aiquizmaker-container .aiquizmaker-actions {
+    display: flex;
+    gap: var(--em-space-md);
+    margin-top: var(--em-space-xl);
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-alert {
+    display: flex;
+    gap: var(--em-space-md);
+    padding: var(--em-space-lg);
+    border-radius: var(--em-radius-lg);
+    margin-bottom: var(--em-space-xl);
+    animation: em-fadeIn 0.3s ease;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-content {
+    flex: 1;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-title {
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-message {
+    font-size: 14px;
+    margin: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-message a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-warning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+    border: 1px solid var(--em-warning);
+    color: #92400e;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-warning .aiquizmaker-alert-icon {
+    color: var(--em-warning);
+}
+
+.aiquizmaker-container .aiquizmaker-alert-error {
+    background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+    border: 1px solid var(--em-danger);
+    color: #991b1b;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-error .aiquizmaker-alert-icon {
+    color: var(--em-danger);
+}
+
+.aiquizmaker-container .aiquizmaker-alert-success {
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+    border: 1px solid var(--em-success);
+    color: #065f46;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-success .aiquizmaker-alert-icon {
+    color: var(--em-success);
+}
+
+/* Quiz Success in Results */
+.aiquizmaker-container .aiquizmaker-success-section {
+    text-align: center;
+    padding: var(--em-space-2xl);
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--em-space-lg);
+    margin-bottom: var(--em-space-xl);
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-success svg {
+    width: 48px;
+    height: 48px;
+    color: var(--em-success);
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-success-text {
+    text-align: left;
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-success-text h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--em-text-primary);
+    margin: 0 0 var(--em-space-xs) 0;
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-success-text p {
+    font-size: 14px;
+    color: var(--em-text-secondary);
+    margin: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-quiz-target {
+    margin-bottom: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-alert-info {
+    background: linear-gradient(135deg, #cffafe 0%, #ecfeff 100%);
+    border: 1px solid var(--em-info);
+    color: #0e7490;
+}
+
+.aiquizmaker-container .aiquizmaker-alert-info .aiquizmaker-alert-icon {
+    color: var(--em-info);
+}
+
+/* ============================================================
+   RESULTS SECTION
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-results {
+    margin-top: var(--em-space-2xl);
+    padding-top: var(--em-space-2xl);
+    border-top: 2px solid var(--em-border);
+    animation: em-fadeIn 0.3s ease;
+}
+
+.aiquizmaker-container .aiquizmaker-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--em-space-lg);
+    flex-wrap: wrap;
+    gap: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-results-info {
+    font-size: 14px;
+    color: var(--em-text-secondary);
+    margin: 0 0 var(--em-space-xl) 0;
+}
+
+/* Question Card */
+.aiquizmaker-container .aiquizmaker-question-card {
+    background: white;
+    border: 1px solid var(--em-border);
+    border-radius: var(--em-radius-lg);
+    padding: var(--em-space-xl);
+    margin-bottom: var(--em-space-lg);
+    box-shadow: var(--em-shadow-sm);
+    transition: all var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-question-card:hover {
+    box-shadow: var(--em-shadow-md);
+    border-color: var(--em-primary);
+}
+
+/* ─── Description (section heading) card ─────────────────────────────────── */
+.aiquizmaker-container .aiquizmaker-description-card {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-md);
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+    border: 1px solid #c7d7f8;
+    border-radius: var(--em-radius-lg);
+    padding: var(--em-space-md) var(--em-space-lg);
+    margin-bottom: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-description-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(99, 102, 241, 0.12);
+    border-radius: 50%;
+    color: #4f46e5;
+}
+
+.aiquizmaker-container .aiquizmaker-description-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-description-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6366f1;
+    opacity: 0.8;
+}
+
+.aiquizmaker-container .aiquizmaker-description-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.aiquizmaker-container .aiquizmaker-qtype-description {
+    background: #ede9fe;
+    color: #5b21b6;
+    border-color: #c4b5fd;
+    flex-shrink: 0;
+}
+
+/* Dark-mode overrides for description cards */
+body.theme-boost-union-dark .aiquizmaker-container .aiquizmaker-description-card,
+.dark .aiquizmaker-container .aiquizmaker-description-card {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+    border-color: rgba(99, 102, 241, 0.35);
+}
+
+.dark .aiquizmaker-container .aiquizmaker-description-text {
+    color: #e2e8f0;
+}
+
+.aiquizmaker-container .aiquizmaker-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-question-number {
+    font-weight: 600;
+    color: var(--em-primary);
+    font-size: 14px;
+}
+
+.aiquizmaker-container .aiquizmaker-question-marks {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    padding: 5px 12px;
+    border-radius: var(--em-radius-full);
+}
+
+/* Question Actions (Edit/Regenerate buttons) */
+.aiquizmaker-container .aiquizmaker-question-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--em-border);
+    background: white;
+    border-radius: var(--em-radius-md);
+    cursor: pointer;
+    color: var(--em-text-secondary);
+    transition: all var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon:hover {
+    background: var(--em-bg-muted);
+    color: var(--em-primary);
+    border-color: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon.is-loading {
+    animation: em-spin 1s linear infinite;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon.aiquizmaker-add-single-done {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+    cursor: default;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+@keyframes em-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Edit Modal */
+.aiquizmaker-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    animation: em-fadeIn 0.2s ease;
+}
+
+.aiquizmaker-modal {
+    background: white;
+    border-radius: var(--em-radius-xl, 12px);
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: em-slideUp 0.2s ease;
+}
+
+@keyframes em-slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.aiquizmaker-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--em-border, #e5e7eb);
+}
+
+.aiquizmaker-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--em-text, #111);
+}
+
+.aiquizmaker-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--em-text-secondary, #6b7280);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--em-radius-md, 6px);
+    transition: background 0.15s;
+}
+
+.aiquizmaker-modal-close:hover {
+    background: var(--em-bg-muted, #f3f4f6);
+}
+
+.aiquizmaker-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.aiquizmaker-edit-field {
+    margin-bottom: 16px;
+}
+
+.aiquizmaker-edit-field:last-child {
+    margin-bottom: 0;
+}
+
+.aiquizmaker-edit-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--em-text-secondary, #6b7280);
+    margin-bottom: 6px;
+}
+
+.aiquizmaker-edit-field textarea,
+#edit-question-text,
+.aiquizmaker-edit-rubric-desc {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.aiquizmaker-edit-field textarea:focus,
+#edit-question-text:focus,
+.aiquizmaker-edit-rubric-desc:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+    box-shadow: 0 0 0 3px hsla(217, 91%, 60%, 0.15);
+}
+
+/* Enhanced Rubric Editing (v3.14.0) - Editable/Addable/Removable Criteria */
+.aiquizmaker-modal-wide {
+    max-width: 640px;
+}
+
+.aiquizmaker-rubric-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.aiquizmaker-rubric-header > label {
+    margin: 0;
+}
+
+.aiquizmaker-total-marks-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: var(--em-radius-full, 9999px);
+}
+
+.aiquizmaker-total-marks-badge strong {
+    font-weight: 700;
+}
+
+.aiquizmaker-edit-rubric-row {
+    background: var(--em-bg-subtle, #f9fafb);
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    padding: 12px;
+    margin-bottom: 12px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.aiquizmaker-edit-rubric-row:hover {
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+}
+
+.aiquizmaker-edit-rubric-row:last-child {
+    margin-bottom: 0;
+}
+
+.aiquizmaker-rubric-row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.aiquizmaker-rubric-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--em-text, #111827);
+}
+
+.aiquizmaker-rubric-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aiquizmaker-edit-rubric-marks {
+    width: auto;
+    min-width: 50px;
+    padding: 4px 8px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-sm, 4px);
+    font-size: 13px;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.aiquizmaker-edit-rubric-marks:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+}
+
+.aiquizmaker-marks-suffix {
+    font-size: 12px;
+    color: var(--em-text-tertiary, #6b7280);
+}
+
+.aiquizmaker-remove-rubric-btn {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--em-text-tertiary, #9ca3af);
+    border-radius: var(--em-radius-sm, 4px);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+}
+
+.aiquizmaker-remove-rubric-btn:hover {
+    background: var(--em-danger-light, hsl(0, 84%, 95%));
+    color: var(--em-danger, hsl(0, 84%, 60%));
+}
+
+.aiquizmaker-remove-rubric-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-add-rubric-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    margin-top: 12px;
+    border: 2px dashed var(--em-border, #e5e7eb);
+    background: transparent;
+    color: var(--em-text-secondary, #6b7280);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: var(--em-radius-md, 6px);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.aiquizmaker-add-rubric-btn:hover {
+    border-color: var(--em-primary, hsl(217, 91%, 60%));
+    color: var(--em-primary, hsl(217, 91%, 60%));
+    background: var(--em-primary-light, hsl(217, 91%, 95%));
+}
+
+.aiquizmaker-add-rubric-btn svg {
+    flex-shrink: 0;
+}
+
+/* Dark mode for enhanced rubric editing */
+body.dark .aiquizmaker-edit-rubric-row,
+body[data-bs-theme="dark"] .aiquizmaker-edit-rubric-row,
+.dark .aiquizmaker-edit-rubric-row {
+    background: var(--em-bg-muted, hsl(222, 30%, 12%));
+}
+
+body.dark .aiquizmaker-edit-rubric-marks,
+body[data-bs-theme="dark"] .aiquizmaker-edit-rubric-marks,
+.dark .aiquizmaker-edit-rubric-marks {
+    background: var(--em-bg, hsl(222, 47%, 7%));
+    color: var(--em-text, #f9fafb);
+}
+
+/* =====================================================================
+   Type-aware edit modal fields (v3.16.17)
+   ===================================================================== */
+
+/* Inline hint text inside labels */
+.aiquizmaker-field-hint {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--em-text-tertiary, #9ca3af);
+    font-size: 12px;
+}
+
+/* Single-line text input — mirrors textarea styling */
+.aiquizmaker-edit-text-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+}
+.aiquizmaker-edit-text-input:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+    box-shadow: 0 0 0 3px hsla(217, 91%, 60%, 0.15);
+}
+
+/* --- MCQ choice editor --- */
+.aiquizmaker-edit-choice-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--em-bg-subtle, #f9fafb);
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+}
+.aiquizmaker-edit-choice-row:last-child { margin-bottom: 0; }
+.aiquizmaker-edit-choice-row:hover { border-color: var(--em-border-focus, hsl(217, 91%, 60%)); }
+
+.aiquizmaker-edit-choice-letter {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--em-text-secondary, #6b7280);
+    width: 18px;
+    flex-shrink: 0;
+    text-align: center;
+}
+.aiquizmaker-edit-choice-correct {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #4f46e5;
+}
+.aiquizmaker-edit-choice-text {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    color: var(--em-text, #111827);
+    min-width: 0;
+}
+.aiquizmaker-choice-remove-placeholder {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+/* --- True/False editor --- */
+.aiquizmaker-tf-options {
+    display: flex;
+    gap: 20px;
+    padding: 10px 12px;
+    background: var(--em-bg-subtle, #f9fafb);
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+}
+.aiquizmaker-tf-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--em-text, #111827);
+    cursor: pointer;
+    user-select: none;
+}
+.aiquizmaker-tf-label input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #4f46e5;
+    cursor: pointer;
+}
+
+/* --- Matching pair editor --- */
+.aiquizmaker-edit-pair-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 10px;
+    background: var(--em-bg-subtle, #f9fafb);
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    margin-bottom: 8px;
+    transition: border-color 0.15s;
+}
+.aiquizmaker-edit-pair-row:last-child { margin-bottom: 0; }
+.aiquizmaker-edit-pair-row:hover { border-color: var(--em-border-focus, hsl(217, 91%, 60%)); }
+.aiquizmaker-edit-pair-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.aiquizmaker-edit-pair-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--em-text-secondary, #6b7280);
+}
+.aiquizmaker-edit-pair-subquestion,
+.aiquizmaker-edit-pair-subanswer {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-sm, 4px);
+    font-family: inherit;
+    font-size: 13px;
+    background: var(--em-bg, #fff);
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+.aiquizmaker-edit-pair-subquestion:focus,
+.aiquizmaker-edit-pair-subanswer:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+}
+.aiquizmaker-edit-pair-arrow {
+    flex-shrink: 0;
+    color: var(--em-text-tertiary, #9ca3af);
+    padding-bottom: 6px;
+}
+
+/* --- Gapselect group editor --- */
+.aiquizmaker-edit-gap-group {
+    background: var(--em-bg-subtle, #f9fafb);
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    padding: 12px;
+    margin-bottom: 12px;
+}
+.aiquizmaker-edit-gap-group:last-child { margin-bottom: 0; }
+.aiquizmaker-gap-group-header {
+    font-size: 13px;
+    color: var(--em-text, #111827);
+    margin-bottom: 8px;
+}
+.aiquizmaker-edit-gap-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+.aiquizmaker-edit-gap-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.aiquizmaker-edit-gap-opt-text {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-sm, 4px);
+    font-family: inherit;
+    font-size: 13px;
+    background: var(--em-bg, #fff);
+    min-width: 0;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+.aiquizmaker-edit-gap-opt-text:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+}
+.aiquizmaker-gap-correct-badge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: #d1fae5;
+    color: #065f46;
+    white-space: nowrap;
+}
+.aiquizmaker-gap-distractor-badge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: var(--em-bg-subtle, #f3f4f6);
+    color: var(--em-text-secondary, #6b7280);
+    white-space: nowrap;
+}
+.aiquizmaker-add-gap-opt-btn {
+    font-size: 12px;
+    padding: 4px 10px !important;
+    height: auto !important;
+    margin-top: 4px;
+}
+
+/* --- Gapselect card preview (read-only summary on question card) --- */
+.aiquizmaker-gap-instruction {
+    font-size: 14px;
+    color: var(--em-text, #111827);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+/* v3.16.60: Scenario text shown as question context (replaces hardcoded instruction) */
+.aiquizmaker-gap-scenario {
+    font-size: 14px;
+    color: var(--em-text, #111827);
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-style: italic;
+}
+.aiquizmaker-gap-answer-label {
+    font-size: 13px;
+    color: var(--em-text-secondary, #6b7280);
+    margin-bottom: 4px;
+}
+.aiquizmaker-gap-groups-preview {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.aiquizmaker-gap-preview-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+}
+.aiquizmaker-gap-preview-num {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4f46e5;
+    flex-shrink: 0;
+    background: #ede9fe;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+.aiquizmaker-gap-preview-correct {
+    font-weight: 600;
+    color: #065f46;
+    background: #d1fae5;
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+.aiquizmaker-gap-preview-distractors {
+    color: var(--em-text-secondary, #6b7280);
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* --- Shortanswer accepted answers editor --- */
+.aiquizmaker-edit-answer-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.aiquizmaker-edit-answer-row:last-child { margin-bottom: 0; }
+.aiquizmaker-answer-num {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--em-text-secondary, #6b7280);
+    width: 20px;
+    flex-shrink: 0;
+    text-align: right;
+}
+.aiquizmaker-edit-answer-text {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--em-border, #e5e7eb);
+    border-radius: var(--em-radius-md, 6px);
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--em-bg, #fff);
+    min-width: 0;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+.aiquizmaker-edit-answer-text:focus {
+    outline: none;
+    border-color: var(--em-border-focus, hsl(217, 91%, 60%));
+    box-shadow: 0 0 0 3px hsla(217, 91%, 60%, 0.15);
+}
+
+/* Dark mode for new elements */
+body.dark .aiquizmaker-edit-choice-row,
+body[data-bs-theme="dark"] .aiquizmaker-edit-choice-row,
+.dark .aiquizmaker-edit-choice-row,
+body.dark .aiquizmaker-edit-pair-row,
+body[data-bs-theme="dark"] .aiquizmaker-edit-pair-row,
+.dark .aiquizmaker-edit-pair-row,
+body.dark .aiquizmaker-edit-gap-group,
+body[data-bs-theme="dark"] .aiquizmaker-edit-gap-group,
+.dark .aiquizmaker-edit-gap-group,
+body.dark .aiquizmaker-tf-options,
+body[data-bs-theme="dark"] .aiquizmaker-tf-options,
+.dark .aiquizmaker-tf-options {
+    background: var(--em-bg, hsl(222, 47%, 7%));
+    border-color: var(--em-border, #374151);
+}
+body.dark .aiquizmaker-edit-choice-text,
+body[data-bs-theme="dark"] .aiquizmaker-edit-choice-text,
+.dark .aiquizmaker-edit-choice-text,
+body.dark .aiquizmaker-tf-label,
+body[data-bs-theme="dark"] .aiquizmaker-tf-label,
+.dark .aiquizmaker-tf-label {
+    color: var(--em-text, #f9fafb);
+}
+body.dark .aiquizmaker-edit-pair-subquestion,
+body[data-bs-theme="dark"] .aiquizmaker-edit-pair-subquestion,
+.dark .aiquizmaker-edit-pair-subquestion,
+body.dark .aiquizmaker-edit-pair-subanswer,
+body[data-bs-theme="dark"] .aiquizmaker-edit-pair-subanswer,
+.dark .aiquizmaker-edit-pair-subanswer,
+body.dark .aiquizmaker-edit-gap-opt-text,
+body[data-bs-theme="dark"] .aiquizmaker-edit-gap-opt-text,
+.dark .aiquizmaker-edit-gap-opt-text,
+body.dark .aiquizmaker-edit-answer-text,
+body[data-bs-theme="dark"] .aiquizmaker-edit-answer-text,
+.dark .aiquizmaker-edit-answer-text,
+body.dark .aiquizmaker-edit-text-input,
+body[data-bs-theme="dark"] .aiquizmaker-edit-text-input,
+.dark .aiquizmaker-edit-text-input {
+    background: var(--em-bg, hsl(222, 47%, 7%));
+    color: var(--em-text, #f9fafb);
+    border-color: var(--em-border, #374151);
+}
+
+/* ===================================================================== */
+
+.aiquizmaker-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--em-border, #e5e7eb);
+    background: var(--em-bg-subtle, #f9fafb);
+}
+
+/* Spinner for loading states */
+.em-spinner {
+    animation: em-spin 1s linear infinite;
+}
+
+.aiquizmaker-container .aiquizmaker-question-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--em-text);
+    margin-bottom: var(--em-space-lg);
+}
+
+/* Rubric Section */
+.aiquizmaker-container .aiquizmaker-rubric {
+    background: linear-gradient(135deg, var(--em-bg-subtle) 0%, var(--em-bg-muted) 100%);
+    border-radius: var(--em-radius-md);
+    padding: var(--em-space-lg);
+    margin-bottom: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
+    margin-bottom: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-item {
+    font-size: 13px;
+    color: #4b5563;
+    margin-bottom: var(--em-space-md);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-item:last-child {
+    margin-bottom: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--em-radius-sm);
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-desc {
+    flex: 1;
+    line-height: 1.5;
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-heading {
+    display: inline;
+    font-weight: 600;
+    color: #1f2937;
+    margin-right: 4px;
+}
+
+.aiquizmaker-container .aiquizmaker-rubric-heading::after {
+    content: ":";
+    margin-right: 4px;
+}
+
+.aiquizmaker-container .aiquizmaker-criteria-ref {
+    font-size: 12px;
+    color: var(--em-text-tertiary);
+    font-style: italic;
+}
+
+/* XML Output */
+.aiquizmaker-container .aiquizmaker-xml {
+    width: 100%;
+    min-height: 200px;
+    padding: var(--em-space-lg);
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--em-radius-md);
+    background: #1e1e1e;
+    color: #d4d4d4;
+    resize: vertical;
+    margin-top: var(--em-space-lg);
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-footer {
+    margin-top: 48px;
+    padding-top: var(--em-space-xl);
+    border-top: 1px solid var(--em-border);
+    text-align: center;
+}
+
+.aiquizmaker-container .aiquizmaker-powered {
+    font-size: 13px;
+    color: var(--em-text-tertiary);
+}
+
+.aiquizmaker-container .aiquizmaker-powered a {
+    color: var(--em-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.aiquizmaker-container .aiquizmaker-powered a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================================
+   LOADING OVERLAY
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(6px);
+}
+
+.aiquizmaker-container .aiquizmaker-loading-overlay.is-visible {
+    display: flex;
+}
+
+.aiquizmaker-container .aiquizmaker-loading-content {
+    text-align: center;
+}
+
+.aiquizmaker-container .aiquizmaker-loading-spinner {
+    width: 52px;
+    height: 52px;
+    border: 3px solid var(--em-border);
+    border-top-color: var(--em-primary);
+    border-radius: 50%;
+    animation: aiquizmaker-spin 0.8s linear infinite;
+    margin: 0 auto var(--em-space-lg);
+}
+
+@keyframes aiquizmaker-spin {
+    to { transform: rotate(360deg); }
+}
+
+.aiquizmaker-container .aiquizmaker-loading-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* ============================================================
+   INPUT MODE TOGGLE (v3.16.0)
+   ============================================================ */
+
+.aiquizmaker-container .aiquizmaker-mode-toggle-section {
+    padding-bottom: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tabs {
+    display: flex;
+    gap: var(--em-space-sm);
+    margin-top: var(--em-space-md);
+    flex-wrap: wrap;
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 2px solid var(--em-border);
+    border-radius: var(--em-radius-md);
+    background: var(--em-surface);
+    color: var(--em-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tab:hover {
+    border-color: var(--em-primary);
+    color: var(--em-primary);
+    background: var(--em-primary-light, rgba(99, 102, 241, 0.06));
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tab-active {
+    border-color: var(--em-primary);
+    background: var(--em-primary);
+    color: #fff;
+}
+
+.aiquizmaker-container .aiquizmaker-mode-tab-active:hover {
+    background: var(--em-primary);
+    color: #fff;
+    border-color: var(--em-primary);
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+
+/* Tablet - 768px */
+@media (max-width: 768px) {
+    .aiquizmaker-container {
+        padding: var(--em-space-xl) var(--em-space-lg);
+    }
+    
+    .aiquizmaker-container .aiquizmaker-header {
+        flex-direction: column;
+        gap: var(--em-space-xl);
+    }
+    
+    .aiquizmaker-container .aiquizmaker-credits-wrapper {
+        width: 100%;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-credits {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-field-full {
+        grid-column: span 1;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-criteria-inputs {
+        flex-direction: column;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-criteria-inputs select {
+        width: 100%;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-results-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-results-header .aiquizmaker-btn {
+        width: 100%;
+    }
+}
+
+/* Auto-create section */
+.aiquizmaker-container .aiquizmaker-create-section {
+    margin-top: var(--em-space-xl);
+    padding: var(--em-space-lg);
+    background: linear-gradient(135deg, var(--em-color-success-bg) 0%, var(--em-color-success-bg-light, rgba(16, 185, 129, 0.05)) 100%);
+    border: 1px solid var(--em-color-success);
+    border-radius: var(--em-radius-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-create-section .aiquizmaker-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    margin-bottom: var(--em-space-md);
+    color: var(--em-color-success);
+}
+
+/* XML export section */
+.aiquizmaker-container .aiquizmaker-xml-section {
+    margin-top: var(--em-space-xl);
+    padding: var(--em-space-lg);
+    background: var(--em-color-card-bg);
+    border: 1px solid var(--em-color-border);
+    border-radius: var(--em-radius-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-xml-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--em-space-md);
+    margin-bottom: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-xml-header .aiquizmaker-section-title {
+    margin: 0;
+    color: var(--em-color-text-secondary);
+    font-size: 16px;
+}
+
+.aiquizmaker-container .aiquizmaker-xml-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--em-space-sm);
+}
+
+/* Excel export section */
+.aiquizmaker-container .aiquizmaker-excel-section {
+    margin-top: var(--em-space-lg);
+    padding: var(--em-space-lg);
+    background: linear-gradient(135deg, var(--em-color-primary-bg) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border: 1px solid var(--em-color-primary);
+    border-radius: var(--em-radius-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-excel-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--em-space-md);
+    margin-bottom: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-excel-header .aiquizmaker-section-title {
+    margin: 0;
+    color: var(--em-color-primary);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.aiquizmaker-container .aiquizmaker-excel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--em-space-sm);
+}
+
+/* Button outline variant */
+.aiquizmaker-container .aiquizmaker-btn-outline {
+    background: transparent;
+    border: 1px solid var(--em-color-border);
+    color: var(--em-color-text);
+}
+
+.aiquizmaker-container .aiquizmaker-btn-outline:hover {
+    background: var(--em-color-hover);
+    border-color: var(--em-color-text-secondary);
+}
+
+/* Success alert */
+.aiquizmaker-container .em-alert-success {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    padding: var(--em-space-md);
+    background: linear-gradient(135deg, var(--em-color-success-bg) 0%, rgba(16, 185, 129, 0.1) 100%);
+    border: 1px solid var(--em-color-success);
+    border-radius: var(--em-radius-md);
+    color: var(--em-color-success);
+    font-weight: 500;
+}
+
+/* ============================================================
+   EDUCATION SETTINGS SECTION
+   ============================================================ */
+
+/* Education type wrapper */
+.aiquizmaker-container .aiquizmaker-education-type-wrapper {
+    margin-bottom: var(--em-space-xl);
+}
+
+/* Education info cards */
+.aiquizmaker-container .aiquizmaker-education-info {
+    margin-top: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-info-card {
+    padding: var(--em-space-lg);
+    border-radius: var(--em-radius-lg);
+    transition: all var(--em-transition-normal);
+}
+
+.aiquizmaker-container .aiquizmaker-info-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    margin-bottom: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-info-card-header svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-info-card-title {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.aiquizmaker-container .aiquizmaker-info-card-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--em-text-secondary);
+}
+
+/* VET info card styling */
+.aiquizmaker-container .aiquizmaker-info-vet {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.aiquizmaker-container .aiquizmaker-info-vet .aiquizmaker-info-card-header {
+    color: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-info-vet .aiquizmaker-info-card-header svg {
+    stroke: var(--em-primary);
+}
+
+/* Academic info card styling */
+.aiquizmaker-container .aiquizmaker-info-academic {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.03) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.aiquizmaker-container .aiquizmaker-info-academic .aiquizmaker-info-card-header {
+    color: var(--em-success);
+}
+
+.aiquizmaker-container .aiquizmaker-info-academic .aiquizmaker-info-card-header svg {
+    stroke: var(--em-success);
+}
+
+/* Sublabel text */
+.aiquizmaker-container .aiquizmaker-sublabel {
+    margin: 0 0 var(--em-space-md) 0;
+    font-size: 13px;
+    color: var(--em-text-secondary);
+}
+
+/* Question formats section */
+.aiquizmaker-container .aiquizmaker-question-formats {
+    margin-top: var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-item {
+    padding: var(--em-space-md);
+    background: var(--em-bg-subtle);
+    border: 1px solid var(--em-border);
+    border-radius: var(--em-radius-md);
+    transition: all var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-item:hover {
+    background: var(--em-bg-muted);
+    border-color: var(--em-border-focus);
+}
+
+/* NOTE: Replaced :has(input:checked) — Moodle's PHP CSS minifier does not
+   handle :has() correctly and corrupts the site CSS cache. Use the checked
+   sibling selector approach instead. */
+.aiquizmaker-container .aiquizmaker-checkbox-item input:checked ~ * {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
+}
+.aiquizmaker-container .aiquizmaker-checkbox-item input:checked + .aiquizmaker-checkbox-label {
+    border-color: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--em-text);
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--em-primary);
+    cursor: pointer;
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-text {
+    font-size: 14px;
+}
+
+.aiquizmaker-container .aiquizmaker-checkbox-tip {
+    display: block;
+    margin-top: var(--em-space-xs);
+    padding-left: 26px;
+    font-size: 12px;
+    color: var(--em-text-tertiary);
+    line-height: 1.5;
+}
+
+/* ============================================================
+   EXTRA AI INSTRUCTIONS SECTION
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-instructions-section {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04) 0%, rgba(99, 102, 241, 0.04) 100%);
+    border: 1px solid var(--em-border);
+    border-radius: var(--em-radius-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    padding: var(--em-space-lg);
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--em-transition-fast);
+    border-radius: var(--em-radius-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-header:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--em-info);
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-title {
+    flex: 1;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--em-text);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-collapse-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--em-text-tertiary);
+    transition: transform var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section.is-collapsed .aiquizmaker-collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section.is-collapsed .aiquizmaker-section-content {
+    display: none;
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-content {
+    padding: 0 var(--em-space-lg) var(--em-space-lg);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-section .aiquizmaker-section-help {
+    margin: 0 0 var(--em-space-md);
+    font-size: 13px;
+    color: var(--em-text-secondary);
+    line-height: 1.5;
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--em-space-md);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: var(--em-space-md);
+    border: 1px solid var(--em-border);
+    border-radius: var(--em-radius-md);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--em-text);
+    background: var(--em-bg);
+    resize: vertical;
+    transition: border-color var(--em-transition-fast), box-shadow var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-textarea:focus {
+    outline: none;
+    border-color: var(--em-border-focus);
+    box-shadow: var(--em-shadow-focus);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-textarea::placeholder {
+    color: var(--em-text-tertiary);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-md);
+}
+
+.aiquizmaker-container #aiquizmaker-save-instructions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--em-space-xs);
+    padding: var(--em-space-sm) var(--em-space-md);
+    font-size: 13px;
+}
+
+.aiquizmaker-container #aiquizmaker-save-instructions svg {
+    width: 14px;
+    height: 14px;
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-status {
+    font-size: 13px;
+    color: var(--em-success);
+    opacity: 0;
+    transition: opacity var(--em-transition-fast);
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-status.is-visible {
+    opacity: 1;
+}
+
+.aiquizmaker-container .aiquizmaker-instructions-status.is-error {
+    color: var(--em-danger);
+}
+
+/* Job Level multi-select checkboxes */
+.aiquizmaker-container .aiquizmaker-level-checkboxes {
+    gap: var(--em-space-sm);
+}
+
+/* Job Title Panel — search + scrollable checkbox list */
+.aiquizmaker-container .aiquizmaker-job-title-panel {
+    border: 1px solid var(--em-border);
+    border-radius: var(--em-radius-md);
+    overflow: hidden;
+    margin-top: var(--em-space-sm);
+}
+
+.aiquizmaker-container .aiquizmaker-job-title-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--em-space-sm);
+    padding: var(--em-space-sm);
+    background: var(--em-surface);
+    border-bottom: 1px solid var(--em-border);
+    flex-wrap: wrap;
+}
+
+.aiquizmaker-container .aiquizmaker-job-title-search {
+    flex: 1;
+    min-width: 140px;
+    margin: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-job-title-actions {
+    display: flex;
+    gap: var(--em-space-xs);
+    flex-shrink: 0;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--em-radius-sm);
+    cursor: pointer;
+    border: 1px solid var(--em-border);
+    background: transparent;
+    color: var(--em-text-secondary);
+    transition: all var(--em-transition-fast);
+    white-space: nowrap;
+}
+
+.aiquizmaker-container .aiquizmaker-btn-sm:hover {
+    background: var(--em-surface-hover, rgba(0,0,0,0.05));
+    color: var(--em-text);
+}
+
+.aiquizmaker-container .aiquizmaker-job-title-list {
+    max-height: 220px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0;
+    padding: var(--em-space-xs) var(--em-space-sm);
+    background: var(--em-bg);
+}
+
+.aiquizmaker-container .aiquizmaker-role-item {
+    margin: 2px 0;
+}
+
+.aiquizmaker-container .aiquizmaker-role-item .aiquizmaker-checkbox-label {
+    font-size: 13px;
+    padding: 4px 6px;
+}
+
+/* Mobile - 480px */
+@media (max-width: 480px) {
+    .aiquizmaker-container {
+        padding: var(--em-space-lg) var(--em-space-md);
+    }
+    
+    .aiquizmaker-container .aiquizmaker-title {
+        font-size: 22px;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-logo {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-logo svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-credits-value {
+        font-size: 22px;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-actions {
+        flex-direction: column;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-criteria-row {
+        flex-wrap: wrap;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-criteria-inputs {
+        width: 100%;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-btn-icon {
+        flex-shrink: 0;
+    }
+    
+    .aiquizmaker-container .aiquizmaker-question-card {
+        padding: var(--em-space-lg);
+    }
+}
+
+/* ============================================================
+   ChatGPT Prompt Helper  (v3.16.5)
+   ============================================================ */
+.aiquizmaker-container .aiquizmaker-prompt-helper {
+    border: 1px solid var(--aiquizmaker-border, #e2e8f0);
+    border-radius: 8px;
+    margin: 16px 0 20px;
+    background: var(--aiquizmaker-surface, #f8fafc);
+    overflow: hidden;
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--aiquizmaker-surface, #f8fafc);
+    transition: background 0.15s;
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-header:hover {
+    background: var(--aiquizmaker-hover, #f1f5f9);
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--aiquizmaker-accent, #3b82f6);
+    stroke: var(--aiquizmaker-accent, #3b82f6);
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--aiquizmaker-text, #1e293b);
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-chevron {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--aiquizmaker-text-muted, #94a3b8);
+    stroke: var(--aiquizmaker-text-muted, #94a3b8);
+    transition: transform 0.2s ease;
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-helper-body {
+    padding: 16px;
+    border-top: 1px solid var(--aiquizmaker-border, #e2e8f0);
+    background: #fff;
+}
+
+/* 2-column grid for count + level selectors */
+.aiquizmaker-container .aiquizmaker-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .aiquizmaker-container .aiquizmaker-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Output area */
+.aiquizmaker-container .aiquizmaker-prompt-output {
+    margin-top: 4px;
+}
+
+.aiquizmaker-container .aiquizmaker-prompt-output .aiquizmaker-textarea {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.82em;
+    line-height: 1.55;
+    background: var(--aiquizmaker-muted, #f8f9fa);
+    color: var(--aiquizmaker-text, #1e293b);
+    border: 1px solid var(--aiquizmaker-border, #e2e8f0);
+    border-radius: 6px;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Generate button gets a secondary style */
+.aiquizmaker-container #prompt-helper-generate-btn svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* Copy button icon */
+.aiquizmaker-container #prompt-helper-copy-btn svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* Checkbox label fix */
+.aiquizmaker-container .aiquizmaker-checkbox-label {
+    cursor: pointer;
+    line-height: 1.5;
+}
