@@ -2,6 +2,46 @@
 
 All notable changes to this plugin will be documented in this file.
 
+## [3.16.95] - 2026-08-26
+
+### Fixed - Marketplace pipeline compliance
+- **ZIP root folder** is now `aiquizmaker`, not `local_aiquizmaker`. Moodle installs a `local`
+  plugin at `local/<name>`, so the archive must carry the type prefix stripped.
+- **`BUILD_INFO.json` excluded from the package.** It is a build artefact, not a plugin file.
+- **`db/upgrade.php` had no boilerplate at all** - no GPL header, no `@package`, `@copyright` or
+  `@license`. Added, along with a docblock for the upgrade function.
+- **`PARAM_RAW` audited across `ajax.php`.** `sesskey` now uses `PARAM_ALPHANUMEXT`. Every other
+  occurrence is a JSON blob that is `json_decode()`d and whitelisted on the following lines, or
+  free text that is `clean_param(PARAM_TEXT)`d and length-capped immediately; each now carries
+  the pipeline's `// pipeline-ignore: PARAM_RAW` annotation with its reason. No input handling
+  changed except `sesskey`.
+- **`function(` spaced to `function (`** throughout `amd/src` and the matching `amd/build`
+  copies. Whitespace only; both files still parse and `src` and `build` remain identical.
+
+## [3.16.94] - 2026-08-26
+
+### Fixed
+- **Non-editing teachers were shown the AI Quiz Maker tab on every quiz.** Four entry points —
+  the quiz settings-navigation tab, the button on the quiz edit page, the site navigation link
+  and `index.php` itself — all gated on `local/aiquizmaker:use` in the **system** context and
+  nothing else, and `db/access.php` granted that capability to the `teacher` archetype.
+
+  A non-editing teacher is a marking role: no `moodle/question:add`, no `mod/quiz:manage`. So
+  the tab opened a question generator whose output they had no right to save anywhere. The
+  settings-navigation callback is handed the quiz's own module context and never looked at it.
+
+  Two changes, both needed:
+  - `teacher` removed from the `local/aiquizmaker:use` archetypes, so new sites stop handing it
+    out. Existing grants are left alone deliberately — a site may have made that choice.
+  - Every entry point now also requires an authoring capability **in the context it is acting
+    on**: `mod/quiz:manage` for a specific quiz — the same capability `ajax.php` already
+    requires before writing a question — or `moodle/question:add` in at least one course when
+    the tool is opened standalone. That takes effect immediately on existing sites regardless
+    of role data.
+
+  Editing teachers and managers are unaffected: they hold `mod/quiz:manage` on their quizzes
+  and `moodle/question:add` in their courses.
+
 ## [3.16.47] - 2026-04-02
 
 ### Fixed

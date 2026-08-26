@@ -8,7 +8,7 @@
  * @copyright  2025 Essay Grader AI
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery'], function($) {
+define(['jquery'], function ($) {
     'use strict';
 
     var config = {};
@@ -123,12 +123,12 @@ define(['jquery'], function($) {
             .html('<i class="fa fa-magic mr-1" style="margin-right: 4px;"></i>' + config.buttonText);
 
         // Add hover effect
-        btn.on('mouseenter', function() {
+        btn.on('mouseenter', function () {
             $(this).css({
                 'background-color': '#ea580c',
                 'border-color': '#ea580c'
             });
-        }).on('mouseleave', function() {
+        }).on('mouseleave', function () {
             $(this).css({
                 'background-color': '#f97316',
                 'border-color': '#f97316'
@@ -154,18 +154,18 @@ define(['jquery'], function($) {
         console.log('[EssayMaker] Init with config:', config);
 
         // Try to inject the button immediately
-        $(document).ready(function() {
+        $(document).ready(function () {
             var injected = injectButton();
 
             // If not found immediately, use a MutationObserver to wait for the DOM
             if (!injected) {
                 // Try again after a short delay (Moodle may load content dynamically)
-                setTimeout(function() {
+                setTimeout(function () {
                     injected = injectButton();
                     
                     if (!injected) {
                         // Set up a mutation observer to watch for the button area
-                        var observer = new MutationObserver(function(mutations) {
+                        var observer = new MutationObserver(function (mutations) {
                             if (injectButton()) {
                                 observer.disconnect();
                             }
@@ -177,7 +177,7 @@ define(['jquery'], function($) {
                         });
 
                         // Stop observing after 10 seconds to avoid memory leaks
-                        setTimeout(function() {
+                        setTimeout(function () {
                             observer.disconnect();
                         }, 10000);
                     }

@@ -53,6 +53,12 @@ function local_aiquizmaker_extend_navigation(navigation_node $navigation, $cours
         return;
     }
 
+    // FIX-AIQM-NONEDITING-TEACHER (v3.16.94): and only for someone who can author questions
+    // somewhere. A marking role has no use for a question generator.
+    if (empty(get_user_capability_course('moodle/question:add', null, true))) {
+        return;
+    }
+
     // Add link to site navigation.
     $navigation->add(
         get_string('pluginname', 'local_aiquizmaker'),
@@ -89,6 +95,20 @@ function local_aiquizmaker_extend_settings_navigation(settings_navigation $setti
 
     // Check user has capability to use the plugin.
     if (!has_capability('local/aiquizmaker:use', context_system::instance())) {
+        return;
+    }
+
+    // FIX-AIQM-NONEDITING-TEACHER (v3.16.94): also require the right to author questions in
+    // THIS quiz.
+    //
+    // The check above asks a system-context question and then ignores $context entirely, even
+    // though the module context of the quiz being viewed is right there in the signature. So
+    // the tab appeared on every quiz for anyone holding :use anywhere, including a non-editing
+    // teacher, who cannot add a question to any of them.
+    //
+    // mod/quiz:manage is the same capability ajax.php already requires before it will write a
+    // question into a quiz, so the tab now appears exactly where the tool can finish its job.
+    if (!has_capability('mod/quiz:manage', $context)) {
         return;
     }
 

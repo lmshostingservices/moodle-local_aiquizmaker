@@ -50,6 +50,26 @@ if ($cmid) {
     }
 }
 
+// FIX-AIQM-NONEDITING-TEACHER (v3.16.94): the page itself must be gated, not only the links
+// that reach it. local/aiquizmaker:use alone is a system-context question and says nothing
+// about whether this person may author a question anywhere.
+//
+// Arriving with a cmid means "make questions for THIS quiz", so mod/quiz:manage in that
+// module context is the test -- the same one ajax.php applies before writing. Arriving
+// without one means "make questions", so holding moodle/question:add in at least one course
+// is the test. An editing teacher holds it at course level, which is why this asks about
+// courses rather than about the system context they would fail.
+if ($cmid) {
+    require_capability('mod/quiz:manage', context_module::instance($cmid));
+} else if (empty(get_user_capability_course('moodle/question:add', null, true))) {
+    throw new required_capability_exception(
+        context_system::instance(),
+        'moodle/question:add',
+        'nopermissions',
+        ''
+    );
+}
+
 $PAGE->set_url(new moodle_url('/local/aiquizmaker/index.php', $cmid ? ['cmid' => $cmid] : []));
 $PAGE->set_title(get_string('page_title', 'local_aiquizmaker'));
 $PAGE->set_pagelayout('standard');

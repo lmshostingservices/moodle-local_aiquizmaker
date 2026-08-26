@@ -5,7 +5,7 @@
  * @copyright  2025 Essay Grader AI
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery', 'core/str', 'core/notification'], function($, Str, Notification) {
+define(['jquery', 'core/str', 'core/notification'], function ($, Str, Notification) {
 
     var config = {};
     var criteriaIndex = 0;
@@ -352,8 +352,8 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         $('.aiquizmaker-header').after(alertHtml);
 
-        setTimeout(function() {
-            $('.aiquizmaker-alert').first().fadeOut(300, function() {
+        setTimeout(function () {
+            $('.aiquizmaker-alert').first().fadeOut(300, function () {
                 $(this).remove();
             });
         }, 8000);
@@ -391,14 +391,14 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 sesskey: config.sesskey
             },
             dataType: 'json'
-        }).done(function(response) {
+        }).done(function (response) {
             log('Credits response:', response);
             if (response.success) {
                 updateCredits(response.credits);
             } else {
                 $('#aiquizmaker-credits-badge').hide();
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('Credits request failed:', error);
             $('#aiquizmaker-credits-badge').hide();
         });
@@ -417,7 +417,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         select.append('<option value="">' + (strings.select_state || 'Select state...') + '</option>');
 
         if (states.length > 0) {
-            states.forEach(function(state) {
+            states.forEach(function (state) {
                 select.append('<option value="' + state.value + '">' + state.label + '</option>');
             });
             select.closest('.aiquizmaker-field').show();
@@ -456,14 +456,14 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // Preserve currently checked values so user selections survive re-render.
         var checked = {};
-        container.find('input[name="job_level[]"]').each(function() {
+        container.find('input[name="job_level[]"]').each(function () {
             if ($(this).is(':checked')) {
                 checked[$(this).val()] = true;
             }
         });
 
         container.empty();
-        levels.forEach(function(level) {
+        levels.forEach(function (level) {
             var wasChecked = checked[level] ? ' checked="checked"' : '';
             var item = '<div class="aiquizmaker-checkbox-item">' +
                 '<label class="aiquizmaker-checkbox-label">' +
@@ -490,9 +490,9 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         if (industry && industryJobMatrix[industry]) {
             if (jobLevels && jobLevels.length > 0) {
                 // Aggregate titles from all selected levels (deduplicated).
-                jobLevels.forEach(function(level) {
+                jobLevels.forEach(function (level) {
                     if (industryJobMatrix[industry][level]) {
-                        industryJobMatrix[industry][level].forEach(function(title) {
+                        industryJobMatrix[industry][level].forEach(function (title) {
                             if (titles.indexOf(title) === -1) {
                                 titles.push(title);
                             }
@@ -501,8 +501,8 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
             } else {
                 // No levels selected  -  show ALL titles for this industry.
-                Object.keys(industryJobMatrix[industry]).forEach(function(level) {
-                    industryJobMatrix[industry][level].forEach(function(title) {
+                Object.keys(industryJobMatrix[industry]).forEach(function (level) {
+                    industryJobMatrix[industry][level].forEach(function (title) {
                         if (titles.indexOf(title) === -1) {
                             titles.push(title);
                         }
@@ -515,7 +515,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // Preserve previously checked values across re-renders.
         var checked = {};
-        list.find('input[name="job_title[]"]').each(function() {
+        list.find('input[name="job_title[]"]').each(function () {
             if ($(this).is(':checked')) {
                 checked[$(this).val()] = true;
             }
@@ -524,7 +524,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         list.empty();
 
         if (titles.length > 0) {
-            titles.forEach(function(title) {
+            titles.forEach(function (title) {
                 var wasChecked = checked[title] ? ' checked="checked"' : '';
                 var item = '<div class="aiquizmaker-checkbox-item aiquizmaker-role-item" data-title="' + escapeHtml(title.toLowerCase()) + '">' +
                     '<label class="aiquizmaker-checkbox-label">' +
@@ -552,7 +552,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function filterJobTitles(query) {
         var q = query.toLowerCase().trim();
-        $('#job-title-checkboxes .aiquizmaker-role-item').each(function() {
+        $('#job-title-checkboxes .aiquizmaker-role-item').each(function () {
             var title = $(this).data('title') || '';
             if (!q || title.indexOf(q) !== -1) {
                 $(this).show();
@@ -570,7 +570,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         var select = $('#industry-select');
         select.empty();
         select.append('<option value="">' + (strings.select_industry || 'Select industry...') + '</option>');
-        industries.forEach(function(industry) {
+        industries.forEach(function (industry) {
             select.append('<option value="' + industry + '">' + industry + '</option>');
         });
     }
@@ -589,13 +589,13 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 sesskey: config.sesskey
             },
             dataType: 'json'
-        }).done(function(response) {
+        }).done(function (response) {
             log('Categories response:', response);
             if (response.success && response.categories) {
                 categories = response.categories;
                 log('Loaded ' + categories.length + ' categories');
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('Categories request failed:', error);
         });
     }
@@ -614,16 +614,16 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // Group by course
         var grouped = {};
-        categories.forEach(function(cat) {
+        categories.forEach(function (cat) {
             if (!grouped[cat.course]) {
                 grouped[cat.course] = [];
             }
             grouped[cat.course].push(cat);
         });
 
-        Object.keys(grouped).forEach(function(course) {
+        Object.keys(grouped).forEach(function (course) {
             html += '<optgroup label="' + escapeHtml(course) + '">';
-            grouped[course].forEach(function(cat) {
+            grouped[course].forEach(function (cat) {
                 html += '<option value="' + cat.id + '">' + escapeHtml(cat.name) + '</option>';
             });
             html += '</optgroup>';
@@ -669,7 +669,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 60000
-        }).done(function(response) {
+        }).done(function (response) {
             log('Create questions response:', response);
             showLoading(false);
 
@@ -701,7 +701,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                     log('Errors:', response.errors);
                 }
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('Create questions failed:', error);
             showLoading(false);
             showAlert('error', 'Connection error', 'Could not connect to Moodle. Please try again.');
@@ -746,7 +746,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         csvRows.push(['Criteria', 'Question Number', 'Question Text', 'Total Marks'].join(','));
 
         // Data rows - Criteria in first column
-        lastGeneratedQuestions.forEach(function(q, index) {
+        lastGeneratedQuestions.forEach(function (q, index) {
             var questionNumber = index + 1;
             // Escape quotes and wrap in quotes for CSV
             var criteria = '"' + (q.criteriaReference || '').replace(/"/g, '""') + '"';
@@ -782,7 +782,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 sesskey: config.sesskey
             },
             dataType: 'json'
-        }).done(function(response) {
+        }).done(function (response) {
             log('Industries response:', response);
             // Check for both success and ok response formats, or just industries array
             if ((response.success || response.ok) && response.industries) {
@@ -795,7 +795,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 log('Using fallback industries');
                 populateIndustries(fallbackIndustries);
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('Industries request failed, using fallback:', error);
             populateIndustries(fallbackIndustries);
         });
@@ -841,7 +841,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function updateRemoveButtons() {
         var rows = $('.aiquizmaker-criteria-row');
-        rows.each(function() {
+        rows.each(function () {
             var btn = $(this).find('.aiquizmaker-remove-criteria');
             if (rows.length <= 1) {
                 btn.css('visibility', 'hidden');
@@ -902,7 +902,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             .replace(/\n{3,}/g, '\n\n')
             // Trim whitespace from each line
             .split('\n')
-            .map(function(line) { return line.trim(); })
+            .map(function (line) { return line.trim(); })
             .join('\n')
             // Trim the whole string
             .trim();
@@ -922,8 +922,8 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // Split by newlines and filter empty lines
         var lines = text.split('\n')
-            .map(function(line) { return line.trim(); })
-            .filter(function(line) { return line.length > 0; });
+            .map(function (line) { return line.trim(); })
+            .filter(function (line) { return line.length > 0; });
 
         if (lines.length === 0) {
             showAlert('warning', strings.bulk_add_empty || 'No criteria to add', '');
@@ -989,7 +989,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 60000
-        }).done(function(response) {
+        }).done(function (response) {
             btn.prop('disabled', false).removeClass('is-loading');
             labelEl.text(originalLabel);
 
@@ -1020,7 +1020,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             showAlert('success', successMsg + ' from content', '');
             log('Extracted ' + addedCount + ' criteria from pasted content');
 
-        }).fail(function() {
+        }).fail(function () {
             btn.prop('disabled', false).removeClass('is-loading');
             labelEl.text(originalLabel);
             showAlert('error', 'Error', strings.extract_criteria_error || 'Failed to extract criteria. Please try again.');
@@ -1035,7 +1035,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         var criteriaRows = $('.aiquizmaker-criteria-row');
         var updatedCount = 0;
 
-        criteriaRows.each(function() {
+        criteriaRows.each(function () {
             var select = $(this).find('select[name*="[count]"]');
             if (select.length) {
                 select.val(selectedCount);
@@ -1056,12 +1056,12 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function getJobTitle() {
         var selected = [];
-        $('input[name="job_title[]"]:checked').each(function() {
+        $('input[name="job_title[]"]:checked').each(function () {
             selected.push($(this).val());
         });
         var customVal = $.trim($('#job-title-custom').val());
         if (customVal) {
-            customVal.split(',').forEach(function(part) {
+            customVal.split(',').forEach(function (part) {
                 var t = $.trim(part);
                 if (t && selected.indexOf(t) === -1) {
                     selected.push(t);
@@ -1076,7 +1076,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      * @return {Array} Array of selected job level strings.
      */
     function getSelectedJobLevels() {
-        return $('input[name="job_level[]"]:checked').map(function() {
+        return $('input[name="job_level[]"]:checked').map(function () {
             return $(this).val();
         }).get();
     }
@@ -1087,7 +1087,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function getSelectedQuestionFormats() {
         var formats = [];
-        $('input[name="question_formats[]"]:checked').each(function() {
+        $('input[name="question_formats[]"]:checked').each(function () {
             formats.push($(this).val());
         });
         return formats;
@@ -1120,7 +1120,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function getMoodleQuestionTypes() {
         var types = [];
-        $('.aiquizmaker-qtype-check:checked').each(function() {
+        $('.aiquizmaker-qtype-check:checked').each(function () {
             types.push($(this).val());
         });
         if (types.length === 0) {
@@ -1135,7 +1135,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function getSelectedSelfMarkingStyles() {
         var styles = [];
-        $('input[name="selfmarking_styles[]"]:checked').each(function() {
+        $('input[name="selfmarking_styles[]"]:checked').each(function () {
             styles.push($(this).val());
         });
         if (styles.length === 0) {
@@ -1152,7 +1152,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
     function updateFormatSectionsVisibility() {
         var selectedTypes = getMoodleQuestionTypes();
         var hasEssay = selectedTypes.indexOf('essay') !== -1;
-        var hasNonEssay = selectedTypes.some(function(t) { return t !== 'essay'; });
+        var hasNonEssay = selectedTypes.some(function (t) { return t !== 'essay'; });
 
         var $essayFormats = $('.aiquizmaker-essay-formats');
         var $selfMarkingStyles = $('.aiquizmaker-selfmarking-styles');
@@ -1171,7 +1171,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function collectFormData() {
         var criteria = [];
-        $('.aiquizmaker-criteria-row').each(function() {
+        $('.aiquizmaker-criteria-row').each(function () {
             var text = $(this).find('input[name*="[text]"]').val();
             var count = $(this).find('select[name*="[count]"]').val();
             if (text) {
@@ -1234,7 +1234,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         var data = collectFormData();
 
         // Fix 4: Filter criteria shorter than 10 chars (weak/empty entries produce bad AI output)
-        data.criteria = data.criteria.filter(function(c) {
+        data.criteria = data.criteria.filter(function (c) {
             return c.text && c.text.trim().length >= 10;
         });
 
@@ -1249,7 +1249,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         // All other fields are now optional - no validation required
         // The AI will generate appropriate questions based on available context
 
-        var totalQuestions = data.criteria.reduce(function(sum, c) {
+        var totalQuestions = data.criteria.reduce(function (sum, c) {
             return sum + c.count;
         }, 0);
 
@@ -1288,7 +1288,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 180000
-        }).done(function(response) {
+        }).done(function (response) {
             log('Generate response:', response);
             showLoading(false);
             btn.prop('disabled', false);
@@ -1307,7 +1307,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                     showAlert('error', strings.error_generation, errMsg);
                 }
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('Generate request failed - HTTP', xhr.status, '-', error, '-', xhr.responseText);
             showLoading(false);
             btn.prop('disabled', false);
@@ -1403,7 +1403,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         var sectionCount = headings ? Math.min(3, Math.ceil(count / 3)) : 0;
         // Normalise types: default to essay only
         var qtypes = (types && types.length > 0) ? types : ['essay'];
-        var nonEssayTypes = qtypes.filter(function(t) { return t !== 'essay'; });
+        var nonEssayTypes = qtypes.filter(function (t) { return t !== 'essay'; });
         var hasNonEssay = nonEssayTypes.length > 0;
         var typeLabels = {
             'essay': 'Written Essay',
@@ -1412,7 +1412,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             'matching': 'Matching (4 pairs)',
             'shortanswer': 'Short Answer / Missing Word'
         };
-        var selectedTypeNames = qtypes.map(function(t) { return typeLabels[t] || t; });
+        var selectedTypeNames = qtypes.map(function (t) { return typeLabels[t] || t; });
 
         // -- Example format block ----------------------------------------------
         var ex = [];
@@ -1550,7 +1550,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             if (qtypes.length > 1) {
                 var _perType  = Math.floor(count / qtypes.length);
                 var _rem      = count % qtypes.length;
-                var _typeCounts = qtypes.map(function(t, idx) {
+                var _typeCounts = qtypes.map(function (t, idx) {
                     return (_perType + (idx < _rem ? 1 : 0)) + '  x  ' + (typeLabels[t] || t);
                 });
                 lines.push('TYPE DISTRIBUTION  -  MANDATORY: You MUST generate exactly these counts: ' + _typeCounts.join(', ') + '. Total must equal ' + count + '. Do not generate more or fewer of any type.');
@@ -1615,7 +1615,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
     function generateFromOwnQuestions() {
         // Parse textarea  -  supports simple line-by-line format and block format with "Model Response:" sections.
         var rawText = $('#own-questions-input').val() || '';
-        var allLines = rawText.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l.length > 0; });
+        var allLines = rawText.split('\n').map(function (l) { return l.trim(); }).filter(function (l) { return l.length > 0; });
 
         if (allLines.length === 0) {
             showAlert('warning', strings.error_missing_criteria || 'No questions entered',
@@ -1632,7 +1632,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // Detect whether the text uses the "Model Response:" block format.
         var MODEL_RESPONSE_RE = /^model\s+response\s*:?\s*$/i;
-        var hasModelResponses = allLines.some(function(l) { return MODEL_RESPONSE_RE.test(l); });
+        var hasModelResponses = allLines.some(function (l) { return MODEL_RESPONSE_RE.test(l); });
 
         // orderedItems = [{type:'heading',text:...} | {type:'question',text:...,modelAnswer:...,questionIndex:n}]
         var orderedItems = [];
@@ -1641,9 +1641,9 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         if (hasModelResponses) {
             // Block-based parsing: blocks are separated by blank lines.
             // Each block may contain: question text, then "Model Response:", then model answer.
-            var rawBlocks = rawText.split(/\n\s*\n/).map(function(b) { return b.trim(); }).filter(function(b) { return b.length > 0; });
-            rawBlocks.forEach(function(block) {
-                var bLines = block.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l.length > 0; });
+            var rawBlocks = rawText.split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(function (b) { return b.length > 0; });
+            rawBlocks.forEach(function (block) {
+                var bLines = block.split('\n').map(function (l) { return l.trim(); }).filter(function (l) { return l.length > 0; });
                 if (bLines.length === 0) return;
                 // Find "Model Response:" marker (never on the very first line)
                 var mrIdx = -1;
@@ -1660,7 +1660,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 } else {
                     // Scan each line: heading lines become description cards, others accumulate as question text.
                     var pendingQLines = [];
-                    bLines.forEach(function(bLine) {
+                    bLines.forEach(function (bLine) {
                         if (isHeadingLine(bLine)) {
                             // Flush any accumulated question lines first.
                             if (pendingQLines.length) {
@@ -1688,7 +1688,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             });
         } else {
             // Original line-by-line parsing (backward compatible  -  no Model Response markers present).
-            allLines.forEach(function(line) {
+            allLines.forEach(function (line) {
                 if (isHeadingLine(line)) {
                     orderedItems.push({type: 'heading', text: line});
                 } else {
@@ -1710,7 +1710,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             return;
         }
 
-        var modelAnswerCount = questionItems.filter(function(qi) { return qi.modelAnswer; }).length;
+        var modelAnswerCount = questionItems.filter(function (qi) { return qi.modelAnswer; }).length;
         log('Generating for ' + questionItems.length + ' own question(s) (' + modelAnswerCount + ' with model answers, headings: ' + (orderedItems.length - questionItems.length) + ')...');
         showLoading(true, (strings.ownquestions_generating || 'Generating for {$a} question(s)...').replace('{$a}', questionItems.length));
 
@@ -1728,7 +1728,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         // Each question item produces one question slot; type is assigned round-robin server-side.
         // Each heading item produces a single heading slot.
         var orderedLayout = [];
-        orderedItems.forEach(function(item) {
+        orderedItems.forEach(function (item) {
             if (item.type === 'heading') {
                 orderedLayout.push({type: 'heading', text: item.text});
             } else {
@@ -1773,7 +1773,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             data: postData,
             dataType: 'json',
             timeout: 180000
-        }).done(function(response) {
+        }).done(function (response) {
             log('generatefromquestions response:', response);
             showLoading(false);
             btn.prop('disabled', false);
@@ -1785,7 +1785,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 var mergedQuestions = [];
                 var resultIdx = 0;
                 var questionItemIdx = 0;
-                orderedItems.forEach(function(item) {
+                orderedItems.forEach(function (item) {
                     if (item.type === 'heading') {
                         mergedQuestions.push({
                             moodleQuestionType: 'description',
@@ -1821,7 +1821,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                     showAlert('error', strings.error_generation, errMsg);
                 }
             }
-        }).fail(function(xhr, status, error) {
+        }).fail(function (xhr, status, error) {
             log('generatefromquestions request failed - HTTP', xhr.status, '-', error, '-', xhr.responseText);
             showLoading(false);
             btn.prop('disabled', false);
@@ -1891,10 +1891,10 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         // of 1 and 2  -  so [[1]] and [[2]] in the question text find empty groups and Moodle
         // displays identical choices in every blank. Normalising to [0]=>[...], [1]=>[...] here
         // fixes it before the data ever reaches PHP.
-        questions = questions.map(function(q) {
+        questions = questions.map(function (q) {
             if (q.moodleQuestionType === 'gapselect' && q.selectOptions && !Array.isArray(q.selectOptions)) {
-                var soKeys = Object.keys(q.selectOptions).map(Number).sort(function(a, b) { return a - b; });
-                q.selectOptions = soKeys.map(function(k) { return q.selectOptions[k]; });
+                var soKeys = Object.keys(q.selectOptions).map(Number).sort(function (a, b) { return a - b; });
+                q.selectOptions = soKeys.map(function (k) { return q.selectOptions[k]; });
             }
             return q;
         });
@@ -1924,7 +1924,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         // (description items).  Previously index+1 was used, so the first question
         // after a section heading got "Question 2" instead of "Question 1".
         var questionCounter = 0;
-        questions.forEach(function(q, index) {
+        questions.forEach(function (q, index) {
             var isDesc = (q.moodleQuestionType || 'essay') === 'description';
             var questionNum = 0;
             if (!isDesc) {
@@ -2070,7 +2070,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         if (qtype === 'multichoice') {
             var choices = Array.isArray(q.choices) ? q.choices : [];
             bodyHtml += '<div class="aiquizmaker-mc-choices">';
-            choices.forEach(function(choice, ci) {
+            choices.forEach(function (choice, ci) {
                 var isCorrect = choice.isCorrect ? ' aiquizmaker-mc-correct' : '';
                 var tick = choice.isCorrect
                     ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>'
@@ -2101,7 +2101,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             var pairs = Array.isArray(q.matchPairs) ? q.matchPairs : [];
             bodyHtml += '<table class="aiquizmaker-match-table"><thead><tr>' +
                 '<th>Term / Prompt</th><th>Match</th></tr></thead><tbody>';
-            pairs.forEach(function(pair) {
+            pairs.forEach(function (pair) {
                 bodyHtml += '<tr><td>' + decodeHtmlEntities(pair.subquestion || '') + '</td>' +
                     '<td>' + decodeHtmlEntities(pair.subanswer || '') + '</td></tr>';
             });
@@ -2132,15 +2132,15 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             if (Array.isArray(rawSO)) {
                 gsGroups = rawSO;
             } else {
-                var soKeys = Object.keys(rawSO).map(Number).sort(function(a, b) { return a - b; });
-                soKeys.forEach(function(k) { gsGroups.push(rawSO[k]); });
+                var soKeys = Object.keys(rawSO).map(Number).sort(function (a, b) { return a - b; });
+                soKeys.forEach(function (k) { gsGroups.push(rawSO[k]); });
             }
             if (gsGroups.length > 0) {
                 bodyHtml += '<div class="aiquizmaker-gap-groups-preview">';
-                gsGroups.forEach(function(opts, gi) {
+                gsGroups.forEach(function (opts, gi) {
                     if (!Array.isArray(opts) || opts.length === 0) { return; }
                     var correct = decodeHtmlEntities(opts[0] || '');
-                    var distractors = opts.slice(1).map(function(o) { return decodeHtmlEntities(o); });
+                    var distractors = opts.slice(1).map(function (o) { return decodeHtmlEntities(o); });
                     bodyHtml += '<div class="aiquizmaker-gap-preview-row">' +
                         '<span class="aiquizmaker-gap-preview-num">[[' + (gi + 1) + ']]</span>' +
                         '<span class="aiquizmaker-gap-preview-correct">' + correct + '</span>';
@@ -2162,7 +2162,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 bodyHtml += '<div class="aiquizmaker-blank-sentence"><strong>Complete the sentence:</strong> ' + blankDisplay + '</div>';
             }
             bodyHtml += '<div class="aiquizmaker-accepted-answers"><strong>Accepted answers:</strong> ' +
-                accepted.map(function(a) { return '<code>' + decodeHtmlEntities(a) + '</code>'; }).join(', ') +
+                accepted.map(function (a) { return '<code>' + decodeHtmlEntities(a) + '</code>'; }).join(', ') +
                 '</div>';
             if (q.explanation) {
                 bodyHtml += '<div class="aiquizmaker-explanation"><strong>Explanation:</strong> ' + decodeHtmlEntities(q.explanation) + '</div>';
@@ -2172,14 +2172,14 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             // Essay  -  dynamic rubric display
             var rubricHtml = '';
             if (Array.isArray(q.rubric)) {
-                q.rubric.forEach(function(r, rIdx) {
+                q.rubric.forEach(function (r, rIdx) {
                     var markLabel = r.marks === 1 ? strings.one_mark : r.marks + ' ' + strings.marks_label;
                     rubricHtml += '<div class="aiquizmaker-rubric-item" data-rubric-idx="' + rIdx + '">' +
                         '<span class="aiquizmaker-rubric-mark">' + markLabel + '</span>' +
                         '<span class="aiquizmaker-rubric-desc">' + formatRubricDescription(r.description) + '</span></div>';
                 });
             } else if (q.rubric && typeof q.rubric === 'object') {
-                ['hazard', 'example', 'control'].forEach(function(key) {
+                ['hazard', 'example', 'control'].forEach(function (key) {
                     if (q.rubric[key]) {
                         rubricHtml += '<div class="aiquizmaker-rubric-item"><span class="aiquizmaker-rubric-mark">' + strings.one_mark + '</span>' +
                             '<span class="aiquizmaker-rubric-desc">' + formatRubricDescription(q.rubric[key]) + '</span></div>';
@@ -2229,12 +2229,12 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function getSelectedQuestions() {
         var selectedIdxs = [];
-        $('.aiquizmaker-question-checkbox:checked').each(function() {
+        $('.aiquizmaker-question-checkbox:checked').each(function () {
             selectedIdxs.push(parseInt($(this).data('idx'), 10));
         });
-        return lastGeneratedQuestions.filter(function(q, i) {
+        return lastGeneratedQuestions.filter(function (q, i) {
             return selectedIdxs.indexOf(i) !== -1;
-        }).map(function(q) {
+        }).map(function (q) {
             // Defensive: if a gapselect question somehow lost its questionText, restore a safe fallback.
             if (q.moodleQuestionType === 'gapselect' && !q.questionText) {
                 return Object.assign({}, q, { questionText: 'Complete the sentence by selecting the correct words.' });
@@ -2307,7 +2307,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 60000
-        }).done(function(response) {
+        }).done(function (response) {
             if (response.success) {
                 // F3: Surface skip/error details to teacher after addtoquiz so they know if questions were omitted.
                 var atqSkipDetail = '';
@@ -2351,7 +2351,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                     '<path d="M12 5v14M5 12h14"/></svg> Add ' + selectedQuestions.length + ' Questions to Quiz'
                 );
             }
-        }).fail(function() {
+        }).fail(function () {
             showAlert('error', 'Error', 'Connection failed. Please try again.');
             btn.prop('disabled', false).html(
                 '<svg class="em-icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
@@ -2389,7 +2389,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 60000
-        }).done(function(response) {
+        }).done(function (response) {
             btn.prop('disabled', false).removeClass('is-loading');
             if (response.success && response.added > 0) {
                 showAlert('success', 'Question Added', 'Question ' + (index + 1) + ' added to ' + (response.quizName || 'your quiz') + '.');
@@ -2401,7 +2401,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             } else {
                 showAlert('error', 'Error', response.error || 'Failed to add question to quiz.');
             }
-        }).fail(function() {
+        }).fail(function () {
             btn.prop('disabled', false).removeClass('is-loading');
             showAlert('error', 'Error', 'Connection failed. Please try again.');
         });
@@ -2448,7 +2448,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      * Re-letter choice rows after add/remove.
      */
     function reindexChoiceLetters() {
-        $('#edit-choices-container .aiquizmaker-edit-choice-row').each(function(ci) {
+        $('#edit-choices-container .aiquizmaker-edit-choice-row').each(function (ci) {
             $(this).attr('data-choice-idx', ci);
             $(this).find('.aiquizmaker-edit-choice-letter').text(String.fromCharCode(65 + ci));
         });
@@ -2492,7 +2492,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         // [[1]], [[4]], [[7]] placeholder numbering in the question sentence.
         var groupNum    = gi * 3 + 1;
         var optionsHtml = '';
-        group.forEach(function(opt, oi) {
+        group.forEach(function (opt, oi) {
             var badge = oi === 0
                 ? '<span class="aiquizmaker-gap-correct-badge">Correct</span>'
                 : '<span class="aiquizmaker-gap-distractor-badge">Distractor</span>';
@@ -2563,7 +2563,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      */
     function updateEditModalTotalMarks() {
         var total = 0;
-        $('.aiquizmaker-edit-rubric-marks').each(function() {
+        $('.aiquizmaker-edit-rubric-marks').each(function () {
             total += parseInt($(this).val(), 10) || 0;
         });
         $('#edit-modal-total-marks').text(total);
@@ -2573,7 +2573,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
      * Re-index rubric rows after add/remove (v3.14.0)
      */
     function reindexRubricRows() {
-        $('.aiquizmaker-edit-rubric-row').each(function(idx) {
+        $('.aiquizmaker-edit-rubric-row').each(function (idx) {
             $(this).attr('data-rubric-idx', idx);
             $(this).find('.aiquizmaker-rubric-label').text('Criterion ' + (idx + 1));
         });
@@ -2610,9 +2610,9 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         if (qtype === 'essay') {
             if (!Array.isArray(q.rubric)) { q.rubric = []; }
-            var totalMarks = q.rubric.reduce(function(sum, r) { return sum + (r.marks || 1); }, 0);
+            var totalMarks = q.rubric.reduce(function (sum, r) { return sum + (r.marks || 1); }, 0);
             var rubricFields = '';
-            q.rubric.forEach(function(r, rIdx) { rubricFields += buildRubricEditRow(r, rIdx); });
+            q.rubric.forEach(function (r, rIdx) { rubricFields += buildRubricEditRow(r, rIdx); });
             typeBodyHtml =
                 '<div class="aiquizmaker-edit-field">' +
                 '<div class="aiquizmaker-rubric-header">' +
@@ -2637,7 +2637,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 ];
             }
             var choicesHtml = '';
-            choices.forEach(function(c, ci) { choicesHtml += buildChoiceEditRow(c, ci, choices.length); });
+            choices.forEach(function (c, ci) { choicesHtml += buildChoiceEditRow(c, ci, choices.length); });
             typeBodyHtml =
                 '<div class="aiquizmaker-edit-field">' +
                 '<label>Answer Choices: <span class="aiquizmaker-field-hint">(select the radio button next to the correct answer)</span></label>' +
@@ -2681,7 +2681,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             var pairs = Array.isArray(q.matchPairs) ? q.matchPairs.slice() : [];
             if (pairs.length < 2) { pairs = [{ subquestion: '', subanswer: '' }, { subquestion: '', subanswer: '' }]; }
             var pairsHtml = '';
-            pairs.forEach(function(pair, pi) { pairsHtml += buildPairEditRow(pair, pi); });
+            pairs.forEach(function (pair, pi) { pairsHtml += buildPairEditRow(pair, pi); });
             typeBodyHtml =
                 '<div class="aiquizmaker-edit-field">' +
                 '<label>Match Pairs: <span class="aiquizmaker-field-hint">(each row is one term and its matching answer)</span></label>' +
@@ -2703,12 +2703,12 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 groups = rawOpts;
             } else {
                 // Object keyed by group number (1-based)  -  convert to ordered array
-                var gkeys = Object.keys(rawOpts).map(Number).sort(function(a, b) { return a - b; });
-                gkeys.forEach(function(k) { groups.push(rawOpts[k]); });
+                var gkeys = Object.keys(rawOpts).map(Number).sort(function (a, b) { return a - b; });
+                gkeys.forEach(function (k) { groups.push(rawOpts[k]); });
             }
             if (groups.length === 0) { groups = [['']]; }
             var groupsHtml = '';
-            groups.forEach(function(grp, gi) { groupsHtml += buildGapGroupEditBlock(grp, gi); });
+            groups.forEach(function (grp, gi) { groupsHtml += buildGapGroupEditBlock(grp, gi); });
             typeBodyHtml =
                 '<div class="aiquizmaker-edit-field">' +
                 '<label>Gap Groups: <span class="aiquizmaker-field-hint">(the first option in each group is the correct answer; add distractors below it)</span></label>' +
@@ -2723,7 +2723,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             var accepted = Array.isArray(q.acceptedAnswers) ? q.acceptedAnswers.slice() : [];
             if (accepted.length === 0) { accepted = ['']; }
             var answersHtml = '';
-            accepted.forEach(function(ans, ai) { answersHtml += buildAnswerEditRow(ans, ai); });
+            accepted.forEach(function (ans, ai) { answersHtml += buildAnswerEditRow(ans, ai); });
             typeBodyHtml =
                 '<div class="aiquizmaker-edit-field">' +
                 '<label>Fill-in-the-Blank Sentence: <span class="aiquizmaker-field-hint">(use ___ for the blank  -  shown below the question)</span></label>' +
@@ -2763,25 +2763,25 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         $('body').append(modalHtml);
 
         // --- Common close handlers ---
-        $('#close-edit-modal, #cancel-edit-modal').on('click', function() {
+        $('#close-edit-modal, #cancel-edit-modal').on('click', function () {
             $('#edit-modal-overlay').remove();
         });
-        $('#edit-modal-overlay').on('click', function(e) {
+        $('#edit-modal-overlay').on('click', function (e) {
             if (e.target === this) { $('#edit-modal-overlay').remove(); }
         });
-        $('#save-edit-modal').on('click', function() {
+        $('#save-edit-modal').on('click', function () {
             saveQuestionEdit(parseInt($(this).data('idx'), 10));
         });
 
         // --- Essay-specific handlers ---
         if (qtype === 'essay') {
-            $('#add-rubric-btn').on('click', function() {
+            $('#add-rubric-btn').on('click', function () {
                 var newIdx = $('.aiquizmaker-edit-rubric-row').length;
                 $('#edit-rubric-container').append(buildRubricEditRow({ marks: 1, description: '' }, newIdx));
                 updateEditModalTotalMarks();
                 $('#edit-rubric-container .aiquizmaker-edit-rubric-row:last .aiquizmaker-edit-rubric-desc').focus();
             });
-            $('#edit-rubric-container').on('click', '.aiquizmaker-remove-rubric-btn', function() {
+            $('#edit-rubric-container').on('click', '.aiquizmaker-remove-rubric-btn', function () {
                 if ($('.aiquizmaker-edit-rubric-row').length <= 1) {
                     showAlert('warning', 'Cannot Remove', 'At least one marking criterion is required.');
                     return;
@@ -2790,18 +2790,18 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 reindexRubricRows();
                 updateEditModalTotalMarks();
             });
-            $('#edit-rubric-container').on('change', '.aiquizmaker-edit-rubric-marks', function() {
+            $('#edit-rubric-container').on('change', '.aiquizmaker-edit-rubric-marks', function () {
                 updateEditModalTotalMarks();
             });
         }
 
         // --- MCQ-specific handlers ---
         if (qtype === 'multichoice') {
-            $('#add-choice-btn').on('click', function() {
+            $('#add-choice-btn').on('click', function () {
                 var count = $('#edit-choices-container .aiquizmaker-edit-choice-row').length;
                 $('#edit-choices-container').append(buildChoiceEditRow({ text: '', isCorrect: false, feedback: '' }, count, count + 1));
             });
-            $('#edit-choices-container').on('click', '.aiquizmaker-remove-choice-btn', function() {
+            $('#edit-choices-container').on('click', '.aiquizmaker-remove-choice-btn', function () {
                 if ($('#edit-choices-container .aiquizmaker-edit-choice-row').length <= 2) {
                     showAlert('warning', 'Cannot Remove', 'At least two answer choices are required.');
                     return;
@@ -2813,11 +2813,11 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // --- Matching-specific handlers ---
         if (qtype === 'matching') {
-            $('#add-pair-btn').on('click', function() {
+            $('#add-pair-btn').on('click', function () {
                 var count = $('#edit-pairs-container .aiquizmaker-edit-pair-row').length;
                 $('#edit-pairs-container').append(buildPairEditRow({ subquestion: '', subanswer: '' }, count));
             });
-            $('#edit-pairs-container').on('click', '.aiquizmaker-remove-pair-btn', function() {
+            $('#edit-pairs-container').on('click', '.aiquizmaker-remove-pair-btn', function () {
                 if ($('#edit-pairs-container .aiquizmaker-edit-pair-row').length <= 2) {
                     showAlert('warning', 'Cannot Remove', 'At least two pairs are required for matching questions.');
                     return;
@@ -2828,7 +2828,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         // --- Gapselect-specific handlers ---
         if (qtype === 'gapselect') {
-            $('#edit-gap-groups').on('click', '.aiquizmaker-add-gap-opt-btn', function() {
+            $('#edit-gap-groups').on('click', '.aiquizmaker-add-gap-opt-btn', function () {
                 var gi    = parseInt($(this).data('group'), 10);
                 var group = $(this).closest('.aiquizmaker-edit-gap-group');
                 var count = group.find('.aiquizmaker-edit-gap-option').length;
@@ -2842,18 +2842,18 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                     '</div>';
                 group.find('.aiquizmaker-edit-gap-options').append(newOpt);
             });
-            $('#edit-gap-groups').on('click', '.aiquizmaker-remove-gap-opt-btn', function() {
+            $('#edit-gap-groups').on('click', '.aiquizmaker-remove-gap-opt-btn', function () {
                 $(this).closest('.aiquizmaker-edit-gap-option').remove();
             });
         }
 
         // --- Shortanswer-specific handlers ---
         if (qtype === 'shortanswer') {
-            $('#add-answer-btn').on('click', function() {
+            $('#add-answer-btn').on('click', function () {
                 var count = $('#edit-answers-container .aiquizmaker-edit-answer-row').length;
                 $('#edit-answers-container').append(buildAnswerEditRow('', count));
             });
-            $('#edit-answers-container').on('click', '.aiquizmaker-remove-answer-btn', function() {
+            $('#edit-answers-container').on('click', '.aiquizmaker-remove-answer-btn', function () {
                 if ($('#edit-answers-container .aiquizmaker-edit-answer-row').length <= 1) {
                     showAlert('warning', 'Cannot Remove', 'At least one accepted answer is required.');
                     return;
@@ -2884,7 +2884,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         if (qtype === 'essay') {
             var newRubric = [];
-            $('.aiquizmaker-edit-rubric-row').each(function() {
+            $('.aiquizmaker-edit-rubric-row').each(function () {
                 var marks       = parseInt($(this).find('.aiquizmaker-edit-rubric-marks').val(), 10) || 1;
                 var description = $(this).find('.aiquizmaker-edit-rubric-desc').val().trim();
                 if (description) { newRubric.push({ marks: marks, description: description }); }
@@ -2894,14 +2894,14 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 return;
             }
             q.rubric     = newRubric;
-            q.totalMarks = newRubric.reduce(function(sum, r) { return sum + r.marks; }, 0);
+            q.totalMarks = newRubric.reduce(function (sum, r) { return sum + r.marks; }, 0);
 
         } else if (qtype === 'multichoice') {
             var $radios    = $('input[name="edit-mc-correct"]');
             var $checked   = $radios.filter(':checked');
             var correctIdx = $radios.index($checked); // DOM position = correct choice index
             var newChoices = [];
-            $('#edit-choices-container .aiquizmaker-edit-choice-row').each(function(ci) {
+            $('#edit-choices-container .aiquizmaker-edit-choice-row').each(function (ci) {
                 newChoices.push({
                     text:      $(this).find('.aiquizmaker-edit-choice-text').val().trim(),
                     isCorrect: (ci === correctIdx),
@@ -2912,7 +2912,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 showAlert('warning', 'Cannot Save', 'At least two answer choices are required.');
                 return;
             }
-            if (correctIdx < 0 || !newChoices.some(function(c) { return c.isCorrect; })) {
+            if (correctIdx < 0 || !newChoices.some(function (c) { return c.isCorrect; })) {
                 showAlert('warning', 'Cannot Save', 'Please select a correct answer by clicking a radio button.');
                 return;
             }
@@ -2934,7 +2934,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         } else if (qtype === 'matching') {
             var newPairs = [];
-            $('#edit-pairs-container .aiquizmaker-edit-pair-row').each(function() {
+            $('#edit-pairs-container .aiquizmaker-edit-pair-row').each(function () {
                 var sq = $(this).find('.aiquizmaker-edit-pair-subquestion').val().trim();
                 var sa = $(this).find('.aiquizmaker-edit-pair-subanswer').val().trim();
                 if (sq || sa) { newPairs.push({ subquestion: sq, subanswer: sa }); }
@@ -2949,9 +2949,9 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         } else if (qtype === 'gapselect') {
             var newGroups = [];
-            $('#edit-gap-groups .aiquizmaker-edit-gap-group').each(function() {
+            $('#edit-gap-groups .aiquizmaker-edit-gap-group').each(function () {
                 var opts = [];
-                $(this).find('.aiquizmaker-edit-gap-opt-text').each(function() {
+                $(this).find('.aiquizmaker-edit-gap-opt-text').each(function () {
                     var v = $(this).val().trim();
                     if (v) { opts.push(v); }
                 });
@@ -2980,7 +2980,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
 
         } else if (qtype === 'shortanswer') {
             var newAnswers = [];
-            $('#edit-answers-container .aiquizmaker-edit-answer-row').each(function() {
+            $('#edit-answers-container .aiquizmaker-edit-answer-row').each(function () {
                 var v = $(this).find('.aiquizmaker-edit-answer-text').val().trim();
                 if (v) { newAnswers.push(v); }
             });
@@ -3067,7 +3067,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 data: postData,
                 dataType: 'json',
                 timeout: 120000
-            }).done(function(response) {
+            }).done(function (response) {
                 btn.prop('disabled', false).removeClass('is-loading');
                 if (response.success && response.questions && response.questions.length > 0) {
                     var regenerated = response.questions[0];
@@ -3085,7 +3085,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 } else {
                     showAlert('error', 'Error', response.error || 'Failed to regenerate question.');
                 }
-            }).fail(function() {
+            }).fail(function () {
                 btn.prop('disabled', false).removeClass('is-loading');
                 showAlert('error', 'Error', 'Connection failed. Please try again.');
             });
@@ -3123,7 +3123,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 },
                 dataType: 'json',
                 timeout: 120000
-            }).done(function(response) {
+            }).done(function (response) {
                 btn.prop('disabled', false).removeClass('is-loading');
                 if (response.success && response.question) {
                     // v3.16.38: ALWAYS use the ORIGINAL criteriaReference  -  the AI may return the
@@ -3141,7 +3141,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 } else {
                     showAlert('error', 'Error', response.error || 'Failed to regenerate question.');
                 }
-            }).fail(function() {
+            }).fail(function () {
                 btn.prop('disabled', false).removeClass('is-loading');
                 showAlert('error', 'Error', 'Connection failed. Please try again.');
             });
@@ -3160,7 +3160,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
         var originalHtml = btn.html();
         btn.html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> ' + strings.copied);
 
-        setTimeout(function() {
+        setTimeout(function () {
             btn.html(originalHtml);
         }, 2000);
     }
@@ -3178,12 +3178,12 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 10000
-        }).done(function(response) {
+        }).done(function (response) {
             if (response.ok && response.settings && response.settings.extraInstructions) {
                 $('#aiquizmaker-extra-instructions').val(response.settings.extraInstructions);
                 log('Loaded saved extra instructions');
             }
-        }).fail(function() {
+        }).fail(function () {
             log('Failed to load extra instructions (may not exist yet)');
         });
     }
@@ -3209,7 +3209,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             },
             dataType: 'json',
             timeout: 10000
-        }).done(function(response) {
+        }).done(function (response) {
             btn.prop('disabled', false);
             if (response.ok) {
                 statusEl.text('Saved').removeClass('is-error').addClass('is-visible');
@@ -3218,13 +3218,13 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 statusEl.text('Failed to save').addClass('is-error is-visible');
                 log('Failed to save extra instructions:', response.error);
             }
-            setTimeout(function() {
+            setTimeout(function () {
                 statusEl.removeClass('is-visible');
             }, 3000);
-        }).fail(function() {
+        }).fail(function () {
             btn.prop('disabled', false);
             statusEl.text('Failed to save').addClass('is-error is-visible');
-            setTimeout(function() {
+            setTimeout(function () {
                 statusEl.removeClass('is-visible');
             }, 3000);
         });
@@ -3283,7 +3283,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
             {key: 'generate', component: 'local_aiquizmaker'},
             {key: 'chatgpt_topic_required', component: 'local_aiquizmaker'},
             {key: 'chatgpt_copied', component: 'local_aiquizmaker'}
-        ]).then(function(results) {
+        ]).then(function (results) {
             strings.processing = results[0];
             strings.generating = results[1];
             strings.error_connection = results[2];
@@ -3340,11 +3340,11 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
          * Initialize the AI Quiz Maker module.
          * @param {Object} cfg Configuration object.
          */
-        init: function(cfg) {
+        init: function (cfg) {
             config = cfg;
             log('Initializing with config:', config);
 
-            loadStrings().then(function() {
+            loadStrings().then(function () {
                 log('Strings loaded');
                 fetchCredits();
                 fetchIndustries();
@@ -3357,13 +3357,13 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 }
 
                 // Update states when country changes
-                $(document).on('change', '#country-select', function() {
+                $(document).on('change', '#country-select', function () {
                     var country = $(this).val();
                     updateStateDropdown(country);
                 });
 
                 // Update job level checkboxes AND job title panel when industry changes.
-                $(document).on('change', '#industry-select', function() {
+                $(document).on('change', '#industry-select', function () {
                     var industry = $(this).val();
                     updateJobLevelCheckboxes(industry);
                     // Show all titles for this industry (no level filter yet).
@@ -3371,29 +3371,29 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // Update job title panel when any job level checkbox changes.
-                $(document).on('change', 'input[name="job_level[]"]', function() {
+                $(document).on('change', 'input[name="job_level[]"]', function () {
                     var industry = $('#industry-select').val();
                     var selectedLevels = getSelectedJobLevels();
                     updateJobTitlePanel(industry, selectedLevels);
                 });
 
                 // Filter job title checkboxes as user types in search box.
-                $(document).on('input', '#job-title-search', function() {
+                $(document).on('input', '#job-title-search', function () {
                     filterJobTitles($(this).val());
                 });
 
                 // Select All visible job title checkboxes.
-                $(document).on('click', '#job-title-select-all', function() {
+                $(document).on('click', '#job-title-select-all', function () {
                     $('#job-title-checkboxes .aiquizmaker-role-item:visible input[type="checkbox"]').prop('checked', true);
                 });
 
                 // Clear All job title checkboxes.
-                $(document).on('click', '#job-title-clear-all', function() {
+                $(document).on('click', '#job-title-clear-all', function () {
                     $('#job-title-checkboxes input[name="job_title[]"]').prop('checked', false);
                 });
 
                 // Handle education type switching
-                $(document).on('change', '#education-type-select', function() {
+                $(document).on('change', '#education-type-select', function () {
                     var educationType = $(this).val();
                     if (educationType === 'academic') {
                         // Show academic fields, hide VET fields
@@ -3411,37 +3411,37 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // Bulk add criteria button
-                $(document).on('click', '#bulk-add-btn', function() {
+                $(document).on('click', '#bulk-add-btn', function () {
                     bulkAddCriteria();
                 });
 
                 // Apply to All button - set question count for all criteria
-                $(document).on('click', '#apply-all-btn', function() {
+                $(document).on('click', '#apply-all-btn', function () {
                     applyCountToAll();
                 });
 
                 // Auto-cleanup pasted text in bulk criteria textarea
-                $(document).on('paste', '#bulk-criteria-input', function(e) {
+                $(document).on('paste', '#bulk-criteria-input', function (e) {
                     var textarea = $(this);
                     // Use setTimeout to let the paste complete first
-                    setTimeout(function() {
+                    setTimeout(function () {
                         var cleaned = cleanupPastedText(textarea.val());
                         textarea.val(cleaned);
                     }, 0);
                 });
 
                 // Extract Criteria from pasted content button
-                $(document).on('click', '#extract-criteria-btn', function() {
+                $(document).on('click', '#extract-criteria-btn', function () {
                     extractCriteriaFromContent();
                 });
 
                 // Clear pasted content button
-                $(document).on('click', '#clear-content-btn', function() {
+                $(document).on('click', '#clear-content-btn', function () {
                     $('#pasted-content-input').val('').trigger('focus');
                 });
 
                 // ChatGPT Prompt Helper  -  toggle expand/collapse.
-                $(document).on('click keypress', '#prompt-helper-toggle', function(e) {
+                $(document).on('click keypress', '#prompt-helper-toggle', function (e) {
                     if (e.type === 'keypress' && e.which !== 13 && e.which !== 32) return;
                     var body = $('#prompt-helper-body');
                     var chevron = $('#prompt-helper-chevron');
@@ -3453,7 +3453,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // ChatGPT Prompt Helper  -  generate the prompt.
-                $(document).on('click', '#prompt-helper-generate-btn', function() {
+                $(document).on('click', '#prompt-helper-generate-btn', function () {
                     var topic = $.trim($('#prompt-helper-topic').val());
                     if (!topic) {
                         $('#prompt-helper-topic').focus();
@@ -3472,14 +3472,14 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // ChatGPT Prompt Helper  -  copy to clipboard.
-                $(document).on('click', '#prompt-helper-copy-btn', function() {
+                $(document).on('click', '#prompt-helper-copy-btn', function () {
                     var text = $('#prompt-helper-result').val();
                     if (!text) return;
                     var msg = $('#prompt-helper-copied-msg');
                     if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(text).then(function() {
+                        navigator.clipboard.writeText(text).then(function () {
                             msg.text(strings.chatgpt_copied || 'Copied!').show();
-                            setTimeout(function() { msg.fadeOut(); }, 2500);
+                            setTimeout(function () { msg.fadeOut(); }, 2500);
                         });
                     } else {
                         // Fallback for older browsers.
@@ -3488,20 +3488,20 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                         try {
                             document.execCommand('copy');
                             msg.text(strings.chatgpt_copied || 'Copied!').show();
-                            setTimeout(function() { msg.fadeOut(); }, 2500);
+                            setTimeout(function () { msg.fadeOut(); }, 2500);
                         } catch (err) { /* silent */ }
                     }
                 });
 
-                $(document).on('click', '#add-criteria-btn', function() {
+                $(document).on('click', '#add-criteria-btn', function () {
                     addCriteriaRow();
                 });
 
-                $(document).on('click', '.aiquizmaker-remove-criteria', function() {
+                $(document).on('click', '.aiquizmaker-remove-criteria', function () {
                     removeCriteriaRow($(this).closest('.aiquizmaker-criteria-row'));
                 });
 
-                $(document).on('submit', '#aiquizmaker-form', function(e) {
+                $(document).on('submit', '#aiquizmaker-form', function (e) {
                     e.preventDefault();
                     if (currentInputMode === 'ownquestions') {
                         generateFromOwnQuestions();
@@ -3511,64 +3511,64 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // Input mode tab switching.
-                $(document).on('click', '.aiquizmaker-mode-tab', function() {
+                $(document).on('click', '.aiquizmaker-mode-tab', function () {
                     var mode = $(this).data('mode');
                     if (mode) {
                         switchInputMode(mode);
                     }
                 });
 
-                $(document).on('click', '#copy-xml-btn', function() {
+                $(document).on('click', '#copy-xml-btn', function () {
                     copyXmlToClipboard();
                 });
 
                 // Download XML button
-                $(document).on('click', '#download-xml-btn', function() {
+                $(document).on('click', '#download-xml-btn', function () {
                     downloadXml();
                 });
 
                 // Download Excel mapping buttons (both in Excel section and inline in success message)
-                $(document).on('click', '#download-excel-btn, #download-excel-inline-btn', function() {
+                $(document).on('click', '#download-excel-btn, #download-excel-inline-btn', function () {
                     downloadExcel();
                 });
 
                 // Create questions in Moodle button
-                $(document).on('click', '#create-questions-btn', function() {
+                $(document).on('click', '#create-questions-btn', function () {
                     var categoryId = $('#question-category-select').val();
                     createQuestionsInMoodle(categoryId);
                 });
 
                 // Add to quiz button (for quiz context)
-                $(document).on('click', '#add-to-quiz-btn', function() {
+                $(document).on('click', '#add-to-quiz-btn', function () {
                     addQuestionsToQuiz();
                 });
 
                 // Fix 1: Individual question selection checkbox  ->  update button label
-                $(document).on('change', '.aiquizmaker-question-checkbox', function() {
+                $(document).on('change', '.aiquizmaker-question-checkbox', function () {
                     updateAddToQuizButtonLabel();
                 });
 
                 // Fix 1: Select all / none toggle
-                $(document).on('change', '#aiquizmaker-select-all-chk', function() {
+                $(document).on('change', '#aiquizmaker-select-all-chk', function () {
                     var checked = $(this).is(':checked');
                     $('.aiquizmaker-question-checkbox').prop('checked', checked);
                     updateAddToQuizButtonLabel();
                 });
 
                 // Edit question button
-                $(document).on('click', '.aiquizmaker-edit-question-btn', function() {
+                $(document).on('click', '.aiquizmaker-edit-question-btn', function () {
                     var idx = parseInt($(this).data('idx'), 10);
                     openEditModal(idx);
                 });
 
                 // Regenerate question button
-                $(document).on('click', '.aiquizmaker-regenerate-btn', function() {
+                $(document).on('click', '.aiquizmaker-regenerate-btn', function () {
                     var idx = parseInt($(this).data('idx'), 10);
                     regenerateQuestion(idx);
                 });
 
                 // Workplace context toggle - show/hide fields
-                $(document).on('change', '#workplace-context-toggle', function() {
+                $(document).on('change', '#workplace-context-toggle', function () {
                     var isChecked = $(this).is(':checked');
                     var fieldsContainer = $('#workplace-context-fields');
                     if (isChecked) {
@@ -3580,18 +3580,18 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 });
 
                 // Question type checkboxes  -  show/hide format sections when types change
-                $(document).on('change', '.aiquizmaker-qtype-check', function() {
+                $(document).on('change', '.aiquizmaker-qtype-check', function () {
                     updateFormatSectionsVisibility();
                 });
 
                 // Extra AI Instructions section toggle
-                $(document).on('click', '#aiquizmaker-instructions-toggle', function() {
+                $(document).on('click', '#aiquizmaker-instructions-toggle', function () {
                     var section = $(this).closest('.aiquizmaker-instructions-section');
                     section.toggleClass('is-collapsed');
                 });
 
                 // Save extra instructions button
-                $(document).on('click', '#aiquizmaker-save-instructions', function() {
+                $(document).on('click', '#aiquizmaker-save-instructions', function () {
                     saveExtraInstructions();
                 });
 
@@ -3602,7 +3602,7 @@ define(['jquery', 'core/str', 'core/notification'], function($, Str, Notificatio
                 updateFormatSectionsVisibility();
 
                 log('Initialization complete');
-            }).catch(function(error) {
+            }).catch(function (error) {
                 Notification.exception(error);
             });
         }

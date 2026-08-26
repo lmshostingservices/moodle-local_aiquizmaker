@@ -52,6 +52,22 @@ class before_footer_html_generation {
         // Get the quiz ID from the URL.
         $cmid = optional_param('cmid', 0, PARAM_INT);
 
+        // FIX-AIQM-NONEDITING-TEACHER (v3.16.94): require the right to author questions in
+        // this quiz before offering the button, for the same reason as lib.php. A page id
+        // that will not resolve to a quiz gets no button rather than an unchecked one.
+        if (!$cmid) {
+            return;
+        }
+        try {
+            $modcontext = \context_module::instance($cmid);
+        } catch (\Throwable $e) {
+            unset($e);
+            return;
+        }
+        if (!has_capability('mod/quiz:manage', $modcontext)) {
+            return;
+        }
+
         // Load the quiz button JavaScript module.
         $PAGE->requires->js_call_amd('local_aiquizmaker/quizbutton', 'init', [[
             'cmid' => $cmid,

@@ -26,11 +26,24 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
     // Capability to use the AI Quiz Maker.
+    // FIX-AIQM-NONEDITING-TEACHER (v3.16.94): 'teacher' removed from the archetypes.
+    //
+    // This capability gates a question-AUTHORING tool: it writes into the question bank and
+    // adds questions to a quiz. The non-editing teacher archetype is a marking role -- it
+    // holds no moodle/question:add and no mod/quiz:manage -- so granting it here handed a
+    // course tab to people who could open the tool but could not have used anything it
+    // produced.
+    //
+    // Removing the archetype only changes roles created (or archetype-reset) after this
+    // upgrade; a site that has already granted it keeps the grant. That is deliberate, and it
+    // is why the tool's entry points now ALSO require an authoring capability in the real
+    // context -- see lib.php, the footer hook and index.php. Both halves are needed: the
+    // archetype stops new sites handing it out, the context check stops existing ones showing
+    // a tab that cannot do anything.
     'local/aiquizmaker:use' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
         ],
