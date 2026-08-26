@@ -2,6 +2,24 @@
 
 All notable changes to this plugin will be documented in this file.
 
+## [3.16.96] - 2026-08-26
+
+### Fixed
+- **The navigation gate added in 3.16.95 ran an expensive query on every page.**
+  `local_aiquizmaker_extend_navigation()` fires on every page render, and it was calling
+  `get_user_capability_course('moodle/question:add')`, which walks every course the user can
+  reach — for a site administrator, every course on the site. That cost was paid on every page
+  view by every teacher and manager.
+
+  The callback is already handed the current context. Inside a course or an activity — the only
+  place the link is any use — `has_capability()` now answers from the access cache with no query
+  at all. Above course level there is nothing specific to ask, so `local/aiquizmaker:use` alone
+  decides whether the link is offered and `index.php` performs the real authoring check when it
+  is followed. `index.php` still uses the broader test, where it runs once on a page the user
+  chose to open.
+
+  No change to who can reach the tool.
+
 ## [3.16.95] - 2026-08-26
 
 ### Fixed - Marketplace pipeline compliance

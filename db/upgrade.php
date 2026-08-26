@@ -40,8 +40,8 @@ function xmldb_local_aiquizmaker_upgrade($oldversion) {
     // made that choice on purpose -- so there is no capability rewrite here. The tool's entry
     // points now require an authoring capability in the context they act on, which takes
     // effect regardless of role data. Savepoint only.
-    if ($oldversion < 2026082602) {
-        upgrade_plugin_savepoint(true, 2026082602, 'local', 'aiquizmaker');
+    if ($oldversion < 2026082603) {
+        upgrade_plugin_savepoint(true, 2026082603, 'local', 'aiquizmaker');
     }
 
     return true;

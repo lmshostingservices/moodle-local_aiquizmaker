@@ -53,10 +53,23 @@ function local_aiquizmaker_extend_navigation(navigation_node $navigation, $cours
         return;
     }
 
-    // FIX-AIQM-NONEDITING-TEACHER (v3.16.94): and only for someone who can author questions
-    // somewhere. A marking role has no use for a question generator.
-    if (empty(get_user_capability_course('moodle/question:add', null, true))) {
-        return;
+    // FIX-AIQM-NONEDITING-TEACHER (v3.16.95): and only for someone who can author questions
+    // where they are standing. A marking role has no use for a question generator.
+    //
+    // This callback fires on EVERY page, so the test has to be cheap. When Moodle hands us a
+    // course or module context -- which it does for every page inside a course, the only place
+    // this node is of any use -- has_capability() answers from the access cache with no query
+    // at all. Above course level there is nothing specific to ask about, so :use alone decides
+    // whether the link is offered, and index.php performs the real authoring check when the
+    // link is followed.
+    //
+    // get_user_capability_course() would answer the broader question honestly, but it walks
+    // every course the user can reach and would run on every page render of the site. It is
+    // used in index.php instead, where it runs once, on a page the user chose to open.
+    if ($context instanceof context_course || $context instanceof context_module) {
+        if (!has_capability('moodle/question:add', $context)) {
+            return;
+        }
     }
 
     // Add link to site navigation.
