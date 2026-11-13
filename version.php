@@ -437,8 +437,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_aiquizmaker';
-$plugin->version   = 2026082603;
+$plugin->version   = 2026111300;
 $plugin->requires = 2022041900; // Moodle 4.0+.
 $plugin->supported  = [400, 500];  // Moodle 4.0 to 5.x
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release   = '3.16.96'; // FIX-AIQM-NONEDITING-TEACHER: the AI Quiz Maker tab, the quiz-edit button, the site navigation link and index.php were all gated on local/aiquizmaker:use in the SYSTEM context alone, and that capability was granted to the non-editing teacher archetype. A marking role therefore got a question-authoring tool it holds no moodle/question:add or mod/quiz:manage to use. 'teacher' removed from the archetypes, and every entry point now also requires an authoring capability in the real context (mod/quiz:manage for a quiz, moodle/question:add in some course otherwise). PHP-only change to db/access.php, lib.php, classes/hook/before_footer_html_generation.php and index.php. No AMD, CSS or DB schema changes.
+$plugin->release   = '3.16.97'; // FIX-AIQM-NONEDITING-TEACHER: the AI Quiz Maker tab, the quiz-edit button, the site navigation link and index.php were all gated on local/aiquizmaker:use in the SYSTEM context alone, and that capability was granted to the non-editing teacher archetype. A marking role therefore got a question-authoring tool it holds no moodle/question:add or mod/quiz:manage to use. 'teacher' removed from the archetypes, and every entry point now also requires an authoring capability in the real context (mod/quiz:manage for a quiz, moodle/question:add in some course otherwise). PHP-only change to db/access.php, lib.php, classes/hook/before_footer_html_generation.php and index.php. No AMD, CSS or DB schema changes.

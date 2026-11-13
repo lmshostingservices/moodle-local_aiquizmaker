@@ -1860,6 +1860,17 @@ require_login();
         }
 
         $data = json_decode($res['body'], true);
+        // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
+        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+            \local_clientportal\api::record_lmslabs_call(
+                (int)$USER->id,
+                (int)$context->id,
+                'local_aiquizmaker',
+                $data,
+                is_array($data) && isset($data['questions']) ? count((array)$data['questions']) : 0,
+                'Essay questions'
+            );
+        }
 
         if (!$data) {
             aiquizmaker_send_response([
@@ -2240,6 +2251,17 @@ require_login();
         }
 
         $data = json_decode($res['body'], true);
+        // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
+        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+            \local_clientportal\api::record_lmslabs_call(
+                (int)$USER->id,
+                (int)$context->id,
+                'local_aiquizmaker',
+                $data,
+                is_array($data) && isset($data['questions']) ? count((array)$data['questions']) : 0,
+                'Questions from your own list'
+            );
+        }
 
         if (!$data) {
             aiquizmaker_send_response([
@@ -2895,6 +2917,17 @@ require_login();
         }
 
         $data = json_decode($res['body'], true);
+        // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
+        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+            \local_clientportal\api::record_lmslabs_call(
+                (int)$USER->id,
+                (int)$context->id,
+                'local_aiquizmaker',
+                $data,
+                0,
+                'Criteria extraction'
+            );
+        }
 
         if (!$data || !isset($data['ok']) || !$data['ok'] || !isset($data['criteria'])) {
             aiquizmaker_send_response([
@@ -3017,6 +3050,17 @@ require_login();
         }
         
         $data = json_decode($res['body'], true);
+        // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
+        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+            \local_clientportal\api::record_lmslabs_call(
+                (int)$USER->id,
+                (int)$context->id,
+                'local_aiquizmaker',
+                $data,
+                is_array($data) && isset($data['questions']) ? count((array)$data['questions']) : 0,
+                'Essay questions'
+            );
+        }
         
         if (!$data || !isset($data['ok']) || !$data['ok'] || !isset($data['questions']) || count($data['questions']) === 0) {
             aiquizmaker_send_response([
