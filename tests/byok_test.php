@@ -46,7 +46,7 @@ final class byok_test extends \advanced_testcase {
         set_config('testpublickey', base64_encode(sodium_crypto_sign_publickey($pair)), 'local_aiconfig');
         $payload = json_encode(['v' => 1, 'id' => 'lic_t', 'site' => \local_aiconfig\byok\licence::site_host(),
             'plan' => 'pro', 'byok' => true, 'products' => ['*'], 'sub' => 'sub_t', 'exp' => time() + DAYSECS]);
-        $b64 = function(string $s): string {
+        $b64 = function (string $s): string {
             return rtrim(strtr(base64_encode($s), '+/', '-_'), '=');
         };
         set_config('licencekey', $b64($payload) . '.' .
@@ -71,7 +71,7 @@ final class byok_test extends \advanced_testcase {
      */
     protected function answer(?array $answer): void {
         $this->requests = [];
-        $GLOBALS['local_aiconfig_byok_mock'] = function($url, $headers, $body) use ($answer) {
+        $GLOBALS['local_aiconfig_byok_mock'] = function ($url, $headers, $body) use ($answer) {
             $this->requests[] = $body;
             if ($answer === null) {
                 throw new \moodle_exception('byok_providererror', 'local_aiconfig', '', 'Overloaded');
@@ -119,8 +119,10 @@ final class byok_test extends \advanced_testcase {
 
     public function test_extract_criteria_keeps_only_text(): void {
         $this->answer(['criteria' => ['Demonstrate correct use of PPE', '', 7]]);
-        $data = json_decode(byok::handle('https://lms-labs.com/api/extract-criteria',
-            ['pastedContent' => 'GOOD: uses PPE', 'educationType' => 'vet'])['body'], true);
+        $data = json_decode(byok::handle(
+            'https://lms-labs.com/api/extract-criteria',
+            ['pastedContent' => 'GOOD: uses PPE', 'educationType' => 'vet']
+        )['body'], true);
         $this->assertTrue($data['ok']);
         $this->assertSame(['Demonstrate correct use of PPE'], $data['criteria']);
     }

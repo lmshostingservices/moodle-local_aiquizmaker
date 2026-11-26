@@ -441,4 +441,4 @@ $plugin->version   = 2026112600;
 $plugin->requires = 2022041900; // Moodle 4.0+.
 $plugin->supported  = [400, 500];  // Moodle 4.0 to 5.x
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release   = '3.17.0'; // BYOK: with a Bring your own AI licence, questions are written on the site's own AI (see CHANGELOG.md).
+$plugin->release   = '3.17.0'; // Bring your own AI: questions written on the site's own AI.

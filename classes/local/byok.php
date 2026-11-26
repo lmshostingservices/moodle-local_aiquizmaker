@@ -148,20 +148,26 @@ class byok {
     public static function extract_criteria(array $p): array {
         $pastedcontent = (string) ($p['pastedContent'] ?? '');
         $isacademic = ($p['educationType'] ?? 'vet') === 'academic';
-        $rules = <<<'EOT'
-
-You are NOT extracting or copying. You are INTERPRETING the content as a whole and GENERATING formal, assessable competency criteria written in standardised criteria language.
+        $rules = '
+You are NOT extracting or copying. You are INTERPRETING the content as a whole and GENERATING formal, assessable competency ' .
+            'criteria written in standardised criteria language.
 
 ABSOLUTE RULES — failure to follow any of these is a wrong answer:
 1. Read the ENTIRE pasted content first to understand the intent, skills, knowledge and outcomes it implies.
 2. Do NOT copy any text from the source. Do not echo phrases, headings, bullet labels, examples, or rubric markers.
-3. Do NOT include source-formatting tokens such as "GOOD", "BAD", "GOOD 1", "BAD 1", "Example:", "Note:", numbered list prefixes, dot points, or any heading text from the source.
+3. Do NOT include source-formatting tokens such as "GOOD", "BAD", "GOOD 1", "BAD 1", "Example:", "Note:", numbered list ' .
+            'prefixes, dot points, or any heading text from the source.
 4. Do NOT preserve source codes/identifiers (e.g. "KE1.1", "PC2.3", "LO1", "1.1"). Generate clean criteria text only.
 5. Do NOT summarise the content. This is not a summary — each criterion is a discrete assessable statement.
-6. Each criterion MUST start with an assessable competency verb such as: Identify, Demonstrate, Apply, Evaluate, Analyse, Describe, Explain, Implement, Comply with, Follow, Use, Perform, Communicate, Document, Maintain, Monitor, Assess, Plan, Prepare, Review.
-7. Each criterion MUST describe ONE of: a skill, a knowledge requirement, or a measurable action — written as something a learner can be assessed against.
+6. Each criterion MUST start with an assessable competency verb such as: Identify, Demonstrate, Apply, Evaluate, Analyse, ' .
+            'Describe, Explain, Implement, Comply with, Follow, Use, Perform, Communicate, Document, Maintain, Monitor, ' .
+            'Assess, Plan, Prepare, Review.
+7. Each criterion MUST describe ONE of: a skill, a knowledge requirement, or a measurable action — written as something a ' .
+            'learner can be assessed against.
 8. Each criterion MUST be a complete, self-contained, formal statement that reads like a published competency standard.
-9. If the source content contains both desirable and undesirable behaviour examples (e.g. "GOOD: uses PPE / BAD: ignores safety"), CONVERT them into the underlying positive competency requirement (e.g. "Demonstrate correct use of personal protective equipment in accordance with workplace safety procedures").
+9. If the source content contains both desirable and undesirable behaviour examples (e.g. "GOOD: uses PPE / BAD: ignores ' .
+            'safety"), CONVERT them into the underlying positive competency requirement (e.g. "Demonstrate correct use of ' .
+            'personal protective equipment in accordance with workplace safety procedures").
 10. Output ONLY valid JSON in the form {"criteria": ["...","..."]} — no commentary, no preamble, no markdown.
 
 LENGTH AND COUNT:
@@ -169,29 +175,35 @@ LENGTH AND COUNT:
 - Each criterion: 60 to 220 characters, formal English, no abbreviations of common words.
 
 WORKED EXAMPLE — illustrative only, do not copy this wording:
-Source: "GOOD: Uses PPE correctly\nBAD: Doesn't follow safety rules"
+Source: "GOOD: Uses PPE correctly\\nBAD: Doesn\'t follow safety rules"
 Correct output:
 {"criteria":[
   "Demonstrate correct use of personal protective equipment (PPE) in accordance with workplace safety procedures",
   "Follow established workplace health and safety procedures at all times"
 ]}
-INCORRECT output (do NOT do this): {"criteria":["GOOD 1","BAD 1"]}
-EOT;
+INCORRECT output (do NOT do this): {"criteria":["GOOD 1","BAD 1"]}';
         if ($isacademic) {
             $system = 'You generate formal academic learning outcomes / assessment criteria from arbitrary learning content '
-                . '(lecture notes, course outlines, readings, rubrics, examples). You do not extract or copy — you interpret '
-                . 'and rewrite into formal, assessable academic criteria.' . $rules . "\n\nACADEMIC STYLE: Use Bloom's-aligned "
-                . 'verbs and academic phrasing. Each criterion should describe a learning outcome the student can be assessed '
+                . '(lecture notes, course outlines, readings, rubrics, examples). You do not extract or copy — you ' .
+                    'interpret '
+                . 'and rewrite into formal, assessable academic criteria.' . $rules . "\n\nACADEMIC STYLE: Use " .
+                    "Bloom's-aligned "
+                . 'verbs and academic phrasing. Each criterion should describe a learning outcome the student can be ' .
+                    'assessed '
                 . 'against in an academic setting.';
         } else {
-            $system = 'You generate formal Australian VET-style competency criteria (Performance Criteria / Knowledge Evidence '
-                . 'wording) from arbitrary training content (unit notes, training material, rubrics, workplace examples). You do '
-                . 'not extract or copy — you interpret and rewrite into formal, assessable competency criteria suitable for an '
+            $system = 'You generate formal Australian VET-style competency criteria (Performance Criteria / Knowledge ' .
+                'Evidence '
+                . 'wording) from arbitrary training content (unit notes, training material, rubrics, workplace examples). ' .
+                    'You do '
+                . 'not extract or copy — you interpret and rewrite into formal, assessable competency criteria suitable ' .
+                    'for an '
                 . 'Australian RTO unit of competency.' . $rules . "\n\nVET STYLE: Phrase each criterion as a Performance "
                 . 'Criterion or Knowledge Evidence statement would be written in an Australian Training Package — formal, '
                 . 'present-tense, learner-focused, workplace-aligned, free of source-document artefacts.';
         }
-        $user = 'Below is raw learning content. Read it as a whole, interpret the underlying skills, knowledge and assessable '
+        $user = 'Below is raw learning content. Read it as a whole, interpret the underlying skills, knowledge and ' .
+            'assessable '
             . 'actions, then GENERATE formal competency criteria per the rules in the system message. Do not copy, do not '
             . "summarise, do not preserve source labels or examples.\n\n----- BEGIN CONTENT -----\n" . trim($pastedcontent)
             . "\n----- END CONTENT -----";
@@ -246,13 +258,13 @@ EOT;
         $wctx = !array_key_exists('workplaceContextEnabled', $p) || !empty($p['workplaceContextEnabled']);
 
         if (!$wctx) {
-            $questionformats = array_values(array_filter($questionformats, function($f) {
+            $questionformats = array_values(array_filter($questionformats, function ($f) {
                 return $f !== 'scenario';
             }));
             if (!$questionformats) {
                 $questionformats = ['short_answer', 'definition'];
             }
-            $styles = array_values(array_filter($styles, function($s) {
+            $styles = array_values(array_filter($styles, function ($s) {
                 return $s !== 'scenario';
             }));
             if (!$styles) {
@@ -274,12 +286,14 @@ EOT;
         ];
         $levellabel = $educationlevel ? ($levellabels[$educationlevel] ?? $educationlevel) : '';
         $formatdescriptions = [
-            'long_essay' => ['Long Essay', '500+ words', 'comprehensive analysis with multiple paragraphs, citations where relevant'],
+            'long_essay' => ['Long Essay', '500+ words', 'comprehensive analysis with multiple paragraphs, citations where ' .
+                'relevant'],
             'short_essay' => ['Short Essay', '200-300 words', 'focused response with clear structure and key points'],
             'extended_response' => ['Extended Response', '300-400 words', 'detailed explanation with examples and application'],
             'short_answer' => ['Short Answer', '50-100 words', 'concise, direct response demonstrating understanding'],
             'definition' => ['Definition/Explanation', '50-150 words', 'clear explanation of terms, concepts, or procedures'],
-            'list' => ['List/Identify', 'bullet points or numbered list', 'identify and list relevant items, steps, or components'],
+            'list' => ['List/Identify', 'bullet points or numbered list', 'identify and list relevant items, steps, or ' .
+                'components'],
             'scenario' => ['Scenario-Based', '200-400 words', 'apply knowledge to a realistic workplace situation'],
         ];
         $formatlines = [];
@@ -294,9 +308,27 @@ EOT;
         $educationtype = $educationtype ?: 'vet';
         $languageinstruction = self::language_instruction($language);
 
-        $ctx = compact('country', 'state', 'industry', 'industrycontext', 'jobtitle', 'joblevel', 'educationtype',
-            'educationlevel', 'levellabel', 'location', 'hascontext', 'formatinstructions', 'extrainstructions',
-            'pastedcontent', 'moodletypes', 'styles', 'previous', 'wctx', 'languageinstruction');
+        $ctx = compact(
+            'country',
+            'state',
+            'industry',
+            'industrycontext',
+            'jobtitle',
+            'joblevel',
+            'educationtype',
+            'educationlevel',
+            'levellabel',
+            'location',
+            'hascontext',
+            'formatinstructions',
+            'extrainstructions',
+            'pastedcontent',
+            'moodletypes',
+            'styles',
+            'previous',
+            'wctx',
+            'languageinstruction'
+        );
 
         $questions = [];
         $lasterror = '';
@@ -326,63 +358,81 @@ EOT;
      * @return array [system, user, hasonlyessay, usetypes]
      */
     public static function criterion_prompts(array $criterion, int $criterionindex, array $ctx): array {
-        extract($ctx);
+        // Unpack the request context built by generate_essays().
+        $country = $ctx['country'] ?? null;
+        $state = $ctx['state'] ?? null;
+        $industry = $ctx['industry'] ?? null;
+        $industrycontext = $ctx['industrycontext'] ?? null;
+        $jobtitle = $ctx['jobtitle'] ?? null;
+        $joblevel = $ctx['joblevel'] ?? null;
+        $educationtype = $ctx['educationtype'] ?? null;
+        $educationlevel = $ctx['educationlevel'] ?? null;
+        $levellabel = $ctx['levellabel'] ?? null;
+        $location = $ctx['location'] ?? null;
+        $hascontext = $ctx['hascontext'] ?? null;
+        $formatinstructions = $ctx['formatinstructions'] ?? null;
+        $extrainstructions = $ctx['extrainstructions'] ?? null;
+        $pastedcontent = $ctx['pastedcontent'] ?? null;
+        $moodletypes = $ctx['moodletypes'] ?? null;
+        $styles = $ctx['styles'] ?? null;
+        $previous = $ctx['previous'] ?? null;
+        $wctx = $ctx['wctx'] ?? null;
+        $languageinstruction = $ctx['languageinstruction'] ?? null;
         $ctext = $criterion['text'];
         $count = $criterion['questionsCount'];
         $isacademic = $educationtype === 'academic';
         $forlevel = $levellabel ? " You are creating questions for {$levellabel} students." : '';
         $names = $wctx
-            ? '- NAME DIVERSITY (mandatory whenever a person name is used): Use a wide variety of culturally diverse first names. NEVER reuse the same name across the questions you generate in this batch. AVOID over-used defaults (Sarah, John, Emma, Mike, Jane, David). Prefer rotating through diverse names such as: Zara, Daniel, Priya, James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana, Mateo, Aaliyah, Finn, Ines, Kofi, Maya. Where a name is not strictly required, omit it entirely.'
-            : '- NO PERSON NAMES (ABSOLUTE — workplace context is disabled): NEVER include any named persons, workers, colleagues, customers, or characters in ANY question, rubric, scenario, or sample answer. Do NOT use Marcus, Sarah, John, Emma or any other person name. All questions must be entirely impersonal, concept-based, and direct.';
+            ? '- NAME DIVERSITY (mandatory whenever a person name is used): Use a wide variety of culturally diverse first ' .
+                'names. NEVER reuse the same name across the questions you generate in this batch. AVOID over-used defaults ' .
+                '(Sarah, John, Emma, Mike, Jane, David). Prefer rotating through diverse names such as: Zara, Daniel, Priya, ' .
+                'James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana, ' .
+                'Mateo, Aaliyah, Finn, Ines, Kofi, Maya. Where a name is not strictly required, omit it entirely.'
+            : '- NO PERSON NAMES (ABSOLUTE — workplace context is disabled): NEVER include any named persons, workers, ' .
+                'colleagues, customers, or characters in ANY question, rubric, scenario, or sample answer. Do NOT use ' .
+                'Marcus, Sarah, John, Emma or any other person name. All questions must be entirely impersonal, ' .
+                'concept-based, and direct.';
 
         if ($isacademic) {
-            $nowctx = !$wctx ? '- WORKPLACE CONTEXT IS DISABLED: Do NOT generate workplace scenarios or named worker/colleague characters. Generate direct concept, theory, definition, or analysis questions only.' : '';
+            $nowctx = !$wctx ? '- WORKPLACE CONTEXT IS DISABLED: Do NOT generate workplace scenarios or named ' .
+                'worker/colleague characters. Generate direct concept, theory, definition, or analysis questions only.' : '';
             $levelhead = $levellabel ? "ACADEMIC LEVEL CALIBRATION ({$levellabel}):" : 'ACADEMIC EXPECTATIONS:';
-            $ug = $educationlevel === 'undergraduate' ? <<<'EOT'
-- BLOOM'S FOCUS: Understand, Apply, Analyze
+            $ug = $educationlevel === 'undergraduate' ? '- BLOOM\'S FOCUS: Understand, Apply, Analyze
 - Demonstrate foundational mastery with evidence-based explanations
 - Apply theoretical frameworks to given scenarios
 - Compare and contrast different theoretical perspectives
 - Begin developing critical evaluation skills
-- Reference seminal works and established theories
-EOT
+- Reference seminal works and established theories'
                 : '';
-            $pg = $educationlevel === 'postgraduate' ? <<<'EOT'
-- BLOOM'S FOCUS: Analyze, Evaluate, Synthesize
+            $pg = $educationlevel === 'postgraduate' ? '- BLOOM\'S FOCUS: Analyze, Evaluate, Synthesize
 - Critically evaluate competing theories and methodological approaches
 - Synthesize information across multiple sources and perspectives
 - Identify gaps, limitations, and assumptions in existing literature
 - Propose justified positions based on evidence
-- Engage with contemporary debates in the field
-EOT
+- Engage with contemporary debates in the field'
                 : '';
-            $ma = $educationlevel === 'masters' ? <<<'EOT'
-- BLOOM'S FOCUS: Evaluate, Create, Synthesize
+            $ma = $educationlevel === 'masters' ? '- BLOOM\'S FOCUS: Evaluate, Create, Synthesize
 - Demonstrate advanced critical analysis of complex problems
 - Evaluate and compare theoretical frameworks for specific applications
 - Apply sophisticated research methodology understanding
 - Synthesize complex information into coherent arguments
 - Propose evidence-based recommendations or solutions
-- Engage with cutting-edge research in the field
-EOT
+- Engage with cutting-edge research in the field'
                 : '';
-            $phd = $educationlevel === 'phd' ? <<<'EOT'
-- BLOOM'S FOCUS: Create, Evaluate at Expert Level
+            $phd = $educationlevel === 'phd' ? '- BLOOM\'S FOCUS: Create, Evaluate at Expert Level
 - Demonstrate expert-level critical analysis and original thinking
 - Contribute novel perspectives or theoretical insights
 - Critically evaluate methodological approaches and propose alternatives
 - Demonstrate comprehensive and nuanced literature awareness
 - Identify significant gaps requiring further research
-- Position work within broader scholarly conversations
-EOT
+- Position work within broader scholarly conversations'
                 : '';
-            $none = !$educationlevel ? <<<'EOT'
-- Create questions suitable for educated adult learners
+            $none = !$educationlevel ? '- Create questions suitable for educated adult learners
 - Balance conceptual understanding with practical application
 - Use clear academic language without unnecessary jargon
-- Require evidence-based reasoning and structured arguments
-EOT
+- Require evidence-based reasoning and structured arguments'
                 : '';
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $system = <<<EOT
 You are a world-class academic assessment specialist with 25+ years experience designing university examinations, peer-reviewed publications on assessment theory, and expertise in constructive alignment (Biggs).{$forlevel}
 
@@ -427,12 +477,18 @@ SELF-CHECK BEFORE RETURN:
 - Confirm alignment to the provided criterion.
 - Return only valid JSON.{$languageinstruction}
 EOT;
+            // phpcs:enable
         } else {
-            $nowctx = !$wctx ? '- WORKPLACE CONTEXT IS DISABLED: Do NOT generate workplace scenarios, do NOT name workers/colleagues/customers, do NOT describe workplace settings, situations, or roles. Generate direct knowledge, definition, procedure, or terminology questions only. Question stems must NOT begin with phrases like "You are working as...", "Imagine you are...", "A colleague approaches you...", "At your workplace...", or any equivalent situational framing.' : '';
+            $nowctx = !$wctx ? '- WORKPLACE CONTEXT IS DISABLED: Do NOT generate workplace scenarios, do NOT name ' .
+                'workers/colleagues/customers, do NOT describe workplace settings, situations, or roles. Generate direct ' .
+                'knowledge, definition, procedure, or terminology questions only. Question stems must NOT begin with phrases ' .
+                'like "You are working as...", "Imagine you are...", "A colleague approaches you...", "At your ' .
+                'workplace...", or any equivalent situational framing.' : '';
             $levelhead = $levellabel ? "AQF LEVEL CALIBRATION ({$levellabel}):" : 'COMPETENCY EXPECTATIONS:';
             $prefer = $wctx
                 ? '- Prefer scenario-based workplace tasks, short answers, procedural explanations, and decision-making'
-                : '- Prefer short answers, definitions, procedural explanations, and direct knowledge checks (NO workplace scenarios, NO named characters, NO situational framing)';
+                : '- Prefer short answers, definitions, procedural explanations, and direct knowledge checks (NO workplace ' .
+                    'scenarios, NO named characters, NO situational framing)';
             $c12 = '';
             if (in_array($educationlevel, ['cert1', 'cert2'], true)) {
                 $scen = $wctx ? '- Use straightforward workplace scenarios with clear parameters'
@@ -489,15 +545,14 @@ EOT;
                     . "- Include authentic workplace pressures, constraints, or considerations\n"
                     . '- Avoid overly simplified or obviously "test-like" scenarios';
             } else {
-                $authentic = <<<'EOT'
-- Generate DEFINITION-STYLE or CONCEPT-FOCUSED questions (NOT workplace scenarios)
+                $authentic = '- Generate DEFINITION-STYLE or CONCEPT-FOCUSED questions (NOT workplace scenarios)
 - Focus on explaining concepts, defining terms, describing procedures, or listing steps
 - Questions should test knowledge and understanding without specific workplace context
 - Suitable for general professional or educational settings
 - Avoid creating specific workplace scenarios - keep questions generic and conceptual
-- Do NOT include names, workplace settings, named characters, colleagues, customers, or any situational framing
-EOT;
+- Do NOT include names, workplace settings, named characters, colleagues, customers, or any situational framing';
             }
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $system = <<<EOT
 You are a world-class VET assessment specialist with 20+ years experience in Australian Registered Training Organizations. You hold TAE qualifications and have served as an ASQA auditor. Your assessments have passed rigorous compliance audits and are used as exemplars for new assessors.{$forlevel}
 
@@ -539,6 +594,7 @@ SELF-CHECK BEFORE RETURN:
 - Confirm questions reflect observable performance, not purely theoretical content (for cert1-cert4).
 - Return only valid JSON.{$languageinstruction}
 EOT;
+            // phpcs:enable
         }
 
         // Context section.
@@ -557,8 +613,7 @@ EOT;
         }
         $spelling = '';
         if ($country === 'Australia' || $country === 'AU') {
-            $spelling = <<<'EOT'
-
+            $spelling = '
 
 LANGUAGE REQUIREMENTS (CRITICAL):
 Use Australian English spelling throughout ALL content including questions, rubrics, and sample answers:
@@ -569,16 +624,19 @@ Use Australian English spelling throughout ALL content including questions, rubr
 - travelled, cancelled, modelling (not traveled, canceled, modeling)
 - licence (noun), license (verb), defence (not defense)
 - programme (for events/plans), program (for software)
-This is mandatory - the content MUST use Australian English conventions.
-EOT;
+This is mandatory - the content MUST use Australian English conventions.';
         } else if ($country === 'United Kingdom' || $country === 'UK') {
-            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse British English spelling throughout all content (organisation, behaviour, colour, centre, etc.).";
+            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse British English spelling throughout all content (organisation, " .
+                "behaviour, colour, centre, etc.).";
         } else if ($country === 'United States' || $country === 'US' || $country === 'USA') {
-            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse American English spelling throughout all content (organization, behavior, color, center, etc.).";
+            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse American English spelling throughout all content (organization, " .
+                "behavior, color, center, etc.).";
         } else if ($country === 'Canada' || $country === 'CA') {
-            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse Canadian English spelling throughout all content (organisation/organization acceptable, colour, centre, etc.).";
+            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse Canadian English spelling throughout all content " .
+                "(organisation/organization acceptable, colour, centre, etc.).";
         } else if ($country === 'New Zealand' || $country === 'NZ') {
-            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse New Zealand English spelling throughout all content (organisation, behaviour, colour, centre - similar to British/Australian English).";
+            $spelling = "\n\nLANGUAGE REQUIREMENTS:\nUse New Zealand English spelling throughout all content (organisation, " .
+                "behaviour, colour, centre - similar to British/Australian English).";
         }
         if ($industry) {
             $lines[] = "- Industry: {$industry}";
@@ -600,25 +658,21 @@ EOT;
         $extrasection = '';
         if (trim($extrainstructions) !== '') {
             if ($singlemark) {
-                $markblock = <<<'EOT'
-
+                $markblock = '
 ***** SINGLE MARK MODE - EXTREMELY IMPORTANT *****
 The teacher wants EXACTLY 1 MARK TOTAL per question.
 This means: ONE rubric criterion, ONE sample answer entry, totalMarks = 1.
 Do NOT create multiple rubric criteria. The rubric array must have exactly ONE item.
 Even though each criterion is worth 1 mark, the teacher wants ONLY ONE criterion per question.
 *****
-
-EOT;
+';
             } else if ($hasmarking) {
-                $markblock = <<<'EOT'
-
+                $markblock = '
 *** CRITICAL: THE TEACHER HAS PROVIDED MARKING INSTRUCTIONS ***
 You MUST follow their exact marking requirements. If they said "2 marks per question",
 you MUST create exactly 2 rubric criteria per question (totalMarks: 2).
-DO NOT use the default 2-8 criteria guidance - use the teacher's requirement instead.
-
-EOT;
+DO NOT use the default 2-8 criteria guidance - use the teacher\'s requirement instead.
+';
             } else {
                 $markblock = '';
             }
@@ -632,9 +686,11 @@ EOT;
         $pastedsection = '';
         if (trim($pastedcontent) !== '') {
             $examples = $wctx ? '- Scenarios and examples should reflect details from this content where appropriate'
-                : '- Examples and applications should reflect details from this content where appropriate — do NOT use workplace scenarios or situational framing';
+                : '- Examples and applications should reflect details from this content where appropriate — do NOT use ' .
+                    'workplace scenarios or situational framing';
             $pastedsection = "SOURCE CONTENT (TEACHER-PROVIDED):\n"
-                . "The teacher has provided the following learning material. Use this content as the knowledge base for generating questions and marking criteria. Draw on its terminology, concepts, examples, and details.\n"
+                . "The teacher has provided the following learning material. Use this content as the knowledge base for " .
+                    "generating questions and marking criteria. Draw on its terminology, concepts, examples, and details.\n"
                 . "---\n" . trim($pastedcontent) . "\n---\n"
                 . "When generating questions:\n"
                 . "- Ground questions in the specific content, terminology, and concepts from the source above\n"
@@ -646,6 +702,7 @@ EOT;
         $prevsection = '';
         if (trim($previous) !== '') {
             $prevtext = trim($previous);
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $prevsection = <<<EOT
 
 ⚠️ REGENERATE — FORCE COMPLETELY NEW QUESTION ⚠️
@@ -668,25 +725,29 @@ If the new question stem starts with the same first 50 characters as any previou
 
 
 EOT;
+            // phpcs:enable
         }
 
         // Self-marking style guidance.
-        $activestyles = array_values(array_filter($styles, function($s) {
+        $activestyles = array_values(array_filter($styles, function ($s) {
             return in_array($s, self::STYLES, true);
         }));
         $usestyles = $activestyles ?: ['scenario', 'knowledge_check'];
         $styledescriptions = [
-            'scenario' => 'Workplace Scenario — open with a brief realistic workplace situation and ask the student to apply their knowledge to it',
-            'knowledge_check' => 'Knowledge Check — direct recall of key facts, rules, regulations, or principles relevant to the criterion',
+            'scenario' => 'Workplace Scenario — open with a brief realistic workplace situation and ask the student to ' .
+                'apply their knowledge to it',
+            'knowledge_check' => 'Knowledge Check — direct recall of key facts, rules, regulations, or principles relevant ' .
+                'to the criterion',
             'procedure' => 'Procedure / Steps — test knowledge of the correct order, sequence, or procedural requirements',
             'terminology' => 'Terminology / Definitions — test understanding of key terms, definitions, and concepts',
-            'identification' => 'Identification / Listing — students identify, classify, or select items/characteristics from options',
+            'identification' => 'Identification / Listing — students identify, classify, or select items/characteristics ' .
+                'from options',
         ];
-        $filtered = $wctx ? $usestyles : array_values(array_filter($usestyles, function($s) {
+        $filtered = $wctx ? $usestyles : array_values(array_filter($usestyles, function ($s) {
             return $s !== 'scenario';
         }));
         $safestyles = $filtered ?: ($wctx ? ['knowledge_check'] : ['knowledge_check', 'terminology']);
-        $stylelines = array_map(function($s) use ($styledescriptions) {
+        $stylelines = array_map(function ($s) use ($styledescriptions) {
             return '- ' . ($styledescriptions[$s] ?? $s);
         }, $safestyles);
         $styleinstructions = "QUESTION STYLE GUIDANCE:\nVary question style across these selected approaches:\n"
@@ -694,10 +755,11 @@ EOT;
             . (($wctx && in_array('scenario', $safestyles, true))
                 ? ' When using Workplace Scenario style, embed a short (1–2 sentence) realistic '
                     . ($industrycontext ?: 'workplace') . ' scenario in the question stem.' : '')
-            . (!$wctx ? "\nDO NOT include workplace scenarios, named workers/customers, or situational role-play in any question — workplace context is disabled." : '');
+            . (!$wctx ? "\nDO NOT include workplace scenarios, named workers/customers, or situational role-play in any " .
+                "question — workplace context is disabled." : '');
 
         // Moodle question types.
-        $activetypes = array_values(array_filter($moodletypes, function($t) {
+        $activetypes = array_values(array_filter($moodletypes, function ($t) {
             return in_array($t, self::TYPES, true);
         }));
         $usetypes = $activetypes ?: ['essay'];
@@ -711,10 +773,11 @@ EOT;
                 'multichoice' => 'Multiple Choice (4 options, exactly one correct answer — auto-marked)',
                 'truefalse' => 'True/False (binary declarative statement — auto-marked)',
                 'matching' => 'Matching (4 pairs: terms matched to definitions — auto-marked)',
-                'gapselect' => 'Select Missing Words (sentence with [[1]], [[2]] gap placeholders — students pick from dropdowns — auto-marked)',
+                'gapselect' => 'Select Missing Words (sentence with [[1]], [[2]] gap placeholders — students pick from ' .
+                    'dropdowns — auto-marked)',
                 'shortanswer' => 'Missing Word / Fill in the Blank (complete the sentence by typing — auto-marked)',
             ];
-            $typelist = implode("\n", array_map(function($t) use ($typenames) {
+            $typelist = implode("\n", array_map(function ($t) use ($typenames) {
                 return '  - ' . ($typenames[$t] ?? $t);
             }, $usetypes));
             if ($count === 1) {
@@ -726,13 +789,15 @@ EOT;
                     $assign[] = '  Question ' . ($qi + 1) . ': ' . strtoupper($usetypes[($criterionindex + $qi) % $ntypes]);
                 }
                 $countnote = "MANDATORY TYPE ASSIGNMENT — generate questions in EXACTLY this order, no deviation:\n"
-                    . implode("\n", $assign) . "\nTotal: {$count} questions. This assignment is NON-NEGOTIABLE — do NOT change the type for any question.";
+                    . implode("\n", $assign) .
+                        "\nTotal: {$count} questions. This assignment is NON-NEGOTIABLE — do NOT change the type for any question.";
             }
             $assigned = [];
             for ($qi = 0; $qi < $count; $qi++) {
                 $assigned[$usetypes[($criterionindex + $qi) % $ntypes]] = true;
             }
             if (isset($assigned['multichoice'])) {
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 $formatparts[] = <<<EOT
 MULTIPLE CHOICE JSON FORMAT:
 {
@@ -750,8 +815,10 @@ MULTIPLE CHOICE JSON FORMAT:
   "totalMarks": 1
 }
 EOT;
+                // phpcs:enable
             }
             if (isset($assigned['truefalse'])) {
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 $formatparts[] = <<<EOT
 TRUE/FALSE JSON FORMAT:
 {
@@ -767,8 +834,10 @@ TRUE/FALSE JSON FORMAT:
 }
 CRITICAL: criteriaReference MUST be the exact criterion text provided — do NOT substitute a generic phrase, copy from questionText, or leave blank. The criterion text IS the skill being assessed.
 EOT;
+                // phpcs:enable
             }
             if (isset($assigned['matching'])) {
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 $formatparts[] = <<<EOT
 MATCHING JSON FORMAT:
 {
@@ -787,11 +856,13 @@ MATCHING JSON FORMAT:
 }
 CRITICAL: criteriaReference MUST be the exact criterion text provided — do NOT copy it from questionText, the matchPairs content, or any part of the question body. The criterion text IS the competency being assessed.
 EOT;
+                // phpcs:enable
             }
             if (isset($assigned['gapselect'])) {
                 $formatparts[] = self::gapselect_format($wctx);
             }
             if (isset($assigned['shortanswer'])) {
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 $formatparts[] = <<<EOT
 MISSING WORD / FILL IN THE BLANK JSON FORMAT:
 {
@@ -805,6 +876,7 @@ MISSING WORD / FILL IN THE BLANK JSON FORMAT:
   "totalMarks": 1
 }
 EOT;
+                // phpcs:enable
             }
             if (isset($assigned['essay'])) {
                 $formatparts[] = <<<EOT
@@ -821,10 +893,11 @@ ESSAY JSON FORMAT (use existing rubric/sampleAnswer structure):
 }
 EOT;
             }
-            $quoted = implode(', ', array_map(function($t) {
+            $quoted = implode(', ', array_map(function ($t) {
                 return "\"{$t}\"";
             }, $usetypes));
             $parts = implode("\n\n", $formatparts);
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $typessection = <<<EOT
 
 MOODLE QUIZ QUESTION TYPES TO GENERATE:
@@ -847,6 +920,7 @@ JSON FORMATS FOR EACH SELECTED TYPE:
 
 
 EOT;
+            // phpcs:enable
         } else {
             $typessection = "Include \"moodleQuestionType\": \"essay\" in every question object.\n";
         }
@@ -855,34 +929,50 @@ EOT;
         if ($count > 1) {
             $q2 = $wctx ? ' (may use a scenario)' : ' — direct concept or procedural question only, NO scenario';
             $namesrule = $wctx
-                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question uses a named person in a scenario, assign one unique name per question from this pool in order: Marcus (Q1), Zara (Q2), Daniel (Q3), Priya (Q4), James (Q5), Leila (Q6), Tom (Q7), Amara (Q8), Wei (Q9), Sofia (Q10). NEVER repeat any name.'
+                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question uses a named person in a scenario, assign one unique ' .
+                    'name per question from this pool in order: Marcus (Q1), Zara (Q2), Daniel (Q3), Priya (Q4), James (Q5), ' .
+                    'Leila (Q6), Tom (Q7), Amara (Q8), Wei (Q9), Sofia (Q10). NEVER repeat any name.'
                 : '';
             $diversityhead = "\n\nDIVERSITY REQUIREMENT — MANDATORY FOR {$count} QUESTIONS:\n"
-                . "Each of the {$count} questions MUST test a COMPLETELY DIFFERENT sub-aspect or dimension of the criterion. Plan questions across different angles:\n"
+                . "Each of the {$count} questions MUST test a COMPLETELY DIFFERENT sub-aspect or dimension of the " .
+                    "criterion. Plan questions across different angles:\n"
                 . "- Question 1: a specific fact, concept, or definition within the criterion\n"
                 . "- Question 2: a different application, consequence, or aspect related to the criterion{$q2}\n"
-                . "- Question 3+: a further distinct angle — legislation, procedure, context, or skill element not yet tested\n\n";
+                . "- Question 3+: a further distinct angle — legislation, procedure, context, or skill element not yet " .
+                    "tested\n\n";
         }
 
         if ($hasonlyessay) {
             if ($count > 1) {
                 $diversity = $diversityhead
-                    . "ANTI-OVERLAP RULE: Before finalising, check every pair of questions: \"If a student copies 70% of Q1's answer into Q2, are they still correct?\" If yes, change Q2. Questions must require GENUINELY DIFFERENT knowledge.\n\n"
+                    . "ANTI-OVERLAP RULE: Before finalising, check every pair of questions: \"If a student copies 70% of " .
+                        "Q1's answer into Q2, are they still correct?\" If yes, change Q2. Questions must require GENUINELY " .
+                        "DIFFERENT knowledge.\n\n"
                     . ($wctx ? $namesrule . ' Each scenario must also have a DIFFERENT workplace setting and situation.'
-                        : 'NO SCENARIOS OR NAMES — Workplace context is disabled. Do NOT include named persons, workplace roles, or situational framing in any question. All questions must be direct, concept-based, or procedural.');
+                        : 'NO SCENARIOS OR NAMES — Workplace context is disabled. Do NOT include named persons, workplace ' .
+                            'roles, or situational framing in any question. All questions must be direct, concept-based, or ' .
+                            'procedural.');
             }
             $apply = $wctx ? 'give a scenario requiring application'
                 : 'ask a direct application or procedural question — NO scenario or situational framing';
             if (!$wctx) {
-                $rule6 = '6. ⛔ WORKPLACE CONTEXT IS DISABLED — Do NOT include workplace scenarios, situational framing, named workers/colleagues/customers, or role-play in any question. Questions must be direct, concept-based, knowledge, definition, or procedural only. This overrides all other style guidance.';
+                $rule6 = '6. ⛔ WORKPLACE CONTEXT IS DISABLED — Do NOT include workplace scenarios, situational framing, ' .
+                    'named workers/colleagues/customers, or role-play in any question. Questions must be direct, ' .
+                    'concept-based, knowledge, definition, or procedural only. This overrides all other style guidance.';
             } else if ($industrycontext) {
                 $rule6 = "6. Use realistic {$industrycontext} workplace scenarios where appropriate";
             } else {
                 $rule6 = '6. Create professional, practical questions suitable for adult learners';
             }
             $rule8 = $wctx
-                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question uses a named person in a scenario (e.g. "Sarah is a team leader…"), EVERY question must use a COMPLETELY DIFFERENT name. Do NOT repeat any name across questions. Assign names in order from this diverse pool: Marcus, Zara, Daniel, Priya, James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. Q1 gets the first name, Q2 gets the second, and so on. Also ensure each scenario has a DIFFERENT workplace setting, role, and situation — not merely a different name on the same scenario.'
-                : 'NO NAMES OR ROLES — Do NOT include named persons, job titles used as characters, or situational role-play in any question. Workplace context is disabled.';
+                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question uses a named person in a scenario (e.g. "Sarah is a ' .
+                    'team leader…"), EVERY question must use a COMPLETELY DIFFERENT name. Do NOT repeat any name across ' .
+                    'questions. Assign names in order from this diverse pool: Marcus, Zara, Daniel, Priya, James, Leila, ' .
+                    'Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. Q1 gets the ' .
+                    'first name, Q2 gets the second, and so on. Also ensure each scenario has a DIFFERENT workplace setting, ' .
+                    'role, and situation — not merely a different name on the same scenario.'
+                : 'NO NAMES OR ROLES — Do NOT include named persons, job titles used as characters, or situational ' .
+                    'role-play in any question. Workplace context is disabled.';
             if ($singlemark) {
                 $marking = "***** SINGLE MARK MODE ACTIVE *****\nCREATE EXACTLY ONE (1) RUBRIC CRITERION PER QUESTION.\n"
                     . "The rubric array MUST contain only ONE object. totalMarks MUST be 1.\n"
@@ -903,7 +993,8 @@ EOT;
             if ($singlemark) {
                 $matchrule = '***** SINGLE MARK = SINGLE CRITERION. The rubric array has exactly 1 item. *****';
             } else if ($hasmarking) {
-                $matchrule = "*** FOLLOW TEACHER'S MARKING INSTRUCTIONS - match the number of criteria to their specified marks ***";
+                $matchrule = "*** FOLLOW TEACHER'S MARKING INSTRUCTIONS - match the number of criteria to their specified " .
+                    "marks ***";
             } else {
                 $matchrule = 'Match the number of criteria to the complexity of the question';
             }
@@ -951,6 +1042,7 @@ Return a JSON object with a "questions" array:
 EOT;
             }
             $usingteacher = $hasmarking ? " USING THE TEACHER'S SPECIFIED MARKING (from instructions above)" : '';
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $user = <<<EOT
 {$extrasection}{$prevsection}Generate {$count} question(s) that DIRECTLY ASSESS the following criterion:
 
@@ -1007,43 +1099,69 @@ SAMPLE ANSWER FORMAT:
 {$example}
 {$typessection}Generate exactly {$count} question(s) that DIRECTLY ASSESS: "{$ctext}"{$usingteacher}{$diversity}
 EOT;
+            // phpcs:enable
         } else {
             if ($count > 1) {
                 $diversity = $diversityhead
-                    . "ANTI-OVERLAP RULE: Before finalising, check every pair of questions: \"If a student copies 70% of Q1's answer into Q2, are they still correct?\" If yes, change Q2. Questions must require GENUINELY DIFFERENT knowledge — this applies ACROSS different question types too (MCQ, Matching, Essay, Gap Fill all count).\n\n"
-                    . ($wctx ? $namesrule . ' Each scenario must also have a DIFFERENT workplace setting and situation — a different role, location, or event.'
-                        : 'NO SCENARIOS OR NAMES — Workplace context is disabled. Do NOT include named persons, workplace roles, or situational framing in any question. All questions must be direct, concept-based, or procedural.');
+                    . "ANTI-OVERLAP RULE: Before finalising, check every pair of questions: \"If a student copies 70% of " .
+                        "Q1's answer into Q2, are they still correct?\" If yes, change Q2. Questions must require GENUINELY " .
+                        "DIFFERENT knowledge — this applies ACROSS different question types too (MCQ, Matching, Essay, Gap " .
+                        "Fill all count).\n\n"
+                    . ($wctx ? $namesrule . ' Each scenario must also have a DIFFERENT workplace setting and situation — a ' .
+                        'different role, location, or event.'
+                        : 'NO SCENARIOS OR NAMES — Workplace context is disabled. Do NOT include named persons, workplace ' .
+                            'roles, or situational framing in any question. All questions must be direct, concept-based, or ' .
+                            'procedural.');
             }
             $selected = implode(', ', array_map('strtoupper', $usetypes));
             $stylesblock = $styleinstructions ? $styleinstructions . "\n\n" : '';
             $apply = $wctx ? 'multichoice with scenario works well'
                 : 'multichoice with a direct application question — NO scenario or situational framing';
             if (!$wctx) {
-                $rule3 = '⛔ WORKPLACE CONTEXT IS DISABLED — Do NOT include workplace scenarios, named workers/colleagues/customers, or situational framing in ANY question. Questions must be direct, concept-based, knowledge, definition, or procedural only. This overrides all other style guidance.';
+                $rule3 = '⛔ WORKPLACE CONTEXT IS DISABLED — Do NOT include workplace scenarios, named ' .
+                    'workers/colleagues/customers, or situational framing in ANY question. Questions must be direct, ' .
+                    'concept-based, knowledge, definition, or procedural only. This overrides all other style guidance.';
             } else if ($industrycontext) {
-                $rule3 = "Use realistic {$industrycontext} industry scenarios — include specific job roles, equipment, legislation, or procedures from this sector";
+                $rule3 = "Use realistic {$industrycontext} industry scenarios — include specific job roles, equipment, " .
+                    "legislation, or procedures from this sector";
             } else {
                 $rule3 = 'Use practical, professional scenarios appropriate for adult learners';
             }
             $rule6 = $wctx
-                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question includes a named person in a scenario, every question MUST use a DIFFERENT name. NEVER repeat any name across questions. Assign unique names in order from this diverse pool: Marcus, Zara, Daniel, Priya, James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. Q1 gets the first name, Q2 the second, and so on. Each scenario must also have a DIFFERENT workplace setting, role, and situation — not just a different name on the same situation.'
-                : 'NO NAMES OR ROLES — Do NOT include named persons, job titles used as characters, or situational role-play in any question. Workplace context is disabled.';
+                ? 'UNIQUE SCENARIO NAMES — MANDATORY: If any question includes a named person in a scenario, every ' .
+                    'question MUST use a DIFFERENT name. NEVER repeat any name across questions. Assign unique names in ' .
+                    'order from this diverse pool: Marcus, Zara, Daniel, Priya, James, Leila, Tom, Amara, Wei, Sofia, Raj, ' .
+                    'Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. Q1 gets the first name, Q2 the second, and ' .
+                    'so on. Each scenario must also have a DIFFERENT workplace setting, role, and situation — not just a ' .
+                    'different name on the same situation.'
+                : 'NO NAMES OR ROLES — Do NOT include named persons, job titles used as characters, or situational ' .
+                    'role-play in any question. Workplace context is disabled.';
             $rule7 = $jobtitle ? "Questions should be relevant to the perspective of a {$jobtitle}"
                 : 'Questions should be appropriate for the professional context described';
             $parts = implode("\n\n", $formatparts);
-            $quoted = implode(', ', array_map(function($t) {
+            $quoted = implode(', ', array_map(function ($t) {
                 return "\"{$t}\"";
             }, $usetypes));
             $gaprule = $wctx
-                ? "questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence workplace scenario naming a person/role, (2) the sentence with [[1]], [[4]], [[7]] placeholders (JUMP-BY-3). Format: \"SCENARIO\n\nSENTENCE WITH [[1]] [[4]] GAPS\". The scenario person's name and setting MUST differ from any other question in this set."
-                : "questionText MUST be a clear, direct question about the concept being tested (e.g. \"What terms correctly describe the steps in hazard identification?\"). Do NOT include a scenario, named person, workplace setting, or situational framing. Format: \"QUESTION\n\nSENTENCE WITH [[1]] [[4]] GAPS\".";
+                ? "questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence workplace scenario " .
+                    "naming a person/role, (2) the sentence with [[1]], [[4]], [[7]] placeholders (JUMP-BY-3). Format: " .
+                    "\"SCENARIO\n\nSENTENCE WITH [[1]] [[4]] GAPS\". The scenario person's name and setting MUST differ from " .
+                    "any other question in this set."
+                : "questionText MUST be a clear, direct question about the concept being tested (e.g. \"What terms correctly " .
+                    "describe the steps in hazard identification?\"). Do NOT include a scenario, named person, workplace " .
+                    "setting, or situational framing. Format: \"QUESTION\n\nSENTENCE WITH [[1]] [[4]] GAPS\".";
             $essayrule = in_array('essay', $usetypes, true)
-                ? '- Essay: Include rubric and sampleAnswer arrays as shown in the essay format above. Each rubric criterion must cover a DISTINCT dimension — never two criteria that test the same knowledge.'
+                ? '- Essay: Include rubric and sampleAnswer arrays as shown in the essay format above. Each rubric criterion ' .
+                    'must cover a DISTINCT dimension — never two criteria that test the same knowledge.'
                 : '';
             $namesline = $wctx
-                ? '- NAMES IN SCENARIOS: Use unique names across ALL questions. Choose from this pool in order: Marcus (Q1), Zara (Q2), Daniel (Q3), Priya (Q4), James (Q5), Leila (Q6), Tom (Q7), Amara (Q8), Wei (Q9), Sofia (Q10). NEVER use the same name in two questions.'
-                : '- NO NAMES OR SCENARIOS: Workplace context is disabled. Do NOT use named persons, characters, or situational role-play in any question.';
+                ? '- NAMES IN SCENARIOS: Use unique names across ALL questions. Choose from this pool in order: Marcus (Q1), ' .
+                    'Zara (Q2), Daniel (Q3), Priya (Q4), James (Q5), Leila (Q6), Tom (Q7), Amara (Q8), Wei (Q9), Sofia ' .
+                    '(Q10). NEVER use the same name in two questions.'
+                : '- NO NAMES OR SCENARIOS: Workplace context is disabled. Do NOT use named persons, characters, or ' .
+                    'situational role-play in any question.';
             $followmarking = $hasmarking ? ' (follow teacher marking instructions above)' : '';
+            // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
             $user = <<<EOT
 {$extrasection}{$prevsection}You are generating self-marking quiz questions for a Moodle LMS. Each question MUST follow the exact JSON structure for its assigned type.
 
@@ -1094,10 +1212,15 @@ Return a JSON object with a "questions" array:
 
 Generate exactly {$count} question(s) for criterion: "{$ctext}"{$followmarking}{$diversity}
 EOT;
+            // phpcs:enable
         }
 
         $suffix = "\n\nYou always respond with valid JSON. No markdown, no code blocks, just raw JSON."
-            . (!$hasonlyessay ? "\n\nCRITICAL OVERRIDE: This request generates structured self-marking quiz questions (NOT essays). Ignore any instructions about questionFormat, wordCount, rubric arrays, or sampleAnswer arrays — those only apply to essay types. For every non-essay question, follow the exact JSON structure specified for its moodleQuestionType in the user prompt. Never generate rubric or sampleAnswer fields unless moodleQuestionType is 'essay'." : '');
+            . (!$hasonlyessay ? "\n\nCRITICAL OVERRIDE: This request generates structured self-marking quiz questions (NOT " .
+                "essays). Ignore any instructions about questionFormat, wordCount, rubric arrays, or sampleAnswer arrays — " .
+                "those only apply to essay types. For every non-essay question, follow the exact JSON structure specified " .
+                "for its moodleQuestionType in the user prompt. Never generate rubric or sampleAnswer fields unless " .
+                "moodleQuestionType is 'essay'." : '');
         return [$system . $suffix, $user, $hasonlyessay, $usetypes];
     }
 
@@ -1121,7 +1244,10 @@ EOT;
             if (!is_array($q)) {
                 continue;
             }
-            if (!isset($q['criteriaReference']) || !is_string($q['criteriaReference']) || trim($q['criteriaReference']) === '') {
+            if (
+                !isset($q['criteriaReference']) || !is_string($q['criteriaReference']) ||
+                trim($q['criteriaReference']) === ''
+            ) {
                 $q['criteriaReference'] = $criterion['text'];
             }
             if (!$hasonlyessay) {
@@ -1140,26 +1266,30 @@ EOT;
      */
     private static function gapselect_format(bool $wctx): string {
         if ($wctx) {
-            $example = <<<'EOT'
-{
+            $example = '{
   "moodleQuestionType": "gapselect",
-  "questionText": "During a workplace induction, a trainer is explaining the key responsibilities of team leaders to a group of new employees.\n\nTo successfully implement new WHS policies, an organisation should start with a thorough [[1]] of current practices, followed by [[4]] communication to all employees, and conclude with ongoing [[7]] of compliance.",
+  "questionText": "During a workplace induction, a trainer is explaining the key responsibilities of team leaders to a group ' .
+                'of new employees.\\n\\nTo successfully implement new WHS policies, an organisation should start with a ' .
+                'thorough [[1]] of current practices, followed by [[4]] communication to all employees, and conclude with ' .
+                'ongoing [[7]] of compliance.",
   "selectOptions": [
     ["review", "celebration", "rejection"],
     ["consistent", "secretive", "delayed"],
     ["monitoring", "abandonment", "dismissal"]
   ],
-  "generalFeedback": "Blank [[1]]: review — A review of current practice is the correct first step. Blank [[4]]: consistent — Consistent communication ensures all staff receive the same message. Blank [[7]]: monitoring — Ongoing monitoring confirms continued compliance.",
+  "generalFeedback": "Blank [[1]]: review — A review of current practice is the correct first step. Blank [[4]]: ' .
+                'consistent — Consistent communication ensures all staff receive the same message. Blank [[7]]: monitoring ' .
+                '— Ongoing monitoring confirms continued compliance.",
   "criteriaReference": "Applies workplace safety procedures consistently",
   "totalMarks": 3
-}
-EOT;
-            $qtrule = <<<'EOT'
-- questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence realistic workplace scenario that sets the context — name a specific person, role, or situation (e.g. "A new team leader is reviewing the site safety handbook before their first shift."), and (2) the sentence containing the [[1]], [[4]], [[7]]... placeholders inline. Format as: "SCENARIO\n\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS". Do NOT include a separate question prompt — the scenario provides context.
-EOT;
+}';
+            $qtrule = '- questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence realistic ' .
+                'workplace scenario that sets the context — name a specific person, role, or situation (e.g. "A new team ' .
+                'leader is reviewing the site safety handbook before their first shift."), and (2) the sentence containing ' .
+                'the [[1]], [[4]], [[7]]... placeholders inline. Format as: "SCENARIO\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] ' .
+                'GAPS". Do NOT include a separate question prompt — the scenario provides context.';
         } else {
-            $example = <<<'EOT'
-{
+            $example = '{
   "moodleQuestionType": "gapselect",
   "questionText": "What are the key terms used to describe the process of identifying and controlling workplace hazards?",
   "selectOptions": [
@@ -1167,15 +1297,18 @@ EOT;
     ["risk", "policy", "report"],
     ["elimination", "escalation", "documentation"]
   ],
-  "generalFeedback": "Blank [[1]]: hazard — A hazard is any source of potential harm. Blank [[4]]: risk — Risk is the likelihood that the hazard causes harm. Blank [[7]]: elimination — Elimination is the highest-order control measure.",
+  "generalFeedback": "Blank [[1]]: hazard — A hazard is any source of potential harm. Blank [[4]]: risk — Risk is the ' .
+                'likelihood that the hazard causes harm. Blank [[7]]: elimination — Elimination is the highest-order ' .
+                'control measure.",
   "criteriaReference": "Identifies key hazard management terminology",
   "totalMarks": 3
-}
-EOT;
-            $qtrule = <<<'EOT'
-- questionText MUST be a clear, direct question that tells the student what concept is being tested (e.g. "What are the correct terms used to describe the steps in the hierarchy of hazard control?"). Do NOT include a scenario paragraph, named person, workplace setting, or situational framing. The gap sentence stands on its own. Format as: "QUESTION\n\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS".
-EOT;
+}';
+            $qtrule = '- questionText MUST be a clear, direct question that tells the student what concept is being tested ' .
+                '(e.g. "What are the correct terms used to describe the steps in the hierarchy of hazard control?"). Do NOT ' .
+                'include a scenario paragraph, named person, workplace setting, or situational framing. The gap sentence ' .
+                'stands on its own. Format as: "QUESTION\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS".';
         }
+        // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
         return <<<EOT
 SELECT MISSING WORDS JSON FORMAT:
 
@@ -1210,6 +1343,7 @@ CRITICAL GROUPING RULES — READ CAREFULLY:
 - criteriaReference MUST be a short skill-based assessment phrase (3-8 words, imperative or gerund), e.g. "Applies workplace safety procedures consistently". It MUST NOT be the question text, a sentence, or copied from questionText.
 - Use 2–4 blanks per question (so placeholders [[1]], [[4]], [[7]] for 3 blanks; [[1]], [[4]], [[7]], [[10]] for 4 blanks). Distractors must be plausible but clearly wrong in context.
 EOT;
+        // phpcs:enable
     }
 
     /**
@@ -1292,17 +1426,18 @@ EOT;
         $previous = (string) ($p['previousQuestionText'] ?? '');
         $wctx = !array_key_exists('workplaceContextEnabled', $p) || !empty($p['workplaceContextEnabled']);
         $rawtypes = array_key_exists('moodleQuestionTypes', $p) ? (array) $p['moodleQuestionTypes'] : ['essay'];
-        $rawstyles = array_key_exists('selfMarkingStyles', $p) ? (array) $p['selfMarkingStyles'] : ['scenario', 'knowledge_check'];
+        $rawstyles = array_key_exists('selfMarkingStyles', $p) ? (array) $p['selfMarkingStyles'] : ['scenario',
+            'knowledge_check'];
 
-        $types = array_values(array_filter($rawtypes, function($t) {
+        $types = array_values(array_filter($rawtypes, function ($t) {
             return in_array($t, self::TYPES, true);
         }));
         $activetypes = $types ?: ['essay'];
-        $styles = array_values(array_filter($rawstyles, function($s) {
+        $styles = array_values(array_filter($rawstyles, function ($s) {
             return in_array($s, self::STYLES, true);
         }));
         if (!$wctx) {
-            $styles = array_values(array_filter($styles, function($s) {
+            $styles = array_values(array_filter($styles, function ($s) {
                 return $s !== 'scenario';
             }));
         }
@@ -1321,7 +1456,8 @@ EOT;
         $levellabel = $educationlevel ? ($labels[$educationlevel] ?? $educationlevel) : '';
         $spelling = '';
         if ($country === 'Australia' || $country === 'AU') {
-            $spelling = "\n\nUse Australian English spelling throughout (organisation, behaviour, colour, recognise, analyse, practise, labour, centre, programme, etc.). This is mandatory.";
+            $spelling = "\n\nUse Australian English spelling throughout (organisation, behaviour, colour, recognise, " .
+                "analyse, practise, labour, centre, programme, etc.). This is mandatory.";
         } else if ($country === 'United Kingdom' || $country === 'UK') {
             $spelling = "\n\nUse British English spelling throughout.";
         }
@@ -1332,35 +1468,46 @@ EOT;
             : 'suitable for adult learners in general professional settings';
 
         $styledescriptions = [
-            'scenario' => 'Workplace Scenario — open with a brief realistic workplace situation and ask the student to apply their knowledge to it',
+            'scenario' => 'Workplace Scenario — open with a brief realistic workplace situation and ask the student to ' .
+                'apply their knowledge to it',
             'knowledge_check' => 'Knowledge Check — direct recall of key facts, rules, regulations, or principles',
             'procedure' => 'Procedure / Steps — test knowledge of correct order, sequence, or procedural requirements',
             'terminology' => 'Terminology / Definitions — test understanding of key terms, definitions, and concepts',
-            'identification' => 'Identification / Listing — students identify, classify, or select items/characteristics from options',
+            'identification' => 'Identification / Listing — students identify, classify, or select items/characteristics ' .
+                'from options',
         ];
-        $stylelist = implode("\n", array_map(function($s) use ($styledescriptions) {
+        $stylelist = implode("\n", array_map(function ($s) use ($styledescriptions) {
             return '- ' . ($styledescriptions[$s] ?? $s);
         }, $usestyles));
         $styleinstructions = "\nQUESTION STYLE GUIDANCE:\nSelect one of these styles that best fits the question:\n{$stylelist}"
             . (($wctx && in_array('scenario', $usestyles, true) && $industrycontext)
-                ? "\nWhen using Workplace Scenario style, embed a short (1-2 sentence) realistic {$industrycontext} scenario in the question stem." : '')
-            . (!$wctx ? "\nWORKPLACE CONTEXT IS DISABLED — do NOT include workplace scenarios, named workers, or situational role-play in any question." : '')
+                ? "\nWhen using Workplace Scenario style, embed a short (1-2 sentence) realistic {$industrycontext} " .
+                    "scenario in the question stem." :
+                    '')
+            . (!$wctx ? "\nWORKPLACE CONTEXT IS DISABLED — do NOT include workplace scenarios, named workers, or " .
+                "situational role-play in any question." : '')
             . "\n";
 
         [$hasmarking, $singlemark] = self::marking_flags($extrainstructions);
         $forlevel = $levellabel ? " Questions are for {$levellabel} students." : '';
         if ($educationtype === 'academic') {
-            $system = "You are a world-class academic assessment specialist. You generate professional marking rubrics, sample answers, and grading guides for given essay questions.{$forlevel}\n\n"
+            $system =
+                "You are a world-class academic assessment specialist. You generate professional marking rubrics, " .
+                    "sample answers, and grading guides for given essay questions.{$forlevel}\n\n"
                 . "NON-NEGOTIABLE RULES:\n"
                 . "- Return valid JSON only. No commentary outside JSON.\n"
                 . "- JSON keys MUST remain in English. Only values may be in the target language.\n"
                 . "- The question text is provided by the teacher — do NOT change it.\n"
                 . "- Generate a professional rubric, sample answer, and grader info for the question.\n"
                 . "- Rubric criteria must be CRITERION-REFERENCED. Use evaluative language.\n"
-                . '- NEVER reveal specific answer content in rubric descriptions — describe the quality standard, not the answer.'
+                . '- NEVER reveal specific answer content in rubric descriptions — describe the quality standard, not the ' .
+                    'answer.'
                 . $spelling . $languageinstruction;
         } else {
-            $system = "You are a world-class VET assessment specialist with 20+ years experience in Australian RTOs. You generate professional marking rubrics, model answers, and grader information for given assessment questions.{$forlevel}\n\n"
+            $system =
+                "You are a world-class VET assessment specialist with 20+ years experience in Australian RTOs. You " .
+                    "generate professional marking rubrics, model answers, and grader information for given assessment " .
+                        "questions.{$forlevel}\n\n"
                 . "NON-NEGOTIABLE RULES:\n"
                 . "- Return valid JSON only. No commentary outside JSON.\n"
                 . "- JSON keys MUST remain in English. Only values may be in the target language.\n"
@@ -1371,24 +1518,43 @@ EOT;
                 . '- NEVER include specific answers in rubric descriptions.' . $spelling . $languageinstruction;
         }
         $pastedsection = trim($pastedcontent) !== ''
-            ? "SOURCE CONTENT (TEACHER-PROVIDED):\nThe teacher provided the following learning material. Use it as the knowledge base for rubric and sample answer.\n---\n"
+            ? "SOURCE CONTENT (TEACHER-PROVIDED):\nThe teacher provided the following learning material. Use it as the " .
+                "knowledge base for rubric and sample answer.\n---\n"
                 . trim($pastedcontent) . "\n---\n\n"
             : '';
         $extrasection = '';
         if (trim($extrainstructions) !== '') {
             $lead = $singlemark
-                ? "**SINGLE MARK MODE: Create exactly ONE rubric criterion. The rubric array must have exactly 1 item. totalMarks = 1.**\n"
+                ? "**SINGLE MARK MODE: Create exactly ONE rubric criterion. The rubric array must have exactly 1 item. " .
+                    "totalMarks = 1.**\n"
                 : ($hasmarking ? "*** Follow teacher's marking requirements exactly. ***\n" : '');
             $extrasection = "=== MANDATORY TEACHER INSTRUCTIONS ===\n{$lead}" . trim($extrainstructions)
                 . "\n=== END INSTRUCTIONS ===\n\n";
         }
         $prevsection = trim($previous) !== ''
-            ? "\n⚠️ REGENERATE — DO NOT REUSE THE PREVIOUS QUESTION ⚠️\nA question was already generated for this topic. You MUST create a COMPLETELY NEW question.\nDO NOT reuse the question stem, options, phrasing, structure, scenario, or any part of this previous question:\n\"\"\"\n"
-                . trim($previous) . "\n\"\"\"\nGenerate entirely fresh content for the same topic from a DIFFERENT angle, context, or question style.\n\n"
+            ? "\n⚠️ REGENERATE — DO NOT REUSE THE PREVIOUS QUESTION ⚠️\nA question was already generated for this " .
+                "topic. You MUST create a COMPLETELY NEW question.\nDO NOT reuse the question stem, options, phrasing, " .
+                "structure, scenario, or any part of this previous question:\n\"\"\"\n"
+                . trim($previous) . "\n\"\"\"\nGenerate entirely fresh content for the same topic from a DIFFERENT angle, " .
+                    "context, or question style.\n\n"
             : '';
-        return compact('educationtype', 'levellabel', 'wctx', 'spelling', 'languageinstruction', 'contextdescription',
-            'styleinstructions', 'hasmarking', 'singlemark', 'system', 'pastedsection', 'extrasection', 'prevsection',
-            'previous', 'activetypes');
+        return compact(
+            'educationtype',
+            'levellabel',
+            'wctx',
+            'spelling',
+            'languageinstruction',
+            'contextdescription',
+            'styleinstructions',
+            'hasmarking',
+            'singlemark',
+            'system',
+            'pastedsection',
+            'extrasection',
+            'prevsection',
+            'previous',
+            'activetypes'
+        );
     }
 
     /**
@@ -1401,18 +1567,48 @@ EOT;
      * @param array $ctx From gfq_context().
      * @return array [system, user, maxtokens]
      */
-    public static function question_prompts(string $questiontext, string $modelanswer, string $type, string $all,
-            array $ctx): array {
-        extract($ctx);
+    public static function question_prompts(
+        string $questiontext,
+        string $modelanswer,
+        string $type,
+        string $all,
+        array $ctx
+    ): array {
+        // Unpack the context built by gfq_context().
+        $educationtype = $ctx['educationtype'] ?? null;
+        $levellabel = $ctx['levellabel'] ?? null;
+        $wctx = $ctx['wctx'] ?? null;
+        $spelling = $ctx['spelling'] ?? null;
+        $languageinstruction = $ctx['languageinstruction'] ?? null;
+        $contextdescription = $ctx['contextdescription'] ?? null;
+        $styleinstructions = $ctx['styleinstructions'] ?? null;
+        $hasmarking = $ctx['hasmarking'] ?? null;
+        $singlemark = $ctx['singlemark'] ?? null;
+        $system = $ctx['system'] ?? null;
+        $pastedsection = $ctx['pastedsection'] ?? null;
+        $extrasection = $ctx['extrasection'] ?? null;
+        $prevsection = $ctx['prevsection'] ?? null;
+        $previous = $ctx['previous'] ?? null;
+        $activetypes = $ctx['activetypes'] ?? null;
         $hasmodel = trim($modelanswer) !== '';
         $others = '';
         if ($all !== '') {
             $namerule = $wctx
-                ? 'UNIQUE NAME RULE: If this question includes a named person in a scenario, choose a name that has NOT already been used in any other question in this batch. Recommended diverse names: Zara, Daniel, Priya, James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. Do NOT use Marcus, Emma, Sarah, or any name already seen above.'
-                : 'NO NAMES RULE: Workplace context is disabled. Do NOT include any named person, worker, colleague, or character in this question. Questions must be entirely impersonal and concept-based.';
-            $others = "\n⚠️ OTHER QUESTIONS IN THIS BATCH — AVOID OVERLAP ⚠️\nThe following questions are being processed in the same batch. Your generated content (distractors, matching terms, gap words, statements, rubric criteria) MUST NOT duplicate or closely echo any concept, term, or scenario already addressed by these questions:\n"
-                . $all . "\n\nEnsure ALL of your generated content (options, pairs, gaps, feedback) is DISTINCT from what these other questions already cover.\n\n"
-                . "CROSS-TYPE RULE: Even if your question type differs from the others (e.g. MCQ vs Essay vs Matching), do NOT test the same core concept as any other question in this batch. A student who correctly answers another batch question MUST NOT be able to answer this one using the same knowledge.\n\n"
+                ? 'UNIQUE NAME RULE: If this question includes a named person in a scenario, choose a name that has NOT ' .
+                    'already been used in any other question in this batch. Recommended diverse names: Zara, Daniel, Priya, ' .
+                    'James, Leila, Tom, Amara, Wei, Sofia, Raj, Fatima, Chris, Ngozi, Ben, Yuki, Alex, Kezia, Jordan, Hana. ' .
+                    'Do NOT use Marcus, Emma, Sarah, or any name already seen above.'
+                : 'NO NAMES RULE: Workplace context is disabled. Do NOT include any named person, worker, colleague, or ' .
+                    'character in this question. Questions must be entirely impersonal and concept-based.';
+            $others = "\n⚠️ OTHER QUESTIONS IN THIS BATCH — AVOID OVERLAP ⚠️\nThe following questions are being " .
+                "processed in the same batch. Your generated content (distractors, matching terms, gap words, statements, " .
+                "rubric criteria) MUST NOT duplicate or closely echo any concept, term, or scenario already addressed by " .
+                "these questions:\n"
+                . $all . "\n\nEnsure ALL of your generated content (options, pairs, gaps, feedback) is DISTINCT from what " .
+                    "these other questions already cover.\n\n"
+                . "CROSS-TYPE RULE: Even if your question type differs from the others (e.g. MCQ vs Essay vs Matching), do " .
+                    "NOT test the same core concept as any other question in this batch. A student who correctly answers " .
+                    "another batch question MUST NOT be able to answer this one using the same knowledge.\n\n"
                 . $namerule . "\n";
         }
 
@@ -1423,10 +1619,14 @@ EOT;
                 . "NON-NEGOTIABLE RULES:\n"
                 . "- Return valid JSON ONLY. No markdown, no code blocks, no commentary.\n"
                 . '- JSON keys MUST be in English. Values may be in the target language.'
-                . (!$wctx ? "\n- WORKPLACE CONTEXT IS DISABLED: Do NOT include workplace scenarios, situational role-play, named workers/colleagues/customers, or any \"a worker named X is...\" framing in ANY question. Questions must be direct, concept-based, knowledge, or procedural only. This applies to ALL question types without exception." : '')
+                . (!$wctx ? "\n- WORKPLACE CONTEXT IS DISABLED: Do NOT include workplace scenarios, situational role-play, " .
+                    "named workers/colleagues/customers, or any \"a worker named X is...\" framing in ANY question. " .
+                    "Questions must be direct, concept-based, knowledge, or procedural only. This applies to ALL question " .
+                    "types without exception." : '')
                 . $spelling . $languageinstruction;
             $regen = trim($previous) !== ''
-                ? 'MUST CREATE COMPLETELY NEW question text — different angle, different scenario, different phrasing from the previous version. Do NOT preserve the old question stem.'
+                ? 'MUST CREATE COMPLETELY NEW question text — different angle, different scenario, different phrasing from ' .
+                    'the previous version. Do NOT preserve the old question stem.'
                 : "The complete question text (keep the teacher's wording if it works, or refine slightly)";
             $user = self::type_prompt($type, $questiontext, $ctx, $regen, $others);
             if ($prevsection !== '') {
@@ -1436,7 +1636,8 @@ EOT;
         }
 
         $modelsection = $hasmodel
-            ? "TEACHER'S MODEL ANSWER (provided — use it as the sample answer and derive rubric criteria from its content):\n---\n"
+            ? "TEACHER'S MODEL ANSWER (provided — use it as the sample answer and derive rubric criteria from its " .
+                "content):\n---\n"
                 . trim($modelanswer) . "\n---\n\n"
             : '';
         $levelnote = $levellabel ? " Education level: {$levellabel}." : '';
@@ -1449,11 +1650,17 @@ EOT;
                 . "- Explanation with understanding: 3-4 criteria\n- Application to scenario: 4-5 criteria\n"
                 . "- Analysis or evaluation: 5-6 criteria\n- Comprehensive response: 6-8 criteria";
         }
-        $derive = $hasmodel ? "- Rubric criteria MUST be derived from the content and structure of the teacher's model answer above." : '';
+        $derive = $hasmodel ? "- Rubric criteria MUST be derived from the content and structure of the teacher's model " .
+            "answer above." : '';
         $samplerules = $hasmodel
-            ? "- The teacher has provided a model answer above. Use it as the sample answer. You may lightly polish grammar and clarity but must preserve all content, structure, and meaning. Do NOT generate a new answer from scratch."
-            : "- Write a detailed model response that directly answers the question.\n- Structure it to clearly address each rubric criterion.\n- Length should match the question's expected word count (typically 150-400 words for essay questions).";
+            ? "- The teacher has provided a model answer above. Use it as the sample answer. You may lightly polish grammar " .
+                "and clarity but must preserve all content, structure, and meaning. Do NOT generate a new answer from " .
+                "scratch."
+            : "- Write a detailed model response that directly answers the question.\n- Structure it to clearly address each " .
+                "rubric criterion.\n- Length should match the question's expected word count (typically 150-400 words for " .
+                "essay questions).";
         $escaped = str_replace('"', '\\"', $questiontext);
+        // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
         $user = <<<EOT
 {$extrasection}{$prevsection}{$pastedsection}{$modelsection}The teacher has written the following assessment question. Generate professional assessment materials for it.
 
@@ -1496,6 +1703,7 @@ Return a JSON object:
   "totalMarks": 3
 }
 EOT;
+        // phpcs:enable
         $system .= "\n\nYou always respond with valid JSON. No markdown, no code blocks, just raw JSON.";
         return [$system, $user, 4000];
     }
@@ -1517,6 +1725,7 @@ EOT;
         $wctx = $ctx['wctx'];
         switch ($type) {
             case 'multichoice':
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 return <<<EOT
 {$pasted}Generate a multiple choice question for the following topic/question.
 
@@ -1542,7 +1751,9 @@ Return this JSON (keys in English, values in the required language):
 }
 {$others}
 EOT;
+                // phpcs:enable
             case 'truefalse':
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 return <<<EOT
 {$pasted}Convert the following question into a True/False statement suitable for a Moodle quiz.
 
@@ -1566,7 +1777,9 @@ Return this JSON:
 CRITICAL: criteriaReference MUST be a short skill-based phrase (3-8 words, e.g. "Identifies hazards in the workplace"). NEVER copy the question text or any sentence into criteriaReference.
 {$others}
 EOT;
+                // phpcs:enable
             case 'matching':
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 return <<<EOT
 {$pasted}Generate a matching question with 4 term-definition pairs based on the topic of this question.
 
@@ -1596,14 +1809,27 @@ Return this JSON:
 CRITICAL: criteriaReference MUST be a short skill-based phrase (3-8 words, gerund or imperative form) that describes the competency being tested, e.g. "Identifies key industry terms and their meanings". NEVER copy criteriaReference from questionText, matchPairs content, or any other field.
 {$others}
 EOT;
+                // phpcs:enable
             case 'gapselect':
                 if ($wctx) {
-                    $qt = 'A 1–2 sentence workplace scenario SPECIFIC TO THIS QUESTION\'s topic (name a specific person, role, or situation from THIS domain).\\n\\nThe sentence with [[1]], [[4]], [[7]] jump-by-3 gap placeholders — containing key terms specific to THIS question\'s topic.';
-                    $qtrule = '- questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence realistic workplace scenario that sets the context — name a specific person, role, or situation, and (2) the sentence with [[1]], [[4]], [[7]]... jump-by-3 placeholders inline. Format as: "SCENARIO\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS". Do NOT include a separate question prompt — the scenario provides context.';
+                    $qt = 'A 1–2 sentence workplace scenario SPECIFIC TO THIS QUESTION\'s topic (name a specific person, ' .
+                        'role, or situation from THIS domain).\\n\\nThe sentence with [[1]], [[4]], [[7]] jump-by-3 gap ' .
+                        'placeholders — containing key terms specific to THIS question\'s topic.';
+                    $qtrule = '- questionText MUST have TWO parts separated by a blank line: (1) a 1–2 sentence realistic ' .
+                        'workplace scenario that sets the context — name a specific person, role, or situation, and (2) ' .
+                        'the sentence with [[1]], [[4]], [[7]]... jump-by-3 placeholders inline. Format as: ' .
+                        '"SCENARIO\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS". Do NOT include a separate question prompt — ' .
+                        'the scenario provides context.';
                 } else {
-                    $qt = 'A clear, direct question about the concept being tested (e.g. "What are the correct terms used in the [topic] process?").\\n\\nThe sentence with [[1]], [[4]], [[7]] jump-by-3 gap placeholders — do NOT include a scenario, named person, or workplace setting.';
-                    $qtrule = '- questionText MUST have TWO parts separated by a blank line: (1) a clear direct question about the concept being tested — do NOT include a scenario, named person, workplace setting, or situational framing, and (2) the sentence with [[1]], [[4]], [[7]]... jump-by-3 placeholders inline. Format as: "QUESTION\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS".';
+                    $qt = 'A clear, direct question about the concept being tested (e.g. "What are the correct terms used in ' .
+                        'the [topic] process?").\\n\\nThe sentence with [[1]], [[4]], [[7]] jump-by-3 gap placeholders — ' .
+                        'do NOT include a scenario, named person, or workplace setting.';
+                    $qtrule = '- questionText MUST have TWO parts separated by a blank line: (1) a clear direct question ' .
+                        'about the concept being tested — do NOT include a scenario, named person, workplace setting, or ' .
+                        'situational framing, and (2) the sentence with [[1]], [[4]], [[7]]... jump-by-3 placeholders ' .
+                        'inline. Format as: "QUESTION\\n\\nSENTENCE WITH [[1]] [[4]] [[7]] GAPS".';
                 }
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 return <<<EOT
 {$pasted}Generate a Select Missing Words question based on the following topic/question.
 
@@ -1641,7 +1867,9 @@ CRITICAL GROUPING RULES — READ CAREFULLY:
 - NO DUPLICATES WITHIN A BLANK: Every option in a single selectOptions sub-array MUST be unique. The correct answer must NEVER also appear as one of its own distractors. Distractors must NEVER repeat. Comparison is case- and whitespace-insensitive.
 {$others}
 EOT;
+                // phpcs:enable
             default:
+                // phpcs:disable moodle.Files.LineLength -- Prompt text is kept verbatim.
                 return <<<EOT
 {$pasted}Generate a fill-in-the-blank (short answer) question based on the following topic/question.
 
@@ -1667,6 +1895,7 @@ Return this JSON:
 }
 {$others}
 EOT;
+                // phpcs:enable
         }
     }
 
@@ -1699,7 +1928,9 @@ EOT;
             return '';
         }
         $name = self::LANGUAGES[$code] ?? 'English (Australian)';
-        return "\n\nCRITICAL LANGUAGE REQUIREMENT: Generate ALL content in {$name}. This means ALL question text, rubric descriptions, sample answers, and any other values in the JSON. JSON keys must remain in English. Write naturally in {$name} — do not translate word-by-word.";
+        return "\n\nCRITICAL LANGUAGE REQUIREMENT: Generate ALL content in {$name}. This means ALL question text, " .
+            "rubric descriptions, sample answers, and any other values in the JSON. JSON keys must remain in English. " .
+                "Write naturally in {$name} — do not translate word-by-word.";
     }
 
     /**
