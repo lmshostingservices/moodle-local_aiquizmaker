@@ -2,6 +2,13 @@
 
 All notable changes to this plugin will be documented in this file.
 
+## [3.17.0] - 2026-11-26
+
+### Added
+- **Bring your own AI key.** When the site has an LMS Labs BYOK licence and AI Connect (local_aiconfig 1.1.0 or later) sets Text to Moodle AI or an own key, Generate from Criteria, Use My Own Questions, Regenerate and Extract Criteria run on the site's own AI. The prompts, question type assignment and response format are a faithful port of the LMS Labs service, checked word for word against the service code. No credits are used, no Client Portal usage is recorded, and the credits badge shows "Your own AI". If the provider fails, the teacher sees the reason and nothing falls back to credits.
+- On BYOK sites with no LMS Labs account, the teacher's extra AI instructions are saved on the site.
+- Privacy metadata for content sent to the site's own AI provider.
+
 ## [3.16.97] - 2026-11-13
 
 ### Added
