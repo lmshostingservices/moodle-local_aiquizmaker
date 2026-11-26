@@ -105,6 +105,10 @@ require_login();
         $apikey = trim(get_config('local_aiquizmaker', 'apikey') ?? '');
     }
 
+    // Bring your own AI: with a BYOK licence and AI Connect set to Moodle AI or an own key, questions
+    // are written on this site's AI and no LMS Labs credits are used.
+    $byok = \local_aiquizmaker\local\byok::enabled();
+
     /**
      * Safe HTTP request using Moodle's curl wrapper.
      * Uses STRING keys for options (proven to work in AI Grader).
@@ -118,6 +122,9 @@ require_login();
     \core\session\manager::write_close();
 
     function aiquizmaker_fetch($url, $post = false, $payload = null) {
+        if ($post && ($local = \local_aiquizmaker\local\byok::handle($url, $payload)) !== null) {
+            return $local;
+        }
         $curl = new \curl();
         // Use STRING keys (not constants) - proven to work in AI Grader
         $timeout = $post ? 120 : 30;
@@ -1591,6 +1598,10 @@ require_login();
        ACTION: GET CREDITS (same pattern as AI Grader)
        ============================================================ */
     if ($action === 'getcredits') {
+        if ($byok) {
+            // No credit balance to show: generation runs on the site's own AI.
+            aiquizmaker_send_response(['success' => false, 'byok' => true]);
+        }
         // Check configuration first
         if (!$siteid || !$apikey) {
             aiquizmaker_send_response([
@@ -1704,7 +1715,7 @@ require_login();
        ============================================================ */
     if ($action === 'generate') {
         // Check configuration first
-        if (!$siteid || !$apikey) {
+        if (!$byok && (!$siteid || !$apikey)) {
             aiquizmaker_send_response([
                 'success' => false,
                 'error' => get_string('not_configured', 'local_aiquizmaker')
@@ -1861,7 +1872,7 @@ require_login();
 
         $data = json_decode($res['body'], true);
         // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
-        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+        if (!$byok && method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
             \local_clientportal\api::record_lmslabs_call(
                 (int)$USER->id,
                 (int)$context->id,
@@ -2089,7 +2100,7 @@ require_login();
        ============================================================ */
     if ($action === 'generatefromquestions') {
         // Check configuration first
-        if (!$siteid || !$apikey) {
+        if (!$byok && (!$siteid || !$apikey)) {
             aiquizmaker_send_response([
                 'success' => false,
                 'error' => get_string('not_configured', 'local_aiquizmaker')
@@ -2252,7 +2263,7 @@ require_login();
 
         $data = json_decode($res['body'], true);
         // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
-        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+        if (!$byok && method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
             \local_clientportal\api::record_lmslabs_call(
                 (int)$USER->id,
                 (int)$context->id,
@@ -2643,6 +2654,11 @@ require_login();
        ACTION: GET SETTINGS (extra instructions)
        ============================================================ */
     if ($action === 'getsettings') {
+        if ($byok && (!$siteid || !$apikey)) {
+            $local = (string) get_config('local_aiquizmaker', 'byok_extrainstructions');
+            echo json_encode(['ok' => true, 'settings' => ['extraInstructions' => $local]]);
+            exit;
+        }
         if (!$siteid || !$apikey) {
             echo json_encode(['ok' => false, 'settings' => ['extraInstructions' => ''], 'message' => 'Plugin not configured']);
             exit;
@@ -2681,6 +2697,11 @@ require_login();
     if ($action === 'savesettings') {
         $extraInstructions = substr(clean_param(optional_param('extraInstructions', '', PARAM_RAW), PARAM_TEXT), 0, 5000);  // pipeline-ignore: PARAM_RAW - free text, clean_param(PARAM_TEXT) applied and length-capped immediately.
         
+        if ($byok && (!$siteid || !$apikey)) {
+            set_config('byok_extrainstructions', $extraInstructions, 'local_aiquizmaker');
+            echo json_encode(['ok' => true]);
+            exit;
+        }
         if (!$siteid || !$apikey) {
             echo json_encode(['ok' => false, 'message' => 'Plugin not configured']);
             exit;
@@ -2891,7 +2912,7 @@ require_login();
             ]);
         }
 
-        if (!$siteid || !$apikey) {
+        if (!$byok && (!$siteid || !$apikey)) {
             aiquizmaker_send_response([
                 'success' => false,
                 'error' => get_string('error_missing_config', 'local_aiquizmaker')
@@ -2918,7 +2939,7 @@ require_login();
 
         $data = json_decode($res['body'], true);
         // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
-        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+        if (!$byok && method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
             \local_clientportal\api::record_lmslabs_call(
                 (int)$USER->id,
                 (int)$context->id,
@@ -2953,7 +2974,7 @@ require_login();
             ]);
         }
         
-        if (!$siteid || !$apikey) {
+        if (!$byok && (!$siteid || !$apikey)) {
             aiquizmaker_send_response([
                 'success' => false,
                 'error' => get_string('error_missing_config', 'local_aiquizmaker')
@@ -3051,7 +3072,7 @@ require_login();
         
         $data = json_decode($res['body'], true);
         // Client Portal (when installed) bills the client: the service's figure, else 1 credit per question.
-        if (method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
+        if (!$byok && method_exists('\\local_clientportal\\api', 'record_lmslabs_call')) {
             \local_clientportal\api::record_lmslabs_call(
                 (int)$USER->id,
                 (int)$context->id,

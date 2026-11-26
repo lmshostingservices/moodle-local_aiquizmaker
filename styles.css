@@ -275,6 +275,23 @@ body[data-bs-theme="dark"] .aiquizmaker-container,
     box-shadow: var(--em-shadow-sm);
 }
 
+.aiquizmaker-container .aiquizmaker-credits[hidden] {
+    display: none;
+}
+
+/* Bring your own AI: no balance, just which AI writes the questions. */
+.aiquizmaker-container .aiquizmaker-credits-byok .aiquizmaker-credits-icon i {
+    font-size: 20px;
+    color: var(--em-primary);
+}
+
+.aiquizmaker-container .aiquizmaker-credits-byok .aiquizmaker-credits-value {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
 .aiquizmaker-container .aiquizmaker-credits-icon svg {
     width: 26px;
     height: 26px;

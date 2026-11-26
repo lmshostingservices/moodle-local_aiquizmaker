@@ -133,9 +133,21 @@ echo html_writer::tag('p', get_string('page_description', 'local_aiquizmaker'), 
 echo html_writer::end_div();
 echo html_writer::end_div(); // End brand.
 
-// Credits badge.
+// Credits badge, or which AI writes the questions when the site brings its own.
+$byok = \local_aiquizmaker\local\byok::enabled();
 echo html_writer::start_div('aiquizmaker-credits-wrapper');
-echo html_writer::start_div('aiquizmaker-credits', ['id' => 'aiquizmaker-credits-badge']);
+if ($byok) {
+    echo html_writer::start_div('aiquizmaker-credits aiquizmaker-credits-byok');
+    echo html_writer::start_div('aiquizmaker-credits-icon');
+    echo '<i class="fa-solid fa-key" aria-hidden="true"></i>';
+    echo html_writer::end_div();
+    echo html_writer::start_div('');
+    echo html_writer::tag('div', get_string('byok_badge_label', 'local_aiquizmaker'), ['class' => 'aiquizmaker-credits-label']);
+    echo html_writer::tag('div', get_string('byok_badge_value', 'local_aiquizmaker'), ['class' => 'aiquizmaker-credits-value']);
+    echo html_writer::end_div();
+    echo html_writer::end_div();
+}
+echo html_writer::start_div('aiquizmaker-credits', ['id' => 'aiquizmaker-credits-badge'] + ($byok ? ['hidden' => 'hidden'] : []));
 echo html_writer::start_div('aiquizmaker-credits-icon');
 echo '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>';
 echo html_writer::end_div();
@@ -167,7 +179,7 @@ if ($cmid && $quizname) {
 }
 
 // Configuration warning.
-if (empty($siteid) || empty($apikey)) {
+if (!$byok && (empty($siteid) || empty($apikey))) {
     echo html_writer::start_div('aiquizmaker-alert aiquizmaker-alert-warning');
     echo '<svg class="aiquizmaker-alert-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
     echo html_writer::start_div('aiquizmaker-alert-content');

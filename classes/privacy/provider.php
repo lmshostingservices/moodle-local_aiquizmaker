@@ -62,6 +62,14 @@ class provider implements
             ],
             'privacy:metadata:essaygraderai_api'
         );
+        $collection->add_external_location_link(
+            'byok_aiprovider',
+            [
+                'criteria' => 'privacy:metadata:byok_aiprovider:criteria',
+                'content' => 'privacy:metadata:byok_aiprovider:content',
+            ],
+            'privacy:metadata:byok_aiprovider'
+        );
 
         return $collection;
     }

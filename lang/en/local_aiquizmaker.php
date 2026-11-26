@@ -357,3 +357,13 @@ $string['chatgpt_paste_label'] = 'Paste questions below:';
 
 // I8: Lang string used when auto-creating a question category in the quiz context.
 $string['auto_category_info'] = 'Auto-created category for AI Quiz Maker questions';
+
+// Bring your own AI.
+$string['byok_badge_label'] = 'AI';
+$string['byok_badge_value'] = 'Your own AI';
+$string['byok_badjson'] = 'The AI reply could not be read. Please try again.';
+$string['byok_failed'] = 'Your AI provider could not write the questions: {$a}';
+$string['byok_notavailable'] = 'Your own AI is not available. Ask your site administrator to check Bring your own AI in AI Connect.';
+$string['privacy:metadata:byok_aiprovider'] = 'When the site brings its own AI, the question writing details are sent to the AI provider the site administrator chose (a Moodle AI provider or the site\'s own key), not to LMS Labs.';
+$string['privacy:metadata:byok_aiprovider:content'] = 'Learning content and teacher questions pasted into the form.';
+$string['privacy:metadata:byok_aiprovider:criteria'] = 'The competency criteria, industry and job context.';
