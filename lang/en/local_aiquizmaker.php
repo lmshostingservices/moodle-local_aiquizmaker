@@ -33,8 +33,16 @@ The interface guides students through planning (thesis statement, key arguments,
 Submission to Moodle is one click from within the AI Quiz Maker, carrying across the full essay text. Integration with AI Essay Grader allows teachers to then auto-grade the submitted essay from the quiz or assignment report page.';
 $string['essay_maker'] = 'AI Quiz';
 $string['ai_essay_maker'] = 'AI Quiz';
+$string['byok_badge_label'] = 'AI';
+$string['byok_badge_value'] = 'Your own AI';
+$string['byok_badjson'] = 'The AI reply could not be read. Please try again.';
+$string['byok_failed'] = 'Your AI provider could not write the questions: {$a}';
+$string['byok_notavailable'] = 'Your own AI is not available. Ask your site administrator to check Bring your own AI in AI Connect.';
 $string['page_title'] = 'AI Quiz Maker';
 $string['page_description'] = 'Generate scenario-based essay questions mapped to your competency criteria';
+$string['privacy:metadata:byok_aiprovider'] = 'When the site brings its own AI, the question writing details are sent to the AI provider the site administrator chose (a Moodle AI provider or the site\'s own key), not to LMS Labs.';
+$string['privacy:metadata:byok_aiprovider:content'] = 'Learning content and teacher questions pasted into the form.';
+$string['privacy:metadata:byok_aiprovider:criteria'] = 'The competency criteria, industry and job context.';
 
 // Settings page.
 $string['siteid'] = 'Site ID';
@@ -357,13 +365,3 @@ $string['chatgpt_paste_label'] = 'Paste questions below:';
 
 // I8: Lang string used when auto-creating a question category in the quiz context.
 $string['auto_category_info'] = 'Auto-created category for AI Quiz Maker questions';
-
-// Bring your own AI.
-$string['byok_badge_label'] = 'AI';
-$string['byok_badge_value'] = 'Your own AI';
-$string['byok_badjson'] = 'The AI reply could not be read. Please try again.';
-$string['byok_failed'] = 'Your AI provider could not write the questions: {$a}';
-$string['byok_notavailable'] = 'Your own AI is not available. Ask your site administrator to check Bring your own AI in AI Connect.';
-$string['privacy:metadata:byok_aiprovider'] = 'When the site brings its own AI, the question writing details are sent to the AI provider the site administrator chose (a Moodle AI provider or the site\'s own key), not to LMS Labs.';
-$string['privacy:metadata:byok_aiprovider:content'] = 'Learning content and teacher questions pasted into the form.';
-$string['privacy:metadata:byok_aiprovider:criteria'] = 'The competency criteria, industry and job context.';

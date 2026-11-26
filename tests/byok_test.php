@@ -27,6 +27,7 @@ use local_aiquizmaker\local\byok;
  * @package    local_aiquizmaker
  * @copyright  2026 LMS Hosting Services
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers     \local_aiquizmaker\local\byok
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(byok::class)]
 final class byok_test extends \advanced_testcase {
